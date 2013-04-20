@@ -23,29 +23,34 @@ public class ProxyCommunication extends Service implements ICommunication {
         commElt.sendMessage(new TypedMessage(msg.getProcessId(), msg.getData(), MessageType.NONE));
     }
 
-    public void sendMessage(ProcessIdentifier id, Object data) throws CommunicationException {
+    @Override
+	public void sendMessage(ProcessIdentifier id, Object data) throws CommunicationException {
         commElt.sendMessage(new TypedMessage(id, data, MessageType.NONE));
     }
 
-    public Message synchReceiveMessage() {
+    @Override
+	public Message synchReceiveMessage() {
         Message msg =buffer.removeElement(true);
         return msg;
     }
 
-    public Message asynchReceiveMessage() {
+    @Override
+	public Message asynchReceiveMessage() {
         Message msg = buffer.removeElement(false);
         if (msg == null) return null;
         return msg;
     }
 
-    public boolean availableMessage() {
+    @Override
+	public boolean availableMessage() {
         return (buffer.available() > 0);
     }
 
     public ProxyCommunication() {
     }
 
-    public void crashProcess() {
+    @Override
+	public void crashProcess() {
         // has not to be called here
         throw new UnsupportedOperationException("Not supported in the proxy communication.");
     }

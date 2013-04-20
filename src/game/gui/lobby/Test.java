@@ -1,9 +1,5 @@
 package game.gui.lobby;
 
-import game.gui.GameControler;
-import game.gui.GameModel;
-import game.gui.GameView;
-
 public class Test {
 
 	/**

@@ -3,8 +3,6 @@ package game.gui.lobby;
 import game.gui.ListedPlayerView;
 import game.gui.OnePlayerModel;
 import game.gui.OnePlayerPanel;
-import game.gui.lobby.LobbyModel.Event;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;

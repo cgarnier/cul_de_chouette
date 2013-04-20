@@ -4,8 +4,6 @@ import communication.CommunicationException;
 import communication.FaultLevel;
 import communication.Message;
 import communication.ReliabilitySetting;
-import communication.ReliableMessage;
-
 import service.ICommunication;
 import service.DistributedServicesMiddleware;
 import service.IDistributedServices;
@@ -15,7 +13,6 @@ import service.IBroadcast;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 public class Chat extends Thread {
 

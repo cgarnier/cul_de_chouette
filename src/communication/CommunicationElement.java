@@ -235,11 +235,12 @@ public abstract class CommunicationElement implements ICommunication {
         return delay;
     }
   
-    public void crashProcess() {
+    @Override
+	public void crashProcess() {
         // get a random number between 0 and 5
         // if this number is lower than the crash level, exit the Java program
         float randNb = randGen.nextFloat() * 5;
-        if (randNb < (float)crashLevel.getValue()) {
+        if (randNb < crashLevel.getValue()) {
             if (debugFault) System.err.println(" [EXIT] Process has crashed");
             System.exit(1);
         }

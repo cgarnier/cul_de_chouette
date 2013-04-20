@@ -1,10 +1,5 @@
 package game.network;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
-
-import game.gui.GameModel;
 import game.network.messages.GameStatus;
 import game.network.messages.GameStatusMessage;
 import game.network.messages.InvitMessage;

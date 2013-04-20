@@ -4,10 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import communication.CommunicationException;
-import communication.ProcessIdentifier;
-
-import game.gui.GameControler;
 import game.network.GameService;
 
 public class main {

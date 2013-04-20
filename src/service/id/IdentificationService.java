@@ -37,15 +37,18 @@ public class IdentificationService extends Service implements IIdentification, R
      */
     protected InetAddress group;
 
-    public ProcessIdentifier getMyIdentifier() {
+    @Override
+	public ProcessIdentifier getMyIdentifier() {
         return ((CommunicationElement) commElt).getMyPid();
     }
 
-    public Vector<ProcessIdentifier> getAllIdentifiers() {
+    @Override
+	public Vector<ProcessIdentifier> getAllIdentifiers() {
         return (Vector<ProcessIdentifier>)identifiers.clone();
     }
 
-    public void leaveSystem() {
+    @Override
+	public void leaveSystem() {
         sendData(new RemoveIdData(((CommunicationElement) commElt).getMyPid()));
     }
 
@@ -104,14 +107,15 @@ public class IdentificationService extends Service implements IIdentification, R
     /**
      * Wait for data coming from the identification server.
      */
-    public void run() {
+    @Override
+	public void run() {
         Message msg;
         Object data;
 
         sendIdRequestToServer();
 
         while (true) {
-            msg = (Message) buffer.removeElement(true);
+            msg = buffer.removeElement(true);
             data = msg.getData();
 
             // the identifier of the current process

@@ -3,8 +3,6 @@ package game.network;
 import game.network.messages.GameStatus;
 import game.network.messages.NetPlayer;
 
-import java.awt.List;
-
 public interface IGameClient {
 	public void updatePlayerList(IGameService theGame);
 	public void updateGameList(IGameService theGame);

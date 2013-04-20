@@ -1,11 +1,6 @@
 package game.network.messages;
 
-import game.gui.GameModel.GamePhase;
-
 import java.io.Serializable;
-import java.util.ArrayList;
-
-import communication.ProcessIdentifier;
 
 public class GameStatusMessage implements Serializable{
 	protected GameStatus status;

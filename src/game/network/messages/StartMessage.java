@@ -1,9 +1,6 @@
 package game.network.messages;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-
-import communication.ProcessIdentifier;
 
 public class StartMessage implements Serializable {
 	private GameStatus status;

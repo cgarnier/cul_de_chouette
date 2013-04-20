@@ -24,7 +24,8 @@ public class BasicBroadcastService extends Service implements IBroadcast {
         this.idService = idService;
     }
 
-    public void broadcast(Object data) throws CommunicationException {
+    @Override
+	public void broadcast(Object data) throws CommunicationException {
         ProcessIdentifier id;
         Iterator it;
         CompoundException exceptions = null;
@@ -52,15 +53,18 @@ public class BasicBroadcastService extends Service implements IBroadcast {
         if (firstException != null) throw firstException;
      }
 
-    public Message synchDeliver() {
+    @Override
+	public Message synchDeliver() {
         return buffer.removeElement(true);
     }
 
-    public Message asynchDeliver() {
+    @Override
+	public Message asynchDeliver() {
         return buffer.removeElement(false);
     }
 
-    public boolean availableMessage() {
+    @Override
+	public boolean availableMessage() {
         return buffer.available() > 0;
     }
 }

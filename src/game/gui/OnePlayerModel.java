@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import communication.ProcessIdentifier;
-
 public class OnePlayerModel extends Observable {
 
 	protected String playerName;

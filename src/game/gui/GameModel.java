@@ -1,8 +1,6 @@
 package game.gui;
 
-import game.gui.GameModel.GamePhase;
 import game.network.DicesCombo;
-import game.network.NetworkHandler;
 import game.network.messages.GameStatus;
 import game.network.messages.NetPlayer;
 
@@ -13,8 +11,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-
-import communication.ProcessIdentifier;
 
 public class GameModel extends Observable implements Observer {
 

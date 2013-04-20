@@ -47,6 +47,7 @@ public class ReliableBroadcastService extends Service implements IBroadcast {
 		this.idService = idService;
 	}
 
+	@Override
 	public void broadcast(Object data) throws CommunicationException {
 		
 		ProcessIdentifier id;
@@ -123,8 +124,9 @@ public class ReliableBroadcastService extends Service implements IBroadcast {
 			throw firstException;
 	}
 
+	@Override
 	public Message synchDeliver() {
-		Message msg = (Message) filteredBuffer.removeElement(true);
+		Message msg = filteredBuffer.removeElement(true);
 		
 		
 		ReliableMessage encMsg = (ReliableMessage) msg.getData();
@@ -139,10 +141,12 @@ public class ReliableBroadcastService extends Service implements IBroadcast {
 		return msg;
 	}
 
+	@Override
 	public Message asynchDeliver() {
 		return buffer.removeElement(false);
 	}
 
+	@Override
 	public boolean availableMessage() {
 		return buffer.available() > 0;
 	}

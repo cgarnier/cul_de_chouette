@@ -2,8 +2,6 @@ package game.network.messages;
 
 import java.io.Serializable;
 
-import communication.ProcessIdentifier;
-
 public class JoinAnswerMessage implements Serializable{
 	private NetPlayer creator;
 	private NetPlayer player;

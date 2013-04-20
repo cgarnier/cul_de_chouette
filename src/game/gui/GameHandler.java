@@ -1,9 +1,6 @@
 package game.gui;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-
 import game.gui.GameModel.GamePhase;
 
 import game.network.GameService;

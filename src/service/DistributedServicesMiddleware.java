@@ -47,12 +47,14 @@ public class DistributedServicesMiddleware implements IDistributedServices {
      */
     protected MessageDispatcher dispatcher;
 
-    public void connect() throws CommunicationException {
+    @Override
+	public void connect() throws CommunicationException {
         commElt = new ReliableCommElt();
         initServices();
     }
 
-    public void connect(ReliabilitySetting setting) throws CommunicationException {
+    @Override
+	public void connect(ReliabilitySetting setting) throws CommunicationException {
         if (setting.isReliable()) {
             commElt = new ReliableCommElt();
         } else {
@@ -66,7 +68,8 @@ public class DistributedServicesMiddleware implements IDistributedServices {
         initServices();
     }
 
-    public void connect(ReliabilitySetting setting, int localPort) throws CommunicationException {
+    @Override
+	public void connect(ReliabilitySetting setting, int localPort) throws CommunicationException {
         if (setting.isReliable()) {
             commElt = new ReliableCommElt(localPort);
         } else {
@@ -80,23 +83,28 @@ public class DistributedServicesMiddleware implements IDistributedServices {
         initServices();
     }
 
-    public void disconnect() {
+    @Override
+	public void disconnect() {
         idService.leaveSystem();
     }
 
-    public ICommunication getCommunicationService() {
+    @Override
+	public ICommunication getCommunicationService() {
         return commService;
     }
 
-    public IIdentification getIdentificationService() {
+    @Override
+	public IIdentification getIdentificationService() {
         return idService;
     }
 
-    public IBroadcast getBasicBroadcastService() {
+    @Override
+	public IBroadcast getBasicBroadcastService() {
         return basicBroadcastService;
     }
 
-    public IBroadcast getReliableBroadcastService() {
+    @Override
+	public IBroadcast getReliableBroadcastService() {
         return reliableBroadcastService;
     }
 
