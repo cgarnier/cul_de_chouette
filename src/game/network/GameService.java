@@ -101,7 +101,7 @@ public class GameService implements IGameService {
 	}
 
 	public GameService() {
-		
+		init();
 	}
 
 

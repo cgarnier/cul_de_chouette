@@ -17,47 +17,47 @@ public class OnePlayerModel extends Observable {
 	protected ArrayList<Observer> listObserver = new ArrayList<Observer>();
 	protected NetPlayer netId;
 	
-	void setPlayerName(String name) {
+	public void setPlayerName(String name) {
 		this.playerName = name;
 	}
 
-	void setPlayerScore(int score) {
+	public void setPlayerScore(int score) {
 		this.playerScore = score;
 		this.setChanged();
 		this.notifyObservers();
 	}
 
-	void setPlayerColor(int r, int g, int b) {
+	public void setPlayerColor(int r, int g, int b) {
 		this.playerColor = new Color(r, g, b);
 		this.setChanged();
 		this.notifyObservers();
 	}
 	
-	void setPlayerColor(Color color) {
+	public void setPlayerColor(Color color) {
 		this.playerColor = color;
 		this.setChanged();
 		this.notifyObservers();
 	}
 
-	String getPlayerName() {
+	public String getPlayerName() {
 		return this.playerName;
 	}
 
-	int getPlayerScore() {
+	public int getPlayerScore() {
 		return this.playerScore;
 	}
 
-	Color getPlayerColor() {
+	public Color getPlayerColor() {
 		return this.playerColor;
 	}
 
-	void increasePlayerScore(int points) {
+	public void increasePlayerScore(int points) {
 		this.playerScore += points;
 		this.setChanged();
 		this.notifyObservers();
 	}
 
-	void decreasePlayerScore(int points) {
+	public void decreasePlayerScore(int points) {
 		if (this.playerScore <= points) {
 			this.playerScore = 0;
 		} else {

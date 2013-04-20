@@ -1,6 +1,7 @@
 package game.gui;
 
 import game.gui.GameModel.GamePhase;
+import game.gui.lobby.LobbyModel;
 import game.network.GameService;
 import game.network.IGameClient;
 import game.network.IGameService;
@@ -14,11 +15,18 @@ import game.network.messages.NetPlayer;
  */
 public class GameHandler implements IGameClient{
 	protected GameModel model;
+	protected LobbyModel lobbyModel;
 	protected IGameService service;
 	
 	public GameHandler(GameModel model) {
 		this.model = model;
 		this.service = new GameService();
+	}
+
+	public GameHandler(LobbyModel model2) {
+		this.lobbyModel = model2;
+		this.service = new GameService();
+		
 	}
 
 	@Override

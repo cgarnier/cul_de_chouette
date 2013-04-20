@@ -52,22 +52,22 @@ public class main {
 
 			// brodcast the message
 
-			System.out.print(" --> Envoi commande ... ");
-			if (message.equals("create"))
-				gs.createGame();
-			if (message.equals("invite"))
-				for (ProcessIdentifier id : gs.idService.getAllIdentifiers()) {
-					if (!id.equals(gs.idService.getMyIdentifier()))
-						gs.invitPlayer(id);
-				}
-			if(message.equals("start"))
-				gs.startGame();
-			if(message.equals("roll2d"))
-				gs.rollTwoDice(null, null);
-			if(message.equals("roll1d"))
-				gs.rollOneDice(null);
-			
-			System.out.println("done");
+//			System.out.print(" --> Envoi commande ... ");
+//			if (message.equals("create"))
+//				gs.createGame();
+//			if (message.equals("invite"))
+//				for (ProcessIdentifier id : gs.idService.getAllIdentifiers()) {
+//					if (!id.equals(gs.idService.getMyIdentifier()))
+//						gs.invitPlayer(id);
+//				}
+//			if(message.equals("start"))
+//				gs.startGame();
+//			if(message.equals("roll2d"))
+//				gs.rollTwoDice(null, null);
+//			if(message.equals("roll1d"))
+//				gs.rollOneDice(null);
+//			
+//			System.out.println("done");
 
 		}
 	}
