@@ -25,17 +25,7 @@ import javax.swing.JTextField;
 public class LobbyView extends JFrame implements Observer {
 	private JPanel pMain;
 	private JPanel pPlayerList;
-	private JPanel pAvailablePlayers;
-	private JPanel pConnect;
-
-	// Connection
-	private JTextField tfName;
-	private JButton btConnect;
-
-	// Players Views
-	private ArrayList<OnePlayerPanel> players;
-	private ArrayList<ListedPlayerView> lobbyPlayers;
-
+	
 	// Listerner
 
 	private LobbyListener listener;
@@ -56,29 +46,6 @@ public class LobbyView extends JFrame implements Observer {
 		this.setContentPane(pMain);
 		pMain.setLayout(new BorderLayout(10, 10));
 
-		// // Connection
-		pConnect = new JPanel();
-		tfName = new JTextField("Joueur");
-		tfName.addFocusListener(listener);
-		btConnect = new JButton("Se connecter");
-		btConnect.addActionListener(listener);
-		pConnect.add(tfName);
-		pConnect.add(btConnect);
-		pMain.add(pConnect, BorderLayout.CENTER);
-
-		// // Lobby
-		pPlayerList = new JPanel();
-		pPlayerList.setBackground(Color.gray);
-		pPlayerList.setPreferredSize(new Dimension(280, 600));
-		pPlayerList.setVisible(false);
-		pMain.add(pPlayerList, BorderLayout.LINE_END);
-
-		pAvailablePlayers = new JPanel();
-		pAvailablePlayers.setPreferredSize(new Dimension(500, 200));
-		pAvailablePlayers.setBackground(Color.gray);
-		pAvailablePlayers.setVisible(false);
-
-		pMain.add(pAvailablePlayers, BorderLayout.LINE_START);
 
 		// pAvailablePlayers.setLayout(new GridLayout(0, 1));
 

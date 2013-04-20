@@ -13,5 +13,6 @@ public interface IGameClient {
 	public void handleJoinAnswer(NetPlayer creator, NetPlayer guest);
 	public void handleStatus(GameStatus status);
 	public void handleStart(GameStatus status);
-	
+	public void handleRefresh();
+	public void handleWaitingNotification(NetPlayer player);
 }

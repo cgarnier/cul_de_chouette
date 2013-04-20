@@ -1,5 +1,7 @@
 package game.network.messages;
 
-public class RefreshMessage {
+import java.io.Serializable;
+
+public class RefreshMessage implements Serializable{
 
 }

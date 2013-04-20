@@ -16,7 +16,9 @@ public interface IGameService {
 	public void joinGame(NetPlayer creator, NetPlayer player);
 	
 	public void setGameClient(IGameClient client);
-
+	public void sendRefresh();
+	public void sendWaiting(NetPlayer player);
+	public ProcessIdentifier getMyNetId();
 
 
 

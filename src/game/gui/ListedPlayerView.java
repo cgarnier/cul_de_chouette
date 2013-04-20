@@ -18,11 +18,11 @@ public class ListedPlayerView extends JPanel {
 		btInvite.addActionListener(this.actionListener);
 	}
 
-	public ListedPlayerView() {
+	public ListedPlayerView(OnePlayerModel mod) {
 		this.setLayout(new BorderLayout());
 		
 		btInvite = new JButton("Inviter");
-		lName = new JLabel("Joueur1");
+		lName = new JLabel(mod.getPlayerName());
 		
 		this.add(lName, BorderLayout.CENTER);
 		this.add(btInvite, BorderLayout.LINE_END);

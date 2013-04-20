@@ -10,7 +10,9 @@ import game.network.messages.GameStatusMessage;
 import game.network.messages.InvitMessage;
 import game.network.messages.JoinAnswerMessage;
 import game.network.messages.NetPlayer;
+import game.network.messages.RefreshMessage;
 import game.network.messages.StartMessage;
+import game.network.messages.WaitingPlayerMessage;
 import service.DistributedServicesMiddleware;
 import service.IBroadcast;
 import service.ICommunication;
@@ -183,6 +185,26 @@ public class GameService implements IGameService {
 			this.client.handleStart(status);
 			return;
 		}
+		/*
+		 * Refresh
+		 */
+		if (msg.getData() instanceof RefreshMessage) {
+			
+			
+			this.client.handleRefresh();
+			return;
+		}
+		/*
+		 * Waiting notif
+		 */
+		if (msg.getData() instanceof WaitingPlayerMessage) {
+			NetPlayer p = ((WaitingPlayerMessage) msg.getData()).getPlayer();
+			
+			this.client.handleWaitingNotification(p);
+			return;
+		}
+
+		
 
 	}
 
@@ -247,6 +269,30 @@ public class GameService implements IGameService {
 
 	}
 
+	@Override
+	public void sendRefresh() {
+		try {
+			this.broadcastService.broadcast(new RefreshMessage());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
+	@Override
+	public void sendWaiting(NetPlayer player) {
+		System.out.println("Sending waiting ...");
+		try {
+			this.broadcastService.broadcast(new WaitingPlayerMessage(player));
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
+@Override
+public ProcessIdentifier getMyNetId() {
+	// TODO Auto-generated method stub
+	return idService.getMyIdentifier();
+}
 
 
 

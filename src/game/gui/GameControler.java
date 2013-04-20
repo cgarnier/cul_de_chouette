@@ -1,5 +1,9 @@
 package game.gui;
 
+import game.gui.GameModel.GamePhase;
+import game.network.messages.NetPlayer;
+
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
@@ -10,9 +14,11 @@ public class GameControler {
 	
 	private Random rand;
 	private GameModel model;
+	private GameHandler gh;
 	public GameControler(GameModel gm) {
 		rand = new Random();
 		model = gm;
+		gh = new GameHandler(model);
 		
 	}
 
@@ -63,10 +69,45 @@ public class GameControler {
 		}
 		
 	}
+	public void connect(String text) {
+		NetPlayer myId = new NetPlayer();
+		myId.setNetId(gh.getService().getMyNetId());
+		OnePlayerModel me = new OnePlayerModel(text, Color.GREEN);
+		me.setNetId(myId);
+		model.setMe(me);
+		
+	}
 
 	public void roll1Dice() {
 		// TODO Auto-generated method stub
 		model.getDice3().setFace(rand.nextInt(6)+1);
+	}
+
+	public void create() {
+		model.setPhase(GamePhase.WAITING);
+		model.setCreator(model.getMe());
+		refresh();
+		
+	}
+
+	public void join() {
+		model.setPhase(GamePhase.WAITING);
+		gh.getService().sendWaiting(model.getMe().toNet());
+		
+	}
+	public void cancel() {
+		model.unsetCreator();
+		model.setPhase(GamePhase.MENU);
+	}
+
+	public void refresh() {
+		gh.refresh();
+		
+	}
+
+	public void invite(NetPlayer player) {
+		gh.getService().invitPlayer(model.getMe().toNet(), player);
+		
 	}
 	
 }

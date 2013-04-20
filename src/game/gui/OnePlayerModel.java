@@ -75,10 +75,12 @@ public class OnePlayerModel extends Observable {
 		this.setPlayerColor(color);
 	}
 	public OnePlayerModel(NetPlayer creator, Color black) {
-		// TODO Auto-generated constructor stub
+		this.netId = creator;
+		this.setPlayerColor(black);
 	}
 
 	public NetPlayer toNet() {
+		netId.setGlobalId(0);
 		return netId;
 	}
 	@Override
@@ -93,6 +95,14 @@ public class OnePlayerModel extends Observable {
 		}
 		
 		return super.equals(obj);
+	}
+
+	public synchronized NetPlayer getNetId() {
+		return netId;
+	}
+
+	public synchronized void setNetId(NetPlayer netId) {
+		this.netId = netId;
 	}
 
 }

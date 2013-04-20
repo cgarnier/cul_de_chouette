@@ -7,7 +7,10 @@ import game.network.messages.GameStatus;
 import game.network.messages.NetPlayer;
 
 import java.awt.Color;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -15,13 +18,29 @@ import communication.ProcessIdentifier;
 
 public class GameModel extends Observable implements Observer {
 
-	public static final Object NEWPLAYER = 10;
+	
 	private DiceModel dice1, dice2, dice3;
 	private DicesCombo dices;
-	private ArrayList<OnePlayerModel> playerList;
+	private ArrayList<OnePlayerModel> players;
 	private OnePlayerModel me;
 	private OnePlayerModel creator;
+	private ArrayList<OnePlayerModel> lobbyPlayers;
+	public static final List<Color> ColorMap;
+	static{
+		List<Color> aMap = new ArrayList<Color>();
+		aMap.add(Color.GREEN);
+		aMap.add(Color.BLUE);
+		aMap.add(Color.CYAN);
+		aMap.add(Color.ORANGE);
+		aMap.add(Color.PINK);
+		aMap.add(Color.RED);
+		ColorMap =  Collections.unmodifiableList(aMap);
+		
+	}
+	public static enum Event {CANCEL, CONNECTED, NEWPLAYER, CREATED, JOINED, STARTED, NEWAVAILABLE};
 	
+	
+
 
 	/*
 	 * GamePhase WAITING - Waiting for player or for game start START - The game
@@ -32,7 +51,7 @@ public class GameModel extends Observable implements Observer {
 	 * - Compute new scores (next: TWODICE or FINISH) FINISH - Game is finish
 	 */
 	public static enum GamePhase {
-		WAITING, START, TWODICES, ONEDICE, CHECKDICE, INTERACTION, SCORING, FINISH
+		WAITING, START, TWODICES, ONEDICE, CHECKDICE, INTERACTION, SCORING, FINISH, MENU
 	};
 
 	private GamePhase gamePhase;
@@ -44,7 +63,8 @@ public class GameModel extends Observable implements Observer {
 		dice2 = new DiceModel();
 		dice3 = new DiceModel();
 		gamePhase = GamePhase.TWODICES;
-		playerList = new ArrayList<OnePlayerModel>();
+		players = new ArrayList<OnePlayerModel>();
+		lobbyPlayers = new ArrayList<OnePlayerModel>();
 
 	}
 
@@ -54,7 +74,7 @@ public class GameModel extends Observable implements Observer {
 	}
 
 	public ArrayList<OnePlayerModel> getPlayerList() {
-		return playerList;
+		return players;
 	}
 
 	public GamePhase getGamePhase() {
@@ -90,16 +110,16 @@ public class GameModel extends Observable implements Observer {
 	}
 
 	public void addPlayer(Color color, String string) {
-		playerList.add(new OnePlayerModel(string, color));
+		players.add(new OnePlayerModel(string, color));
 		this.setChanged();
-		this.notifyObservers(NEWPLAYER);
+		this.notifyObservers(Event.NEWPLAYER);
 
 	}
 
 	public void addPlayer(OnePlayerModel player) {
-		playerList.add(player);
+		players.add(player);
 		this.setChanged();
-		this.notifyObservers(NEWPLAYER);
+		this.notifyObservers(Event.NEWPLAYER);
 
 	}
 
@@ -127,8 +147,55 @@ public class GameModel extends Observable implements Observer {
 	}
 	public GameStatus getGameStatus() {
 		GameStatus gs = new GameStatus(this.creator.toNet(), gamePhase, dices);
-		gs.fromOnePlayerModel(playerList);
+		gs.fromOnePlayerModel(players);
 		return gs;
+	}
+	public synchronized OnePlayerModel getCreator() {
+		return creator;
+	}
+
+	public  void setCreator(OnePlayerModel creator) {
+		this.creator = creator;
+	}
+
+	public void setMe(OnePlayerModel me) {
+
+		this.me = me;
+		players.add(me);
+		setChanged();
+		notifyObservers(Event.CONNECTED);
+	}
+
+	public ArrayList<OnePlayerModel> getPlayers() {
+		return players;
+	}
+	public void setPlayers(ArrayList<OnePlayerModel> players) {
+		this.players = players;
+	}
+	public ArrayList<OnePlayerModel> getLobbyPlayers() {
+		return lobbyPlayers;
+	}
+	public void setLobbyPlayers(ArrayList<OnePlayerModel> lobbyPlayers) {
+		this.lobbyPlayers = lobbyPlayers;
+	}
+	public void addPlayer(NetPlayer np) {
+		Color c = ColorMap.get(players.size());
+		OnePlayerModel p = new OnePlayerModel(np,c);
+		setChanged();
+		notifyObservers(p);
+		
+	}
+
+	public void addLobbyPlayer(NetPlayer player) {
+		lobbyPlayers.add(new OnePlayerModel(player, Color.black));
+		setChanged();
+		notifyObservers(Event.NEWAVAILABLE);
+		
+	}
+
+	public void unsetCreator() {
+		this.creator = null;
+		
 	}
 
 }

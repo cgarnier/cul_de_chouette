@@ -12,7 +12,7 @@ public class Main {
 		GameModel gm = new GameModel();
 		GameControler gc = new GameControler(gm);
 		GameView gw = new GameView(gc);
-		gm.test();
+		//gm.test();
 		
 	}
 

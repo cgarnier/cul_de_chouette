@@ -8,7 +8,7 @@ import game.gui.OnePlayerModel;
 public class LobbyControler {
 
 	private LobbyModel model;
-	private GameHandler gh;
+	
 	public LobbyControler(LobbyModel gm) {
 		model = gm;
 		gh = new GameHandler(model);
@@ -16,9 +16,6 @@ public class LobbyControler {
 	public LobbyModel getModel() {
 		return model;
 	}
-	public void connect(String text) {
-		model.setMe(new OnePlayerModel(text, Color.GREEN));
-		
-	}
+
 
 }

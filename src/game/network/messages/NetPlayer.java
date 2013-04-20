@@ -20,6 +20,10 @@ public class NetPlayer implements Serializable{
 		this.netId = model.toNet().getNetId();
 		this.globalId = model.toNet().getGlobalId();
 	}
+	public NetPlayer() {
+		netId = null;
+		globalId = 0;
+	}
 	public synchronized ProcessIdentifier getNetId() {
 		return netId;
 	}
