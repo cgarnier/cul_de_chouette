@@ -7,16 +7,58 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+
 public class PlayerModel extends Observable {
 
+	public enum Sex {
+	    M, F
+	}
+	
+	protected int playerID;
 	protected String playerLogin;
+	protected String playerPassword;
+	protected int playerAge;
+	protected char playerSex;
+	protected String playerCity;
 	protected int playerScore;
 	protected Color playerColor;
 	protected ArrayList<Observer> listObserver = new ArrayList<Observer>();
 	protected NetPlayer netId;
 	
-	public void setPlayerName(String name) {
-		this.playerLogin = name;
+	public void setPlayerID(int ID) {
+		this.playerID = ID;
+		this.setChanged();
+		this.notifyObservers();
+	}
+	
+	public void setPlayerLogin(String login) {
+		this.playerLogin = login;
+		this.setChanged();
+		this.notifyObservers();
+	}
+	
+	public void setPlayerPassword(String password) {
+		this.playerPassword = password;
+		this.setChanged();
+		this.notifyObservers();
+	}
+	
+	public void setPlayerAge(int age) {
+		this.playerAge = age;
+		this.setChanged();
+		this.notifyObservers();
+	}
+	
+	public void setPlayerSex(char sex) {
+		this.playerSex = sex;
+		this.setChanged();
+		this.notifyObservers();
+	}
+	
+	public void setPlayerCity(String city) {
+		this.playerCity = city;
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	public void setPlayerScore(int score) {
@@ -36,9 +78,29 @@ public class PlayerModel extends Observable {
 		this.setChanged();
 		this.notifyObservers();
 	}
-
-	public String getPlayerName() {
+	
+	public int getPlayerID(){
+		return this.playerID;
+	}
+	
+	public String getPlayerLogin() {
 		return this.playerLogin;
+	}
+	
+	public String getPlayerPassword() {
+		return this.playerPassword;
+	}
+	
+	public int getPlayerAge() {
+		return this.playerAge;
+	}
+	
+	public char getPlayerSex() {
+		return this.playerSex;
+	}
+	
+	public String getPlayerCity() {
+		return this.playerCity;
 	}
 
 	public int getPlayerScore() {
@@ -67,14 +129,35 @@ public class PlayerModel extends Observable {
 
 	}
 	
+	public PlayerModel(){
+		
+	}
+	
 	public PlayerModel(String name, Color color) {
-		this.setPlayerName(name);
+		this.setPlayerLogin(name);
 		this.setPlayerScore(0);
 		this.setPlayerColor(color);
 	}
 	public PlayerModel(NetPlayer creator, Color black) {
 		this.netId = creator;
 		this.setPlayerColor(black);
+	}
+	
+	public PlayerModel(int ID, String login, String password, int age, char sex, String city){
+		this.setPlayerID(ID);
+		this.setPlayerLogin(login);
+		this.setPlayerPassword(password);
+		this.setPlayerAge(age);
+		this.setPlayerSex(sex);
+		this.setPlayerCity(city);
+	}
+	
+	public PlayerModel(String login, String password, int age, char sex, String city){
+		this.setPlayerLogin(login);
+		this.setPlayerPassword(password);
+		this.setPlayerAge(age);
+		this.setPlayerSex(sex);
+		this.setPlayerCity(city);
 	}
 
 	public NetPlayer toNet() {
