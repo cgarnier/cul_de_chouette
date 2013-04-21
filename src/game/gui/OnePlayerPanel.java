@@ -39,8 +39,8 @@ public class OnePlayerPanel extends JPanel implements Observer{
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		if(arg0 instanceof OnePlayerModel){
-			OnePlayerModel player = (OnePlayerModel)arg0;
+		if(arg0 instanceof PlayerModel){
+			PlayerModel player = (PlayerModel)arg0;
 			this.lName.setText(player.getPlayerName());
 			this.lScore.setText(" (" + player.getPlayerScore() + ")");
 			this.color = player.getPlayerColor();

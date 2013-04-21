@@ -87,8 +87,8 @@ public class OnePlayerModel extends Observable {
 			NetPlayer np = (NetPlayer) obj;
 			return np.equals(this.toNet());
 		}
-		if(obj instanceof OnePlayerModel){
-			OnePlayerModel np = (OnePlayerModel) obj;
+		if(obj instanceof PlayerModel){
+			PlayerModel np = (PlayerModel) obj;
 			return np.equals(this.toNet());
 		}
 		
