@@ -62,7 +62,11 @@ public class GuiTest extends JFrame {
 		contentPane.add(rightPanel);
 		
 		
-		leftPanel.add(new AvailablePlayersPanel());
+		//leftPanel.add(new AvailablePlayersPanel());
+		//leftPanel.add(new LoginPanel());
+		//leftPanel.add(new MenuPanel());
+		//leftPanel.add(new WaitingPanel());
+		leftPanel.add(new GamePanel());
 		rightPanel.add(new PlayerListPanel());
 	}
 }
