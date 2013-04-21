@@ -3,7 +3,7 @@ package game.gui.lobby;
 import java.awt.Color;
 
 import game.gui.GameHandler;
-import game.gui.OnePlayerModel;
+import game.gui.PlayerModel;
 
 public class LobbyControler {
 

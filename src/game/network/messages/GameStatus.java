@@ -1,7 +1,7 @@
 package game.network.messages;
 
 import game.gui.GameModel.GamePhase;
-import game.gui.OnePlayerModel;
+import game.gui.PlayerModel;
 import game.network.DicesCombo;
 
 import java.io.Serializable;
@@ -33,9 +33,9 @@ public class GameStatus implements Serializable{
 		this.phase = phase;
 		this.dices = dices;
 	}
-	public void fromOnePlayerModel(ArrayList<OnePlayerModel> players) {
+	public void fromOnePlayerModel(ArrayList<PlayerModel> players) {
 		
-		for (OnePlayerModel aPlayer : players) {
+		for (PlayerModel aPlayer : players) {
 			this.playerList.add(aPlayer.toNet());
 		}
 	}

@@ -17,10 +17,10 @@ public class GameModel extends Observable implements Observer {
 	
 	private DiceModel dice1, dice2, dice3;
 	private DicesCombo dices;
-	private ArrayList<OnePlayerModel> players;
-	private OnePlayerModel me;
-	private OnePlayerModel creator;
-	private ArrayList<OnePlayerModel> lobbyPlayers;
+	private ArrayList<PlayerModel> players;
+	private PlayerModel me;
+	private PlayerModel creator;
+	private ArrayList<PlayerModel> lobbyPlayers;
 	public static final List<Color> ColorMap;
 	static{
 		List<Color> aMap = new ArrayList<Color>();
@@ -59,17 +59,17 @@ public class GameModel extends Observable implements Observer {
 		dice2 = new DiceModel();
 		dice3 = new DiceModel();
 		gamePhase = GamePhase.TWODICES;
-		players = new ArrayList<OnePlayerModel>();
-		lobbyPlayers = new ArrayList<OnePlayerModel>();
+		players = new ArrayList<PlayerModel>();
+		lobbyPlayers = new ArrayList<PlayerModel>();
 
 	}
 
 	public void test() {
-		me = new OnePlayerModel("Me", Color.GREEN);
+		me = new PlayerModel("Me", Color.GREEN);
 		this.addPlayer(me);
 	}
 
-	public ArrayList<OnePlayerModel> getPlayerList() {
+	public ArrayList<PlayerModel> getPlayerList() {
 		return players;
 	}
 
@@ -106,13 +106,13 @@ public class GameModel extends Observable implements Observer {
 	}
 
 	public void addPlayer(Color color, String string) {
-		players.add(new OnePlayerModel(string, color));
+		players.add(new PlayerModel(string, color));
 		this.setChanged();
 		this.notifyObservers(Event.NEWPLAYER);
 
 	}
 
-	public void addPlayer(OnePlayerModel player) {
+	public void addPlayer(PlayerModel player) {
 		players.add(player);
 		this.setChanged();
 		this.notifyObservers(Event.NEWPLAYER);
@@ -131,13 +131,13 @@ public class GameModel extends Observable implements Observer {
 		return true;
 	}
 
-	public OnePlayerModel getMe() {
+	public PlayerModel getMe() {
 		// TODO Auto-generated method stub
 		return me;
 	}
 
 	public void setCreator(NetPlayer creator) {
-		this.creator = new OnePlayerModel(creator, Color.black);
+		this.creator = new PlayerModel(creator, Color.black);
 		
 		
 	}
@@ -146,15 +146,15 @@ public class GameModel extends Observable implements Observer {
 		gs.fromOnePlayerModel(players);
 		return gs;
 	}
-	public synchronized OnePlayerModel getCreator() {
+	public synchronized PlayerModel getCreator() {
 		return creator;
 	}
 
-	public  void setCreator(OnePlayerModel creator) {
+	public  void setCreator(PlayerModel creator) {
 		this.creator = creator;
 	}
 
-	public void setMe(OnePlayerModel me) {
+	public void setMe(PlayerModel me) {
 
 		this.me = me;
 		players.add(me);
@@ -162,28 +162,28 @@ public class GameModel extends Observable implements Observer {
 		notifyObservers(Event.CONNECTED);
 	}
 
-	public ArrayList<OnePlayerModel> getPlayers() {
+	public ArrayList<PlayerModel> getPlayers() {
 		return players;
 	}
-	public void setPlayers(ArrayList<OnePlayerModel> players) {
+	public void setPlayers(ArrayList<PlayerModel> players) {
 		this.players = players;
 	}
-	public ArrayList<OnePlayerModel> getLobbyPlayers() {
+	public ArrayList<PlayerModel> getLobbyPlayers() {
 		return lobbyPlayers;
 	}
-	public void setLobbyPlayers(ArrayList<OnePlayerModel> lobbyPlayers) {
+	public void setLobbyPlayers(ArrayList<PlayerModel> lobbyPlayers) {
 		this.lobbyPlayers = lobbyPlayers;
 	}
 	public void addPlayer(NetPlayer np) {
 		Color c = ColorMap.get(players.size());
-		OnePlayerModel p = new OnePlayerModel(np,c);
+		PlayerModel p = new PlayerModel(np,c);
 		setChanged();
 		notifyObservers(p);
 		
 	}
 
 	public void addLobbyPlayer(NetPlayer player) {
-		lobbyPlayers.add(new OnePlayerModel(player, Color.black));
+		lobbyPlayers.add(new PlayerModel(player, Color.black));
 		setChanged();
 		notifyObservers(Event.NEWAVAILABLE);
 		

@@ -2,7 +2,7 @@ package game.network.messages;
 
 import java.io.Serializable;
 
-import game.gui.OnePlayerModel;
+import game.gui.PlayerModel;
 import communication.ProcessIdentifier;
 
 /*
@@ -16,7 +16,7 @@ public class NetPlayer implements Serializable{
 	private static final long serialVersionUID = 6197386597780936627L;
 	protected ProcessIdentifier netId;
 	protected int globalId;
-	public NetPlayer(OnePlayerModel model) {
+	public NetPlayer(PlayerModel model) {
 		this.netId = model.toNet().getNetId();
 		this.globalId = model.toNet().getGlobalId();
 	}

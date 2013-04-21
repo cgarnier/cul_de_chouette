@@ -1,8 +1,8 @@
 package game.gui.lobby;
 
 import game.gui.ListedPlayerView;
-import game.gui.OnePlayerModel;
-import game.gui.OnePlayerPanel;
+import game.gui.PlayerModel;
+import game.gui.PlayerPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -31,7 +31,7 @@ public class LobbyView extends JFrame implements Observer {
 	private LobbyControler controler;
 
 	public LobbyView(LobbyControler gc) {
-		players = new ArrayList<OnePlayerPanel>();
+		players = new ArrayList<PlayerPanel>();
 		lobbyPlayers = new ArrayList<ListedPlayerView>();
 		controler = gc;
 		controler.getModel().addObserver(this);
@@ -99,7 +99,7 @@ public class LobbyView extends JFrame implements Observer {
 	public void update(Observable arg0, Object arg1) {
 		if(arg0 instanceof LobbyModel){
 			if ((Event) arg1 == LobbyModel.Event.CONNECTED){
-				OnePlayerPanel p = new OnePlayerPanel(controler.getModel().getMe().getPlayerName(),
+				PlayerPanel p = new PlayerPanel(controler.getModel().getMe().getPlayerName(),
 						controler.getModel().getMe().getPlayerScore(),
 						controler.getModel().getMe().getPlayerColor());
 				controler.getModel().getMe().addObserver(p);
@@ -110,8 +110,8 @@ public class LobbyView extends JFrame implements Observer {
 				pPlayerList.setVisible(true);
 			}
 			if ((Event) arg1 == LobbyModel.Event.NEWPLAYER){
-				OnePlayerModel m = controler.getModel().getPlayers().get(controler.getModel().getPlayers().size()-1);
-				OnePlayerPanel p = new OnePlayerPanel(m.getPlayerName(), m.getPlayerScore(), m.getPlayerColor());
+				PlayerModel m = controler.getModel().getPlayers().get(controler.getModel().getPlayers().size()-1);
+				PlayerPanel p = new PlayerPanel(m.getPlayerName(), m.getPlayerScore(), m.getPlayerColor());
 				m.addObserver(p);
 				players.add(p);
 				pPlayerList.add(p);
