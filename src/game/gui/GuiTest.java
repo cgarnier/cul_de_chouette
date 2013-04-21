@@ -36,15 +36,16 @@ public class GuiTest extends JFrame {
 	 * Create the frame.
 	 */
 	public GuiTest() {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 723, 451);
+		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(12, 80, 422, 326);
+		panel.setBounds(28, 12, 474, 543);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		

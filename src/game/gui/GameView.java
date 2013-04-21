@@ -165,7 +165,8 @@ public class GameView extends JFrame implements ActionListener, Observer {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				controler.connect(tfName.getText());
+				//controler.connect(tfName.getText());
+				GameView.this.setContentPane(pAvailablePlayers);
 				
 			}
 		});
