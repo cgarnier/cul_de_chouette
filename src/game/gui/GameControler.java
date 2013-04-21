@@ -70,7 +70,7 @@ public class GameControler {
 	public void connect(String text) {
 		NetPlayer myId = new NetPlayer();
 		myId.setNetId(gh.getService().getMyNetId());
-		OnePlayerModel me = new OnePlayerModel(text, Color.GREEN);
+		PlayerModel me = new PlayerModel(text, Color.GREEN);
 		me.setNetId(myId);
 		model.setMe(me);
 		

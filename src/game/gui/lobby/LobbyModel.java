@@ -1,17 +1,17 @@
 package game.gui.lobby;
 
-import game.gui.OnePlayerModel;
+import game.gui.PlayerModel;
 import java.util.ArrayList;
 import java.util.Observable;
 
 public class LobbyModel extends Observable{
 	
-	private ArrayList<OnePlayerModel> players;
+	private ArrayList<PlayerModel> players;
 	
 	
 	
 	public LobbyModel() {
-		players = new ArrayList<OnePlayerModel>();
+		players = new ArrayList<PlayerModel>();
 		
 	}
 	

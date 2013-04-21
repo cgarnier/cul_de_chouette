@@ -35,7 +35,7 @@ public class GameView extends JFrame implements ActionListener, Observer {
 
 	// //////////// Common ///////////
 	//
-	private ArrayList<OnePlayerPanel> playersView;
+	private ArrayList<PlayerPanel> playersView;
 	private JPanel pTitle;
 	private JPanel pPlayerList;
 	private JPanel pContent;
@@ -86,7 +86,7 @@ public class GameView extends JFrame implements ActionListener, Observer {
 	public GameView(GameControler controler) {
 		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		playersView = new ArrayList<OnePlayerPanel>();
+		playersView = new ArrayList<PlayerPanel>();
 		this.controler = controler;
 		this.controler.getModel().addObserver(this);
 		this.setSize(800, 700);
@@ -283,7 +283,7 @@ public class GameView extends JFrame implements ActionListener, Observer {
 		GameView.this.getControler().getModel().addPlayer(Color.RED, "Robert1");
 		GameView.this.getControler().getModel()
 				.addPlayer(Color.GREEN, "Robert2");
-		for (OnePlayerModel aPlayer : GameView.this.getControler().getModel()
+		for (PlayerModel aPlayer : GameView.this.getControler().getModel()
 				.getPlayerList()) {
 			aPlayer.setPlayerScore(200);
 		}
@@ -366,7 +366,7 @@ public class GameView extends JFrame implements ActionListener, Observer {
 //			}
 
 			if ((Event) arg == Event.CONNECTED){
-				OnePlayerPanel p = new OnePlayerPanel(controler.getModel().getMe().getPlayerName(),
+				PlayerPanel p = new PlayerPanel(controler.getModel().getMe().getPlayerName(),
 						controler.getModel().getMe().getPlayerScore(),
 						controler.getModel().getMe().getPlayerColor());
 				controler.getModel().getMe().addObserver(p);
@@ -377,8 +377,8 @@ public class GameView extends JFrame implements ActionListener, Observer {
 				pCreateOrJoin.setVisible(true);
 			}
 			if ((Event) arg == Event.NEWPLAYER){
-				OnePlayerModel m = controler.getModel().getPlayers().get(controler.getModel().getPlayers().size()-1);
-				OnePlayerPanel p = new OnePlayerPanel(m.getPlayerName(), m.getPlayerScore(), m.getPlayerColor());
+				PlayerModel m = controler.getModel().getPlayers().get(controler.getModel().getPlayers().size()-1);
+				PlayerPanel p = new PlayerPanel(m.getPlayerName(), m.getPlayerScore(), m.getPlayerColor());
 				m.addObserver(p);
 				playersView.add(p);
 				pPlayerList.add(p);
@@ -386,7 +386,7 @@ public class GameView extends JFrame implements ActionListener, Observer {
 			}
 			if ((Event) arg == Event.NEWAVAILABLE){
 				System.out.println("new available...");
-				OnePlayerModel m = controler.getModel().getLobbyPlayers().get(controler.getModel().getLobbyPlayers().size()-1);
+				PlayerModel m = controler.getModel().getLobbyPlayers().get(controler.getModel().getLobbyPlayers().size()-1);
 				ListedPlayerView p = new ListedPlayerView(m);
 				p.setActionListener(new InvitListener(m.toNet()));
 				
@@ -496,7 +496,7 @@ public class GameView extends JFrame implements ActionListener, Observer {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				for (OnePlayerModel aPlayer : GameView.this.getControler()
+				for (PlayerModel aPlayer : GameView.this.getControler()
 						.getModel().getPlayerList()) {
 					aPlayer.decreasePlayerScore(30);
 				}

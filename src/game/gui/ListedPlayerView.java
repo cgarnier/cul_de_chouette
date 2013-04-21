@@ -18,7 +18,7 @@ public class ListedPlayerView extends JPanel {
 		btInvite.addActionListener(this.actionListener);
 	}
 
-	public ListedPlayerView(OnePlayerModel mod) {
+	public ListedPlayerView(PlayerModel mod) {
 		this.setLayout(new BorderLayout());
 		
 		btInvite = new JButton("Inviter");
