@@ -9,14 +9,14 @@ import java.util.Observer;
 
 public class PlayerModel extends Observable {
 
-	protected String playerName;
+	protected String playerLogin;
 	protected int playerScore;
 	protected Color playerColor;
 	protected ArrayList<Observer> listObserver = new ArrayList<Observer>();
 	protected NetPlayer netId;
 	
 	public void setPlayerName(String name) {
-		this.playerName = name;
+		this.playerLogin = name;
 	}
 
 	public void setPlayerScore(int score) {
@@ -38,7 +38,7 @@ public class PlayerModel extends Observable {
 	}
 
 	public String getPlayerName() {
-		return this.playerName;
+		return this.playerLogin;
 	}
 
 	public int getPlayerScore() {
