@@ -9,11 +9,12 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import java.awt.GridLayout;
 
 public class GuiTest extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -44,23 +45,24 @@ public class GuiTest extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(28, 12, 474, 543);
-		contentPane.add(panel);
-		panel.setLayout(null);
+		JPanel leftPanel = new JPanel();
+		leftPanel.setBounds(28, 85, 474, 470);
+		contentPane.add(leftPanel);
+		leftPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		textField = new JTextField();
-		textField.setBounds(12, 12, 114, 19);
-		panel.add(textField);
-		textField.setColumns(10);
+		JPanel topPanel = new JPanel();
+		topPanel.setBounds(28, 12, 758, 64);
+		contentPane.add(topPanel);
 		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnNewButton.setBounds(257, 9, 117, 25);
-		panel.add(btnNewButton);
+		JLabel lblCulDeChouette = new JLabel("Cul de chouette P2P");
+		topPanel.add(lblCulDeChouette);
+		
+		JPanel rightPanel = new JPanel();
+		rightPanel.setBounds(514, 85, 272, 470);
+		contentPane.add(rightPanel);
+		
+		
+		leftPanel.add(new AvailablePlayersPanel());
+		rightPanel.add(new PlayerListPanel());
 	}
 }

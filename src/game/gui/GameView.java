@@ -366,7 +366,7 @@ public class GameView extends JFrame implements ActionListener, Observer {
 //			}
 
 			if ((Event) arg == Event.CONNECTED){
-				PlayerPanel p = new PlayerPanel(controler.getModel().getMe().getPlayerName(),
+				PlayerPanel p = new PlayerPanel(controler.getModel().getMe().getPlayerLogin(),
 						controler.getModel().getMe().getPlayerScore(),
 						controler.getModel().getMe().getPlayerColor());
 				controler.getModel().getMe().addObserver(p);
@@ -378,7 +378,7 @@ public class GameView extends JFrame implements ActionListener, Observer {
 			}
 			if ((Event) arg == Event.NEWPLAYER){
 				PlayerModel m = controler.getModel().getPlayers().get(controler.getModel().getPlayers().size()-1);
-				PlayerPanel p = new PlayerPanel(m.getPlayerName(), m.getPlayerScore(), m.getPlayerColor());
+				PlayerPanel p = new PlayerPanel(m.getPlayerLogin(), m.getPlayerScore(), m.getPlayerColor());
 				m.addObserver(p);
 				playersView.add(p);
 				pPlayerList.add(p);

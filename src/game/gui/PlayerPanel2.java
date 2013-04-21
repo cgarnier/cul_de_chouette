@@ -1,3 +1,5 @@
+package game.gui;
+
 import javax.swing.JPanel;
 
 import java.awt.Dimension;
@@ -47,3 +49,4 @@ public class PlayerPanel2 extends JPanel {
 		add(label, gbc_label);
 
 	}
+}

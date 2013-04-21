@@ -42,7 +42,7 @@ public class PlayerPanel extends JPanel implements Observer{
 	public void update(Observable arg0, Object arg1) {
 		if(arg0 instanceof PlayerModel){
 			PlayerModel player = (PlayerModel)arg0;
-			this.lName.setText(player.getPlayerName());
+			this.lName.setText(player.getPlayerLogin());
 			this.lScore.setText(" (" + player.getPlayerScore() + ")");
 			this.color = player.getPlayerColor();
 		}

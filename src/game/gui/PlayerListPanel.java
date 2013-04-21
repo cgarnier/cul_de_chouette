@@ -10,11 +10,11 @@ public class PlayerListPanel extends JPanel {
 	 */
 	public PlayerListPanel() {
 		setLayout(new GridLayout(0, 1, 0, 0));
-		add(new PlayerPanel());
-		add(new PlayerPanel());
-		add(new PlayerPanel());
-		add(new PlayerPanel());
-		add(new PlayerPanel());
+		add(new PlayerPanel2());
+		add(new PlayerPanel2());
+		add(new PlayerPanel2());
+		add(new PlayerPanel2());
+		add(new PlayerPanel2());
 		
 	}
 

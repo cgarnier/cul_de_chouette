@@ -30,7 +30,7 @@ public class TestPlayersBDD {
     }
 
     private static void queryPlayers(Session session) {
-        Query query = session.createQuery("from Players");                 
+        Query query = session.createQuery("from PlayerModel");                 
         List <PlayerModel>list = query.list();
         java.util.Iterator<PlayerModel> iter = list.iterator();
         while (iter.hasNext()) {
@@ -51,7 +51,7 @@ public class TestPlayersBDD {
     }
     
     public static void deletePlayer(Session session, String login) {
-    	Query query = session.createQuery("from Players where login ='"+login+"'");
+    	Query query = session.createQuery("from PlayerModel where login ='"+login+"'");
     	PlayerModel player = (PlayerModel)query.uniqueResult();
     	
     	session.delete(player);
