@@ -1,19 +1,38 @@
+import java.awt.EventQueue;
+
 import game.gui.GameControler;
 import game.gui.GameModel;
 import game.gui.GameView;
+import game.gui.GuiTest;
 
 
 public class Main {
-
+	GameModel gm ;
+	GameControler gc;
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		GameModel gm = new GameModel();
-		GameControler gc = new GameControler(gm);
-		GameView gw = new GameView(gc);
+//		GameModel gm = new GameModel();
+//		GameControler gc = new GameControler(gm);
+//		GameView gw = new GameView(gc);
 		//gm.test();
-		
+		new Main();
+	}
+	public Main() {
+		gm = new GameModel();
+		gc = new GameControler(gm);
+		EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					GuiTest frame = new GuiTest(gc);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 }

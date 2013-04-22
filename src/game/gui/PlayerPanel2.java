@@ -10,11 +10,12 @@ import javax.swing.JLabel;
 import java.awt.Insets;
 
 public class PlayerPanel2 extends JPanel {
-
+	private GameControler controler;
 	/**
 	 * Create the panel.
 	 */
-	public PlayerPanel2() {
+	public PlayerPanel2(GameControler controler) {
+		this.controler = controler;
 		this.setOpaque(false);
 		setBackground(Color.WHITE);
 		setForeground(Color.WHITE);

@@ -1,5 +1,7 @@
 package game.gui.login;
 
+import game.gui.GameControler;
+
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
@@ -7,15 +9,18 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class LoginPanel extends JPanel {
 	private JTextField txtUser;
 	private JTextField txtPassword;
-
+	private GameControler controler;
 	/**
 	 * Create the panel.
 	 */
-	public LoginPanel() {
+	public LoginPanel(GameControler controler) {
+		this.controler = controler;
 		this.setOpaque(false);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0};
@@ -61,6 +66,12 @@ public class LoginPanel extends JPanel {
 		txtPassword.setColumns(10);
 		
 		JButton btnSeConnecter = new JButton("Se connecter");
+		btnSeConnecter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				controler.connect(txtUser.getText(), txtPassword.getText());
+				
+			}
+		});
 		GridBagConstraints gbc_btnSeConnecter = new GridBagConstraints();
 		gbc_btnSeConnecter.insets = new Insets(0, 0, 0, 5);
 		gbc_btnSeConnecter.gridx = 0;

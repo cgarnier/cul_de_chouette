@@ -20,7 +20,7 @@ public class AvailablePlayersPanel extends JPanel {
 	JPanel panel;
 	boolean test = false;
 
-	public AvailablePlayersPanel() {
+	public AvailablePlayersPanel(GameControler controler) {
 		setLayout(new BorderLayout(0, 0));
 		//setPreferredSize(new Dimension(230, 350));
 		JLabel lblListeDesJoueurs = new JLabel(
