@@ -14,6 +14,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import org.hibernate.Session;
+import org.hibernate.cfg.Configuration;
 
 public class GameModel extends Observable implements Observer {
 
@@ -64,7 +65,8 @@ public class GameModel extends Observable implements Observer {
 		gamePhase = GamePhase.TWODICES;
 		players = new ArrayList<PlayerModel>();
 		lobbyPlayers = new ArrayList<PlayerModel>();
-		session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		//session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		session = (new Configuration().configure().buildSessionFactory()).openSession();
 
 	}
 
