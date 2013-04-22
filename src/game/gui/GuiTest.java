@@ -1,6 +1,7 @@
 package game.gui;
 
 import game.gui.available.AvailablePlayersPanel;
+import game.gui.createaccount.CreateAccountPanel;
 import game.gui.game.GamePanel;
 import game.gui.login.LoginPanel;
 import game.gui.menu.MenuPanel;
@@ -30,6 +31,7 @@ public class GuiTest extends JFrame {
 	private WaitingPanel waitingPanel;
 	private GamePanel gamePanel;
 	private PlayerListPanel playerListPanel;
+	private CreateAccountPanel createAccountPanel;
 
 	JPanel rightPanel;
 
@@ -46,6 +48,7 @@ public class GuiTest extends JFrame {
 		waitingPanel = new WaitingPanel(controler);
 		gamePanel = new GamePanel(controler);
 		playerListPanel = new PlayerListPanel(controler);
+		createAccountPanel = new CreateAccountPanel(controler);
 
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -117,6 +120,14 @@ public class GuiTest extends JFrame {
 		reDraw();
 
 	}
+	public void showNewAccount() {
+		rightPanel.removeAll();
+		rightPanel.add(createAccountPanel);
+		playerListPanel.setVisible(true);
+		reDraw();
+
+	}
+	
 
 	private void reDraw() {
 		this.rightPanel.revalidate();

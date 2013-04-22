@@ -21,14 +21,14 @@ public class LoginPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public LoginPanel(GameControler controler) {
-		this.controler = controler;
+	public LoginPanel(GameControler c) {
+		this.controler = c;
 		this.setOpaque(false);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JLabel lblPseudo = new JLabel("Pseudo");
@@ -87,10 +87,21 @@ public class LoginPanel extends JPanel {
 			}
 		});
 		GridBagConstraints gbc_btnSeConnecter = new GridBagConstraints();
-		gbc_btnSeConnecter.insets = new Insets(0, 0, 0, 5);
-		gbc_btnSeConnecter.gridx = 0;
+		gbc_btnSeConnecter.insets = new Insets(0, 0, 5, 0);
+		gbc_btnSeConnecter.gridx = 1;
 		gbc_btnSeConnecter.gridy = 2;
 		add(btnSeConnecter, gbc_btnSeConnecter);
+		
+		JButton btnCrerUnCompte = new JButton("Créer un compte");
+		btnCrerUnCompte.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controler.getView().showNewAccount();
+			}
+		});
+		GridBagConstraints gbc_btnCrerUnCompte = new GridBagConstraints();
+		gbc_btnCrerUnCompte.gridx = 1;
+		gbc_btnCrerUnCompte.gridy = 3;
+		add(btnCrerUnCompte, gbc_btnCrerUnCompte);
 
 	}
 
