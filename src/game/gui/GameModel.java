@@ -1,5 +1,6 @@
 package game.gui;
 
+import game.gui.game.DiceModel;
 import game.network.DicesCombo;
 import game.network.messages.GameStatus;
 import game.network.messages.NetPlayer;

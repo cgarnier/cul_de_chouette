@@ -1,6 +1,10 @@
 package game.gui;
 
+import game.gui.available.AvailablePlayersPanel;
+import game.gui.game.GamePanel;
 import game.gui.login.LoginPanel;
+import game.gui.playerlist.PlayerListPanel;
+import game.gui.waiting.WaitingPanel;
 
 import java.awt.EventQueue;
 

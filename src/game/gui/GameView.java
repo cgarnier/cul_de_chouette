@@ -4,6 +4,8 @@ package game.gui;
 
 
 import game.gui.GameModel.Event;
+import game.gui.available.ListedPlayerView;
+import game.gui.game.DicePanel;
 import game.network.messages.NetPlayer;
 
 import java.awt.BorderLayout;
