@@ -1,6 +1,5 @@
 package game.gui;
 
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -11,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
-public class PlayerPanel extends JPanel implements Observer{
+public class OnePlayerPanel extends JPanel implements Observer{
 
 	/**
 	 * 
@@ -21,8 +20,7 @@ public class PlayerPanel extends JPanel implements Observer{
 	private JLabel lName;
 	private JLabel lScore;
 	private JPanel coloredSquare;
-	public PlayerPanel(String name, int score, Color c) {
-		
+	public OnePlayerPanel(String name, int score, Color c) {
 		this.color = c;
 		this.lName = new JLabel(name );
 		this.lScore = new JLabel(" (" + score + ")");
@@ -50,5 +48,4 @@ public class PlayerPanel extends JPanel implements Observer{
 		
 	}
 	
-
 }
