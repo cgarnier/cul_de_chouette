@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.cfg.Configuration;
+
 import communication.ProcessIdentifier;
 
 
@@ -143,6 +147,18 @@ public class PlayerModel extends Observable {
 	public PlayerModel(NetPlayer creator, Color black) {
 		this.netId = creator;
 		this.setPlayerColor(black);
+		
+		Session session = (new Configuration().configure().buildSessionFactory()).openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from PlayerModel where id ='"+creator.getGlobalId()+"'");                 
+        PlayerModel player = (PlayerModel)query.uniqueResult();
+        
+        this.setPlayerID(player.getPlayerID());
+		this.setPlayerLogin(player.getPlayerLogin());
+		this.setPlayerPassword(getPlayerPassword());
+		this.setPlayerAge(player.getPlayerAge());
+		this.setPlayerSex(player.getPlayerSex());
+		this.setPlayerCity(player.getPlayerCity());
 	}
 	
 	public PlayerModel(int ID, String login, String password, int age, char sex, String city){
