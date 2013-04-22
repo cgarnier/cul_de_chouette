@@ -1,5 +1,6 @@
 package game.gui;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import game.gui.GameModel.GamePhase;
 
@@ -109,8 +110,9 @@ public class GameHandler implements IGameClient{
 		if(model.getGamePhase() == GamePhase.WAITING &&
 				model.getCreator().equals(model.getMe())){
 			
-			if(!model.getLobbyPlayers().contains(player)){
-				model.addLobbyPlayer(player);
+			if(!model.getAvailableModel().getPlayers().contains(player)){
+				PlayerModel pm = new PlayerModel(player, Color.black);
+				model.getAvailableModel().add(pm);
 				System.out.println("Player added...");
 			}
 		}

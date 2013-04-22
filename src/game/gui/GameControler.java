@@ -102,10 +102,12 @@ public class GameControler {
 				me.setPlayerColor(Color.GREEN);
 				me.setNetId(myId);
 				model.setMe(me);
+				view.showMenu();
 				System.out.println("Connecté en tant que "+login+".\n");
         	}
         	else {
         		System.out.println("Mauvais mot de passe.");
+        		view.showLogin();
         	}
         }
 	}
@@ -118,6 +120,7 @@ public class GameControler {
 	public void create() {
 		model.setPhase(GamePhase.WAITING);
 		model.setCreator(model.getMe());
+		view.showAvailable();
 		refresh();
 		
 	}
@@ -125,14 +128,17 @@ public class GameControler {
 	public void join() {
 		model.setPhase(GamePhase.WAITING);
 		gh.getService().sendWaiting(model.getMe().toNet());
+		view.showWaiting();
 		
 	}
 	public void cancel() {
 		model.unsetCreator();
 		model.setPhase(GamePhase.MENU);
+		view.showMenu();
 	}
 
 	public void refresh() {
+		getModel().getAvailableModel().reset();
 		gh.refresh();
 		
 	}

@@ -11,6 +11,8 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class LoginPanel extends JPanel {
 	private JTextField txtUser;
@@ -38,7 +40,13 @@ public class LoginPanel extends JPanel {
 		add(lblPseudo, gbc_lblPseudo);
 		
 		txtUser = new JTextField();
-		txtUser.setText("user");
+		txtUser.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtUser.selectAll();
+			}
+		});
+		txtUser.setText("clement");
 		GridBagConstraints gbc_txtUser = new GridBagConstraints();
 		gbc_txtUser.insets = new Insets(0, 0, 5, 0);
 		gbc_txtUser.fill = GridBagConstraints.HORIZONTAL;
@@ -56,7 +64,13 @@ public class LoginPanel extends JPanel {
 		add(lblMotDePass, gbc_lblMotDePass);
 		
 		txtPassword = new JTextField();
-		txtPassword.setText("password");
+		txtPassword.setText("toto");
+		txtPassword.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtPassword.selectAll();
+			}
+		});
 		GridBagConstraints gbc_txtPassword = new GridBagConstraints();
 		gbc_txtPassword.insets = new Insets(0, 0, 5, 0);
 		gbc_txtPassword.fill = GridBagConstraints.HORIZONTAL;
@@ -68,7 +82,7 @@ public class LoginPanel extends JPanel {
 		JButton btnSeConnecter = new JButton("Se connecter");
 		btnSeConnecter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				controler.connect(txtUser.getText(), txtPassword.getText());
+				LoginPanel.this.controler.connect(txtUser.getText(), txtPassword.getText());
 				
 			}
 		});

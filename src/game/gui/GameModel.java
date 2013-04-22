@@ -1,5 +1,6 @@
 package game.gui;
 
+import game.gui.available.AvailableModel;
 import game.gui.game.DiceModel;
 import game.network.DicesCombo;
 import game.network.messages.GameStatus;
@@ -38,8 +39,12 @@ public class GameModel extends Observable implements Observer {
 	}
 	public static enum Event {CANCEL, CONNECTED, NEWPLAYER, CREATED, JOINED, STARTED, NEWAVAILABLE};
 	
-	
+	/*
+	 * Modeles specifique
+	 * 
+	 */
 
+	private AvailableModel availableModel;
 
 	/*
 	 * GamePhase WAITING - Waiting for player or for game start START - The game
@@ -56,7 +61,7 @@ public class GameModel extends Observable implements Observer {
 	private GamePhase gamePhase;
 
 	public GameModel() {
-		
+		availableModel = new AvailableModel();
 		creator = null;
 		dice1 = new DiceModel();
 		dice2 = new DiceModel();
@@ -66,6 +71,10 @@ public class GameModel extends Observable implements Observer {
 		lobbyPlayers = new ArrayList<PlayerModel>();
 		session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
 
+	}
+
+	public synchronized AvailableModel getAvailableModel() {
+		return availableModel;
 	}
 
 	public void test() {
