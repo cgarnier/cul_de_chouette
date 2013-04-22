@@ -130,10 +130,13 @@ public class GameControler {
         	System.out.println("age :"+newPlayer.getPlayerAge());
         	System.out.println("sex :"+newPlayer.getPlayerSex());
         	System.out.println("city :"+newPlayer.getPlayerCity());
+        	view.showLogin();
         }
+        // TODO Afficher l erreur
         else System.out.println("login déjà utilisé.");
         
         this.model.getSession().getTransaction().commit();
+        
 	}
 	
 	public void deleteAccount(String login){
