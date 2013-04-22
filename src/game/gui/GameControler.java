@@ -80,9 +80,10 @@ public class GameControler {
 		}
 		
 	}
+	
 	public void connect(String login, String password) {
 		
-		Session session = model.getSession();
+		Session session = this.model.getSession();
 		
 		session.beginTransaction();
 		
@@ -110,6 +111,45 @@ public class GameControler {
         		view.showLogin();
         	}
         }
+	}
+	
+	public void createAccount(String login, String password, int age, char sex, String city) {
+		
+		//Session session = model.getSession();
+		
+		this.model.getSession().beginTransaction();
+		
+		Query query = this.model.getSession().createQuery("from PlayerModel where login ='"+login+"'");                 
+        PlayerModel player = (PlayerModel)query.uniqueResult();
+        
+        this.model.getSession().getTransaction().commit();
+        
+        if(player == null){
+        	// Il n'esxite pas déjà un joueur avec ce login dans la BDD
+        	PlayerModel new_player = new PlayerModel(login, password, age, sex, city);
+        }
+        else System.out.println("login déjà utilisé.");
+        
+		
+	}
+	
+	public void queryPlayers() {
+	    	
+		//Session session = this.model.getSession();
+		this.model.getSession().beginTransaction();
+		
+	    Query query = this.model.getSession().createQuery("from PlayerModel");                 
+	    List <PlayerModel>list = query.list();
+	    java.util.Iterator<PlayerModel> iter = list.iterator();
+	    while (iter.hasNext()) {
+	
+	        PlayerModel player = iter.next();
+	        System.out.println("Player: " + player.getPlayerLogin() +", " + player.getPlayerPassword()+", " + player.getPlayerAge()+", " + player.getPlayerSex()+", " + player.getPlayerCity());
+	
+	    }
+	
+	    this.model.getSession().getTransaction().commit();
+	
 	}
 
 	public void roll1Dice() {
