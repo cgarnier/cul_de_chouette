@@ -4,7 +4,11 @@ import game.gui.GameModel.GamePhase;
 import game.network.messages.NetPlayer;
 
 import java.awt.Color;
+import java.util.List;
 import java.util.Random;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 
 public class GameControler {
@@ -76,15 +80,31 @@ public class GameControler {
 		}
 		
 	}
-	public void connect(String text) {
+	public void connect(Session session,String login, String password) {
 		
-		
-		NetPlayer myId = new NetPlayer();
-		myId.setNetId(gh.getService().getMyNetId());
-		PlayerModel me = new PlayerModel(text, Color.GREEN);
-		me.setNetId(myId);
-		model.setMe(me);
-		
+		//Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		Query query = session.createQuery("from PlayerModel where login ='"+login+"'");                 
+        PlayerModel player = (PlayerModel)query.uniqueResult();
+        
+        //session.getTransaction().commit();
+        
+        if(player == null)System.out.println("Ce joueur n'existe pas");
+        else {
+        	if(player.getPlayerPassword().equals(password)){
+				NetPlayer myId = new NetPlayer();
+				myId.setNetId(gh.getService().getMyNetId());
+				myId.setGlobalId(player.getPlayerID());
+				//PlayerModel me = new PlayerModel(player.getPlayerLogin(), Color.GREEN);
+				PlayerModel me = player;
+				me.setPlayerColor(Color.GREEN);
+				me.setNetId(myId);
+				model.setMe(me);
+				System.out.println("Connecté en tant que "+login+".\n");
+        	}
+        	else {
+        		System.out.println("Mauvais mot de passe.");
+        	}
+        }
 	}
 
 	public void roll1Dice() {

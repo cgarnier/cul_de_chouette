@@ -1,3 +1,5 @@
+import game.gui.GameControler;
+import game.gui.GameModel;
 import game.gui.PlayerModel;
 import game.gui.SessionFactoryUtil;
 import game.gui.PlayerModel.Sex;
@@ -17,16 +19,24 @@ public class TestPlayersBDD {
 
         session.beginTransaction();
 
-        createPlayer(session, "clement", "toto", 99, 'M', "Pau");
+        //createPlayer(session, "clement", "toto", 99, 'M', "Pau");
         
-        createPlayer(session, "geoffrey", "titi", 23, 'M', "Pau");
+        //createPlayer(session, "geoffrey", "titi", 23, 'M', "Pau");
 
         //queryPerson(session);
         
 //        deletePlayer(session, "Clement");
         
         queryPlayers(session);
-
+        
+        GameModel gm_test = new GameModel();
+		GameControler gc_test = new GameControler(gm_test);
+		
+		session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		gc_test.connect(session,"clement","toto");
+		
+		session.getTransaction().commit();
     }
 
     private static void queryPlayers(Session session) {
