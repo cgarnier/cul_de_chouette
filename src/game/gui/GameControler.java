@@ -17,6 +17,15 @@ public class GameControler {
 	private Random rand;
 	private GameModel model;
 	private GameHandler gh;
+	private GuiTest view;
+	public synchronized GuiTest getView() {
+		return view;
+	}
+
+	public synchronized void setView(GuiTest view) {
+		this.view = view;
+	}
+
 	public GameControler(GameModel gm) {
 		rand = new Random();
 		model = gm;

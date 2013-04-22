@@ -6,11 +6,13 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 
 public class GamePanel extends JPanel {
-
+	private GameControler controler;
+	
 	/**
 	 * Create the panel.
 	 */
-	public GamePanel() {
+	public GamePanel(GameControler controler) {
+		this.controler = controler;
 		setLayout(null);
 		this.setOpaque(false);
 		JPanel dicesPanel = new JPanel();

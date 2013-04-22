@@ -17,28 +17,31 @@ import java.awt.GridLayout;
 public class GuiTest extends JFrame {
 
 	private JPanel contentPane;
+	private GameControler controler;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					GuiTest frame = new GuiTest();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
+	private AvailablePlayersPanel availablePlayersPanel;
+	private LoginPanel loginPanel;
+	private MenuPanel menuPanel;
+	private WaitingPanel waitingPanel;
+	private GamePanel gamePanel;
+	private PlayerListPanel playerListPanel;
 
 	/**
 	 * Create the frame.
 	 */
-	public GuiTest() {
+	public GuiTest(GameControler controler) {
+		this.controler = controler;
+		this.controler.setView(this);
+		
+		availablePlayersPanel = new AvailablePlayersPanel(controler);
+		loginPanel = new LoginPanel(controler);
+		menuPanel = new MenuPanel();
+		waitingPanel = new WaitingPanel(controler);
+		gamePanel = new GamePanel(controler);
+		playerListPanel = new PlayerListPanel(controler);
+		
+		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 545, 820);
@@ -48,25 +51,68 @@ public class GuiTest extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel rightPanel2 = new JPanel();
-		rightPanel2.setBounds(256, 84, 246, 691);
-		contentPane.add(rightPanel2);
-		rightPanel2.setLayout(new GridLayout(0, 1, 0, 0));
+		JPanel rightPanel = new JPanel();
+		rightPanel.setBounds(256, 84, 246, 691);
+		contentPane.add(rightPanel);
+		rightPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JPanel leftPanel = new JPanel();
 		leftPanel.setBounds(24, 84, 139, 467);
 		leftPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		contentPane.add(leftPanel);
 		
-		rightPanel2.setOpaque(false);
+		rightPanel.setOpaque(false);
 		leftPanel.setOpaque(false);
 		
 		
-		//rightPanel2.add(new AvailablePlayersPanel());
-		//rightPanel2.add(new LoginPanel());
-		rightPanel2.add(new MenuPanel());
-		//rightPanel2.add(new WaitingPanel());
-		//rightPanel2.add(new GamePanel());
-		//leftPanel.add(new PlayerListPanel());
+		rightPanel.add(playerListPanel);
+		rightPanel.add(loginPanel);
+		rightPanel.add(menuPanel);
+		rightPanel.add(waitingPanel);
+		rightPanel.add(gamePanel);
+		leftPanel.add(availablePlayersPanel);
+		
+		showLogin();
 	}
+	public void showLogin() {
+		playerListPanel.setVisible(false);
+		loginPanel.setVisible(true);
+		menuPanel.setVisible(false);
+		waitingPanel.setVisible(false);
+		gamePanel.setVisible(false);
+		availablePlayersPanel.setVisible(false);
+	}
+	public void showMenu() {
+		playerListPanel.setVisible(false);
+		loginPanel.setVisible(false);
+		menuPanel.setVisible(true);
+		waitingPanel.setVisible(false);
+		gamePanel.setVisible(false);
+		availablePlayersPanel.setVisible(false);
+	}
+	public void showAvailable() {
+		playerListPanel.setVisible(true);
+		loginPanel.setVisible(false);
+		menuPanel.setVisible(false);
+		waitingPanel.setVisible(false);
+		gamePanel.setVisible(false);
+		availablePlayersPanel.setVisible(true);
+	}
+	public void showWaiting() {
+		playerListPanel.setVisible(true);
+		loginPanel.setVisible(false);
+		menuPanel.setVisible(false);
+		waitingPanel.setVisible(true);
+		gamePanel.setVisible(false);
+		availablePlayersPanel.setVisible(false);
+	}
+	public void showGame() {
+		playerListPanel.setVisible(true);
+		loginPanel.setVisible(false);
+		menuPanel.setVisible(false);
+		waitingPanel.setVisible(false);
+		gamePanel.setVisible(true);
+		availablePlayersPanel.setVisible(false);
+	}
+	
 }
