@@ -1,6 +1,7 @@
 package game.gui.playerlist;
 
 import game.gui.GameControler;
+import game.gui.PlayerModel;
 
 import javax.swing.JPanel;
 
@@ -10,9 +11,15 @@ import java.awt.GridBagConstraints;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Insets;
+import java.util.Observable;
+import java.util.Observer;
 
-public class PlayerPanel2 extends JPanel {
+public class PlayerPanel2 extends JPanel implements Observer {
 	private GameControler controler;
+	private PlayerModel model;
+	JPanel panel;
+	JLabel lblUsername;
+	JLabel lblScore;
 	/**
 	 * Create the panel.
 	 */
@@ -28,7 +35,7 @@ public class PlayerPanel2 extends JPanel {
 		gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setBackground(Color.ORANGE);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.anchor = GridBagConstraints.WEST;
@@ -39,7 +46,7 @@ public class PlayerPanel2 extends JPanel {
 		panel.setSize(30, 30);
 		add(panel, gbc_panel);
 		
-		JLabel lblUsername = new JLabel("USERNAME");
+		lblUsername = new JLabel("USERNAME");
 		lblUsername.setForeground(Color.white);
 		GridBagConstraints gbc_lblUsername = new GridBagConstraints();
 		gbc_lblUsername.insets = new Insets(0, 0, 0, 5);
@@ -47,12 +54,37 @@ public class PlayerPanel2 extends JPanel {
 		gbc_lblUsername.gridy = 0;
 		add(lblUsername, gbc_lblUsername);
 		
-		JLabel label = new JLabel(" (340)");
-		label.setForeground(Color.white);
+		lblScore = new JLabel(" (340)");
+		lblScore.setForeground(Color.white);
 		GridBagConstraints gbc_label = new GridBagConstraints();
 		gbc_label.gridx = 2;
 		gbc_label.gridy = 0;
-		add(label, gbc_label);
+		add(lblScore, gbc_label);
 
+	}
+	public void setModel(PlayerModel m) {
+		if(model != null) model.deleteObserver(this);
+		this.model = m;
+		if(this.model == null){
+			panel.setVisible(false);
+			lblScore.setVisible(false);
+			lblUsername.setText("<LIBRE>");
+		}
+		else{
+			model.addObserver(this);
+			panel.setVisible(true);
+			panel.setBackground(model.getPlayerColor());
+			lblScore.setVisible(true);
+			lblScore.setText("("+model.getPlayerScore()+")");
+			lblUsername.setText(model.getPlayerLogin());
+	
+		}
+	}
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		if(arg0 instanceof PlayerModel){
+			lblScore.setText("("+model.getPlayerScore()+")");
+		}
+		
 	}
 }

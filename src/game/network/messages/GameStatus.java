@@ -2,6 +2,7 @@ package game.network.messages;
 
 import game.gui.GameModel.GamePhase;
 import game.gui.PlayerModel;
+import game.gui.playerlist.PlayerListModel;
 import game.network.DicesCombo;
 
 import java.io.Serializable;
@@ -36,6 +37,12 @@ public class GameStatus implements Serializable{
 	public void fromOnePlayerModel(ArrayList<PlayerModel> players) {
 		
 		for (PlayerModel aPlayer : players) {
+			this.playerList.add(aPlayer.toNet());
+		}
+	}
+	public void fromPlayerModels(PlayerListModel playerList) {
+		
+		for (PlayerModel aPlayer : playerList.getPlayers()) {
 			this.playerList.add(aPlayer.toNet());
 		}
 	}

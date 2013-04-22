@@ -39,10 +39,15 @@ public class NetPlayer implements Serializable{
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof NetPlayer)
-			return (((NetPlayer)obj).getNetId() == this.netId &&
+			return (((NetPlayer)obj).getNetId().equals(this.netId) &&
 					((NetPlayer)obj).getGlobalId() == this.globalId);
 		
 		return super.equals(obj);
+	}
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "[NetPlayer netid: " + netId.getId() + ", "+ globalId + " ]";
 	}
 	
 	

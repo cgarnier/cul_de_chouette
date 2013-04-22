@@ -11,19 +11,19 @@ public class InvitMessage implements Serializable{
 		this.guest = guest;
 	}
 
-	public synchronized NetPlayer getCreator() {
+	public  NetPlayer getCreator() {
 		return creator;
 	}
 
-	public synchronized void setCreator(NetPlayer creator) {
+	public  void setCreator(NetPlayer creator) {
 		this.creator = creator;
 	}
 
-	public synchronized NetPlayer getGuest() {
+	public NetPlayer getGuest() {
 		return guest;
 	}
 
-	public synchronized void setGuest(NetPlayer guest) {
+	public  void setGuest(NetPlayer guest) {
 		this.guest = guest;
 	}
 	

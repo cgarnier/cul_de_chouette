@@ -196,6 +196,7 @@ public class CreateAccountPanel extends JPanel {
 				if(rdbtnM.isSelected()) sex = 'M';
 				
 				controler.createAccount(txtLogin.getText(), txtPass.getText(), age, sex, txtVille.getText());
+				
 			}
 		});
 		GridBagConstraints gbc_btnCrerMonCompte = new GridBagConstraints();

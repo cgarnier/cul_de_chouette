@@ -209,5 +209,10 @@ public class GameControler {
 		gh.getService().invitPlayer(model.getMe().toNet(), player);
 		
 	}
+
+	public void launch() {
+		
+		
+	}
 	
 }

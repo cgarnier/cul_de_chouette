@@ -152,7 +152,7 @@ public class PlayerModel extends Observable {
 		session.beginTransaction();
 		Query query = session.createQuery("from PlayerModel where id ='"+creator.getGlobalId()+"'");                 
         PlayerModel player = (PlayerModel)query.uniqueResult();
-        
+        if(player == null) System.err.println("player null");
         this.setPlayerID(player.getPlayerID());
 		this.setPlayerLogin(player.getPlayerLogin());
 		this.setPlayerPassword(getPlayerPassword());
@@ -180,14 +180,18 @@ public class PlayerModel extends Observable {
 	
 
 	public NetPlayer toNet() {
-		netId.setGlobalId(0);
+		//netId.setGlobalId(0);
 		return netId;
 	}
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof NetPlayer){
 			NetPlayer np = (NetPlayer) obj;
+			if(np.equals(this.toNet()))
+				System.out.println("--- equals ok");
+			else System.out.println("--- equals not ok"+np+this.toNet());
 			return np.equals(this.toNet());
+			
 		}
 		if(obj instanceof PlayerModel){
 			PlayerModel np = (PlayerModel) obj;

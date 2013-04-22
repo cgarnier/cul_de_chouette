@@ -1,5 +1,6 @@
 package game.network;
 
+import game.gui.Interaction;
 import game.network.messages.GameStatus;
 import game.network.messages.NetPlayer;
 
@@ -13,4 +14,5 @@ public interface IGameClient {
 	public void handleStart(GameStatus status);
 	public void handleRefresh();
 	public void handleWaitingNotification(NetPlayer player);
+	public void handleInteraction(NetPlayer player, Interaction.Type type);
 }

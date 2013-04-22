@@ -7,14 +7,20 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
-public class PlayerListPanel extends JPanel {
+public class PlayerListPanel extends JPanel implements Observer{
 	private GameControler controler;
+	ArrayList<PlayerPanel2> players;
 	/**
 	 * Create the panel.
 	 */
 	public PlayerListPanel(GameControler controler) {
 		this.controler = controler;
+		controler.getModel().getPlayersModel().addObserver(this);
+		players = new ArrayList<PlayerPanel2>();
 		setLayout(null);
 		this.setBackground(Color.green);
 		this.setOpaque(false);
@@ -36,6 +42,30 @@ public class PlayerListPanel extends JPanel {
 		PlayerPanel2 playerPanel2_5 = new PlayerPanel2(controler);
 		playerPanel2_5.setBounds(0, 198, 197, 25);
 		add(playerPanel2_5);
+		
+		players.add(playerPanel2);
+		players.add(playerPanel2_1);
+		players.add(playerPanel2_2);
+		players.add(playerPanel2_3);
+		players.add(playerPanel2_4);
+		players.add(playerPanel2_5);
+		
+
+		
+		
+	}
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		System.out.println("Updated!!!");
+		for (PlayerPanel2 p : players) {
+			p.setModel(null);
+		}
+		for (int i = 0; i < controler.getModel().getPlayersModel().size(); i++) {
+			System.out.println("!!!OK");
+			players.get(i).setModel(controler.getModel().getPlayersModel().getPlayers().get(i));
+		}
+		this.revalidate();
+		this.repaint();
 		
 	}
 

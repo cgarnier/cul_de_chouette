@@ -1,5 +1,6 @@
 package game.network;
 
+import game.gui.Interaction;
 import game.network.messages.GameStatus;
 import game.network.messages.NetPlayer;
 import communication.ProcessIdentifier;
@@ -18,6 +19,8 @@ public interface IGameService {
 	public void setGameClient(IGameClient client);
 	public void sendRefresh();
 	public void sendWaiting(NetPlayer player);
+	public void sendGameStatus(GameStatus status);
+	public void sendInteraction(NetPlayer player, Interaction.Type type);
 	public ProcessIdentifier getMyNetId();
 
 

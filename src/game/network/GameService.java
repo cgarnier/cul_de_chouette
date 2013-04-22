@@ -1,10 +1,13 @@
 package game.network;
 
+import game.gui.Interaction;
+import game.gui.Interaction.Type;
 import game.network.messages.GameStatus;
 import game.network.messages.GameStatusMessage;
 import game.network.messages.InvitMessage;
 import game.network.messages.JoinAnswerMessage;
 import game.network.messages.NetPlayer;
+import game.network.messages.PlayerInteractionMessage;
 import game.network.messages.RefreshMessage;
 import game.network.messages.StartMessage;
 import game.network.messages.WaitingPlayerMessage;
@@ -26,29 +29,10 @@ public class GameService implements IGameService {
 	public IIdentification idService;
 	IBroadcast broadcastService;
 
-
 	Thread netListener;
 
 	IGameClient client;
 	private ProcessIdentifier gameId;
-	
-
-	
-
-	
-	
-
-
-
-
-	
-	
-
-
-
-
-
-
 
 	public void init() {
 
@@ -83,7 +67,6 @@ public class GameService implements IGameService {
 		System.out.println("OK, connexion réalisée, je suis : "
 				+ idService.getMyIdentifier() + "\n");
 
-
 		netListener = new Thread() {
 			@Override
 			public void run() {
@@ -101,7 +84,6 @@ public class GameService implements IGameService {
 		init();
 	}
 
-
 	@Override
 	public void createGame() {
 		this.gameId = this.idService.getMyIdentifier();
@@ -111,7 +93,7 @@ public class GameService implements IGameService {
 	@Override
 	public void invitPlayer(NetPlayer creator, NetPlayer guest) {
 		try {
-			this.broadcastService.broadcast(new InvitMessage(creator,guest));
+			this.broadcastService.broadcast(new InvitMessage(creator, guest));
 		} catch (CommunicationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -137,8 +119,6 @@ public class GameService implements IGameService {
 
 	}
 
-
-
 	/*
 	 * 
 	 * 
@@ -160,7 +140,8 @@ public class GameService implements IGameService {
 		 */
 		if (msg.getData() instanceof JoinAnswerMessage) {
 			JoinAnswerMessage answer = (JoinAnswerMessage) msg.getData();
-			this.client.handleJoinAnswer(answer.getCreator(), answer.getPlayer());
+			this.client.handleJoinAnswer(answer.getCreator(),
+					answer.getPlayer());
 			return;
 		}
 		/*
@@ -176,7 +157,7 @@ public class GameService implements IGameService {
 		 */
 		if (msg.getData() instanceof StartMessage) {
 			GameStatus status = ((StartMessage) msg.getData()).getStatus();
-			
+
 			this.client.handleStart(status);
 			return;
 		}
@@ -184,8 +165,7 @@ public class GameService implements IGameService {
 		 * Refresh
 		 */
 		if (msg.getData() instanceof RefreshMessage) {
-			
-			
+
 			this.client.handleRefresh();
 			return;
 		}
@@ -194,22 +174,30 @@ public class GameService implements IGameService {
 		 */
 		if (msg.getData() instanceof WaitingPlayerMessage) {
 			NetPlayer p = ((WaitingPlayerMessage) msg.getData()).getPlayer();
-			
+
 			this.client.handleWaitingNotification(p);
 			return;
 		}
-
+		
+		/*
+		 * Intercation
+		 * 
+		 */
+		if (msg.getData() instanceof PlayerInteractionMessage) {
+			NetPlayer p = ((PlayerInteractionMessage) msg.getData()).getPlayer();
+			Interaction.Type t = 
+					((PlayerInteractionMessage) msg.getData()).getType();
+			this.client.handleInteraction(p, t);
+			return;
+		}
 		
 
 	}
 
-	
-
-
 	public void sendGameStatus(GameStatus status) {
 		try {
 			GameStatusMessage msg = new GameStatusMessage(status);
-			
+
 			this.broadcastService.broadcast(msg);
 		} catch (CommunicationException e) {
 			// TODO Auto-generated catch block
@@ -224,17 +212,15 @@ public class GameService implements IGameService {
 
 	@Override
 	public void joinGame(NetPlayer creator, NetPlayer me) {
-		
+
 		try {
-			this.broadcastService.broadcast(new JoinAnswerMessage(me,creator));
+			this.broadcastService.broadcast(new JoinAnswerMessage(me, creator));
 		} catch (CommunicationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
-
-
 
 	@Override
 	public void setGameClient(IGameClient client) {
@@ -243,8 +229,6 @@ public class GameService implements IGameService {
 
 	}
 
-
-
 	public void disconnect() {
 		services.disconnect();
 
@@ -252,7 +236,7 @@ public class GameService implements IGameService {
 
 	@Override
 	public void startGame(GameStatus status) {
-		
+
 		StartMessage msg = new StartMessage(status);
 		try {
 			this.broadcastService.broadcast(msg);
@@ -260,7 +244,6 @@ public class GameService implements IGameService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 
 	}
 
@@ -271,8 +254,9 @@ public class GameService implements IGameService {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+
 	}
+
 	@Override
 	public void sendWaiting(NetPlayer player) {
 		System.out.println("Sending waiting ...");
@@ -281,14 +265,24 @@ public class GameService implements IGameService {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+
 	}
-@Override
-public ProcessIdentifier getMyNetId() {
-	// TODO Auto-generated method stub
-	return idService.getMyIdentifier();
-}
 
+	@Override
+	public ProcessIdentifier getMyNetId() {
+		// TODO Auto-generated method stub
+		return idService.getMyIdentifier();
+	}
 
+	@Override
+	public void sendInteraction(NetPlayer player, Type type) {
+		System.out.println("Sending interact ...");
+		try {
+			this.broadcastService.broadcast(new PlayerInteractionMessage(player, type));
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+	}
 
 }
