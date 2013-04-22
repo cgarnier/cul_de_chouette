@@ -15,6 +15,11 @@ import org.hibernate.Session;
 public class TestPlayersBDD {
 
     public static void main(String[] args) {
+    	
+    	///////////////////////////////////////////////////////
+    	////////////////// TEST AJOUT PLAYER //////////////////
+    	///////////////////////////////////////////////////////
+    	
         Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
 
         session.beginTransaction();
@@ -27,16 +32,23 @@ public class TestPlayersBDD {
         
 //        deletePlayer(session, "Clement");
         
+        
+        // Affichage joueurs de la BDD
         queryPlayers(session);
+        
+        /////////////////////////////////////////////////////
+        ////////////////// TEST CONNECTION //////////////////
+        /////////////////////////////////////////////////////
         
         GameModel gm_test = new GameModel();
 		GameControler gc_test = new GameControler(gm_test);
 		
-		session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		gc_test.connect(session,"clement","toto");
+		//session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		//session = gm_test.getSession();
+		//session.beginTransaction();
+		gc_test.connect("clement","toto");
 		
-		session.getTransaction().commit();
+		//session.getTransaction().commit();
     }
 
     private static void queryPlayers(Session session) {

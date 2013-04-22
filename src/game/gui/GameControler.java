@@ -71,13 +71,16 @@ public class GameControler {
 		}
 		
 	}
-	public void connect(Session session,String login, String password) {
+	public void connect(String login, String password) {
 		
-		//Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		Session session = model.getSession();
+		
+		session.beginTransaction();
+		
 		Query query = session.createQuery("from PlayerModel where login ='"+login+"'");                 
         PlayerModel player = (PlayerModel)query.uniqueResult();
         
-        //session.getTransaction().commit();
+        session.getTransaction().commit();
         
         if(player == null)System.out.println("Ce joueur n'existe pas");
         else {
