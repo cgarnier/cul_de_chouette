@@ -50,6 +50,8 @@ public class Test {
 		/// TEST SUPPRESSION COMPTE
 		gc_test.deleteAccount("alex");
 		
+		
+		System.exit(0);
     }
 }
 
