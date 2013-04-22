@@ -13,9 +13,11 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.hibernate.Session;
+
 public class GameModel extends Observable implements Observer {
 
-	
+	private Session session;
 	private DiceModel dice1, dice2, dice3;
 	private DicesCombo dices;
 	private ArrayList<PlayerModel> players;
@@ -62,6 +64,7 @@ public class GameModel extends Observable implements Observer {
 		gamePhase = GamePhase.TWODICES;
 		players = new ArrayList<PlayerModel>();
 		lobbyPlayers = new ArrayList<PlayerModel>();
+		session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
 
 	}
 
@@ -193,6 +196,14 @@ public class GameModel extends Observable implements Observer {
 	public void unsetCreator() {
 		this.creator = null;
 		
+	}
+	
+	public void setSession(Session session){
+		this.session = session;
+	}
+	
+	public Session getSession(){
+		return this.session;
 	}
 
 }
