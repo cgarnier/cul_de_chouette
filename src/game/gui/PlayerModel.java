@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import communication.ProcessIdentifier;
+
 
 public class PlayerModel extends Observable {
 
@@ -159,6 +161,7 @@ public class PlayerModel extends Observable {
 		this.setPlayerSex(sex);
 		this.setPlayerCity(city);
 	}
+	
 
 	public NetPlayer toNet() {
 		netId.setGlobalId(0);
