@@ -103,7 +103,7 @@ public class GameControler {
 				me.setPlayerColor(Color.GREEN);
 				me.setNetId(myId);
 				model.setMe(me);
-				view.showMenu();
+				if(view != null) view.showMenu();
 				System.out.println("Connecté en tant que "+login+".\n");
         	}
         	else {
@@ -115,22 +115,41 @@ public class GameControler {
 	
 	public void createAccount(String login, String password, int age, char sex, String city) {
 		
-		//Session session = model.getSession();
+		this.model.getSession().beginTransaction();
+		
+		Query query = this.model.getSession().createQuery("from PlayerModel where login ='"+login+"'");                 
+        PlayerModel player = (PlayerModel)query.uniqueResult();
+        
+        if(player == null){
+        	// Il n'esxite pas déjà un joueur avec ce login dans la BDD
+        	PlayerModel newPlayer = new PlayerModel(login, password, age, sex, city);
+        	this.model.getSession().persist(newPlayer);
+        	System.out.println("Joueur enregistré :");
+        	System.out.println("login :"+newPlayer.getPlayerLogin());
+        	System.out.println("password :"+newPlayer.getPlayerPassword());
+        	System.out.println("age :"+newPlayer.getPlayerAge());
+        	System.out.println("sex :"+newPlayer.getPlayerSex());
+        	System.out.println("city :"+newPlayer.getPlayerCity());
+        }
+        else System.out.println("login déjà utilisé.");
+        
+        this.model.getSession().getTransaction().commit();
+	}
+	
+	public void deleteAccount(String login){
 		
 		this.model.getSession().beginTransaction();
 		
 		Query query = this.model.getSession().createQuery("from PlayerModel where login ='"+login+"'");                 
         PlayerModel player = (PlayerModel)query.uniqueResult();
         
-        this.model.getSession().getTransaction().commit();
-        
-        if(player == null){
-        	// Il n'esxite pas déjà un joueur avec ce login dans la BDD
-        	PlayerModel new_player = new PlayerModel(login, password, age, sex, city);
+        if(player == null) System.out.println("Joueur inexistant.");
+        else{
+        	this.model.getSession().delete(player);
+        	System.out.println("Compte joueur supprimé.");
         }
-        else System.out.println("login déjà utilisé.");
         
-		
+        this.model.getSession().getTransaction().commit();
 	}
 	
 	public void queryPlayers() {

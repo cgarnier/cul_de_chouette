@@ -20,10 +20,9 @@ public class Test {
     	GameModel gm_test = new GameModel();
 		GameControler gc_test = new GameControler(gm_test);
     	
-    	///////////////////////////////////////////////////////
-    	////////////////// TEST AJOUT PLAYER //////////////////
-    	///////////////////////////////////////////////////////
-    	
+		
+    	///TEST AJOUT PLAYER
+
      /*  Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
 
         session.beginTransaction();
@@ -39,26 +38,18 @@ public class Test {
         // Affichage joueurs de la BDD
         gc_test.queryPlayers();
         
-        /////////////////////////////////////////////////////
-        ////////////////// TEST CONNECTION //////////////////
-        /////////////////////////////////////////////////////
-        
-		gc_test.connect("clement","toto");
 
-    }
+        /// TEST CONNECTION
+		//gc_test.connect("clement","toto");
+		
 
-    public static void createPlayer(Session session, String login, String password, int age, char sex, String city) {
-        PlayerModel player = new PlayerModel(login, password, age, sex, city);
-
-        session.save(player);
-    }
-    
-    public static void deletePlayer(Session session, String login) {
-    	Query query = session.createQuery("from PlayerModel where login ='"+login+"'");
-    	PlayerModel player = (PlayerModel)query.uniqueResult();
-    	
-    	session.delete(player);
-    	
+		/// TEST CREATION COMPTE
+		gc_test.createAccount("alex", "tata", 22, 'M', "Pau");
+		
+		
+		/// TEST SUPPRESSION COMPTE
+		gc_test.deleteAccount("alex");
+		
     }
 }
 
