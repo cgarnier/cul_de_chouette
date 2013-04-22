@@ -15,6 +15,7 @@ public class PlayerPanel2 extends JPanel {
 	 * Create the panel.
 	 */
 	public PlayerPanel2() {
+		this.setOpaque(false);
 		setBackground(Color.WHITE);
 		setForeground(Color.WHITE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -35,7 +36,8 @@ public class PlayerPanel2 extends JPanel {
 		panel.setSize(30, 30);
 		add(panel, gbc_panel);
 		
-		JLabel lblUsername = new JLabel("username");
+		JLabel lblUsername = new JLabel("USERNAME");
+		lblUsername.setForeground(Color.white);
 		GridBagConstraints gbc_lblUsername = new GridBagConstraints();
 		gbc_lblUsername.insets = new Insets(0, 0, 0, 5);
 		gbc_lblUsername.gridx = 1;
@@ -43,6 +45,7 @@ public class PlayerPanel2 extends JPanel {
 		add(lblUsername, gbc_lblUsername);
 		
 		JLabel label = new JLabel(" (340)");
+		label.setForeground(Color.white);
 		GridBagConstraints gbc_label = new GridBagConstraints();
 		gbc_label.gridx = 2;
 		gbc_label.gridy = 0;

@@ -1,5 +1,7 @@
 package game.gui;
 
+import game.gui.login.LoginPanel;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -39,34 +41,32 @@ public class GuiTest extends JFrame {
 	public GuiTest() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
+		setBounds(100, 100, 545, 820);
+		contentPane = new ImagePanel("Dices/v1.jpg");
+		//contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		JPanel rightPanel2 = new JPanel();
+		rightPanel2.setBounds(256, 84, 246, 691);
+		contentPane.add(rightPanel2);
+		rightPanel2.setLayout(new GridLayout(0, 1, 0, 0));
+		
 		JPanel leftPanel = new JPanel();
-		leftPanel.setBounds(28, 85, 474, 470);
-		contentPane.add(leftPanel);
+		leftPanel.setBounds(24, 84, 139, 467);
 		leftPanel.setLayout(new GridLayout(0, 1, 0, 0));
+		contentPane.add(leftPanel);
 		
-		JPanel topPanel = new JPanel();
-		topPanel.setBounds(28, 12, 758, 64);
-		contentPane.add(topPanel);
-		
-		JLabel lblCulDeChouette = new JLabel("Cul de chouette P2P");
-		topPanel.add(lblCulDeChouette);
-		
-		JPanel rightPanel = new JPanel();
-		rightPanel.setBounds(514, 85, 272, 470);
-		contentPane.add(rightPanel);
+		rightPanel2.setOpaque(false);
+		leftPanel.setOpaque(false);
 		
 		
-		//leftPanel.add(new AvailablePlayersPanel());
-		//leftPanel.add(new LoginPanel());
-		//leftPanel.add(new MenuPanel());
-		//leftPanel.add(new WaitingPanel());
-		leftPanel.add(new GamePanel());
-		rightPanel.add(new PlayerListPanel());
+		//rightPanel2.add(new AvailablePlayersPanel());
+		//rightPanel2.add(new LoginPanel());
+		rightPanel2.add(new MenuPanel());
+		//rightPanel2.add(new WaitingPanel());
+		//rightPanel2.add(new GamePanel());
+		//leftPanel.add(new PlayerListPanel());
 	}
 }

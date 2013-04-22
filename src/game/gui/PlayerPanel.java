@@ -22,6 +22,7 @@ public class PlayerPanel extends JPanel implements Observer{
 	private JLabel lScore;
 	private JPanel coloredSquare;
 	public PlayerPanel(String name, int score, Color c) {
+		
 		this.color = c;
 		this.lName = new JLabel(name );
 		this.lScore = new JLabel(" (" + score + ")");

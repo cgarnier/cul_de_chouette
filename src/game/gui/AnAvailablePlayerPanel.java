@@ -22,7 +22,7 @@ public class AnAvailablePlayerPanel extends JPanel {
 		
 		JLabel lblUsername = new JLabel("username");
 		GridBagConstraints gbc_lblUsername = new GridBagConstraints();
-		gbc_lblUsername.anchor = GridBagConstraints.WEST;
+		gbc_lblUsername.anchor = GridBagConstraints.BASELINE_LEADING;
 		gbc_lblUsername.insets = new Insets(0, 0, 0, 5);
 		gbc_lblUsername.gridx = 0;
 		gbc_lblUsername.gridy = 0;
@@ -30,11 +30,11 @@ public class AnAvailablePlayerPanel extends JPanel {
 		
 		JButton btnInviter = new JButton("Inviter");
 		GridBagConstraints gbc_btnInviter = new GridBagConstraints();
-		gbc_btnInviter.anchor = GridBagConstraints.EAST;
+		gbc_btnInviter.anchor = GridBagConstraints.BASELINE_TRAILING;
 		gbc_btnInviter.gridx = 1;
 		gbc_btnInviter.gridy = 0;
 		add(btnInviter, gbc_btnInviter);
-
+		
 	}
 
 }
