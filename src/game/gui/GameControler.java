@@ -18,12 +18,12 @@ public class GameControler {
 	private Random rand;
 	private GameModel model;
 	private GameHandler gh;
-	private GuiTest view;
-	public synchronized GuiTest getView() {
+	private Gui view;
+	public synchronized Gui getView() {
 		return view;
 	}
 
-	public synchronized void setView(GuiTest view) {
+	public synchronized void setView(Gui view) {
 		this.view = view;
 	}
 
@@ -137,7 +137,7 @@ public class GameControler {
         	if(view != null) view.showLogin();
         }
         // TODO Afficher l erreur
-        else System.out.println("login déjà utilisé.");
+        else view.showError("login déjà utilisé.");
         
         this.model.getSession().getTransaction().commit();
         

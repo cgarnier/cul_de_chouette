@@ -3,6 +3,7 @@ package game.gui.game;
 import game.gui.GameControler;
 import game.gui.GameModel.GamePhase;
 
+import javax.management.modelmbean.ModelMBean;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
@@ -30,7 +31,7 @@ public class GamePanel extends JPanel implements Observer {
 		setLayout(null);
 		this.setOpaque(false);
 		JPanel dicesPanel = new JPanel();
-		dicesPanel.setBounds(0, 408, 233, 79);
+		dicesPanel.setBounds(15, 413, 213, 79);
 		dicesPanel.setOpaque(false);
 
 		d1 = new DicePanel(5);
@@ -115,6 +116,21 @@ public class GamePanel extends JPanel implements Observer {
 			d3.setVisible(true);
 		}
 
+		if (controler.getModel().getGamePhase() == GamePhase.SCORING) {
+			String msg ="";
+			if(controler.getModel().getOneGain() != null){
+				if(controler.getModel().getOneGain().equals(controler.getModel().getMe())){
+					msg += "Vous avez ";
+
+				}
+				else msg += controler.getModel().getOneGain().getPlayerLogin() + " a ";
+				if(controler.getModel().getGain() >= 0) msg += "gagné ";
+				else msg += "perdu ";
+				msg += controler.getModel().getGain() +" points!";
+				
+			}
+			lblJoueurGagnepts.setText(msg);
+		}
 		if (controler.getModel().getGamePhase() == GamePhase.TWODICES
 				|| controler.getModel().getGamePhase() == GamePhase.ONEDICE) {
 			System.err.println("two or one");

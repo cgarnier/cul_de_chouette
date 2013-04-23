@@ -10,6 +10,7 @@ import java.util.Observable;
 
 public class PlayerListModel extends Observable {
 	private ArrayList<PlayerModel> players;
+	private PlayerModel winner;
 	
 	public PlayerListModel() {
 		
@@ -60,5 +61,12 @@ public class PlayerListModel extends Observable {
 		setChanged();
 		notifyObservers();
 		
+	}
+	public PlayerModel getWinner() {
+		// TODO Auto-generated method stub
+		return winner;
+	}
+	public void setWinner(PlayerModel winner) {
+		this.winner = winner;
 	}
 }
