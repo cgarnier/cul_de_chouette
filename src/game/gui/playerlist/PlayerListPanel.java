@@ -13,33 +13,33 @@ import java.util.Observer;
 
 public class PlayerListPanel extends JPanel implements Observer{
 	private GameControler controler;
-	ArrayList<PlayerPanel2> players;
+	ArrayList<PlayerPanel> players;
 	/**
 	 * Create the panel.
 	 */
 	public PlayerListPanel(GameControler controler) {
 		this.controler = controler;
 		controler.getModel().getPlayersModel().addObserver(this);
-		players = new ArrayList<PlayerPanel2>();
+		players = new ArrayList<PlayerPanel>();
 		setLayout(null);
 		this.setBackground(Color.green);
 		this.setOpaque(false);
-		PlayerPanel2 playerPanel2 = new PlayerPanel2(controler);
+		PlayerPanel playerPanel2 = new PlayerPanel(controler);
 		playerPanel2.setBounds(0, 0, 197, 25);
 		add(playerPanel2);
-		PlayerPanel2 playerPanel2_1 = new PlayerPanel2(controler);
+		PlayerPanel playerPanel2_1 = new PlayerPanel(controler);
 		playerPanel2_1.setBounds(0, 37, 197, 25);
 		add(playerPanel2_1);
-		PlayerPanel2 playerPanel2_2 = new PlayerPanel2(controler);
+		PlayerPanel playerPanel2_2 = new PlayerPanel(controler);
 		playerPanel2_2.setBounds(0, 75, 197, 25);
 		add(playerPanel2_2);
-		PlayerPanel2 playerPanel2_3 = new PlayerPanel2(controler);
+		PlayerPanel playerPanel2_3 = new PlayerPanel(controler);
 		playerPanel2_3.setBounds(0, 112, 197, 25);
 		add(playerPanel2_3);
-		PlayerPanel2 playerPanel2_4 = new PlayerPanel2(controler);
+		PlayerPanel playerPanel2_4 = new PlayerPanel(controler);
 		playerPanel2_4.setBounds(0, 153, 197, 25);
 		add(playerPanel2_4);
-		PlayerPanel2 playerPanel2_5 = new PlayerPanel2(controler);
+		PlayerPanel playerPanel2_5 = new PlayerPanel(controler);
 		playerPanel2_5.setBounds(0, 198, 197, 25);
 		add(playerPanel2_5);
 		
@@ -57,7 +57,7 @@ public class PlayerListPanel extends JPanel implements Observer{
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		
-		for (PlayerPanel2 p : players) {
+		for (PlayerPanel p : players) {
 			p.setModel(null);
 		}
 		for (int i = 0; i < controler.getModel().getPlayersModel().size(); i++) {
