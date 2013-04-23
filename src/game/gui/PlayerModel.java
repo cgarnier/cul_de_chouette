@@ -187,9 +187,7 @@ public class PlayerModel extends Observable {
 	public boolean equals(Object obj) {
 		if(obj instanceof NetPlayer){
 			NetPlayer np = (NetPlayer) obj;
-			if(np.equals(this.toNet()))
-				System.out.println("--- equals ok");
-			else System.out.println("--- equals not ok"+np+this.toNet());
+			
 			return np.equals(this.toNet());
 			
 		}

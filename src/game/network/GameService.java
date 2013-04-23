@@ -38,8 +38,8 @@ public class GameService implements IGameService {
 
 		// setting of the simulated system
 		ReliabilitySetting setting = new ReliabilitySetting();
-		setting.setTransmissionDelayLowerBound(FaultLevel.MEDIUM);
-		setting.setTransmissionDelayUpperBound(FaultLevel.MEDIUM);
+		setting.setTransmissionDelayLowerBound(FaultLevel.NONE);
+		setting.setTransmissionDelayUpperBound(FaultLevel.NONE);
 		setting.setPacketLostLevel(FaultLevel.NONE);
 		setting.setCrashLevel(FaultLevel.NONE);
 		setting.setReliable(true);
@@ -185,9 +185,11 @@ public class GameService implements IGameService {
 		 */
 		if (msg.getData() instanceof PlayerInteractionMessage) {
 			NetPlayer p = ((PlayerInteractionMessage) msg.getData()).getPlayer();
+			NetPlayer c = ((PlayerInteractionMessage) msg.getData()).getCreator();
+			
 			Interaction.Type t = 
 					((PlayerInteractionMessage) msg.getData()).getType();
-			this.client.handleInteraction(p, t);
+			this.client.handleInteraction(c,p, t);
 			return;
 		}
 		
@@ -275,10 +277,10 @@ public class GameService implements IGameService {
 	}
 
 	@Override
-	public void sendInteraction(NetPlayer player, Type type) {
+	public void sendInteraction(NetPlayer creator, NetPlayer player, Type type) {
 		System.out.println("Sending interact ...");
 		try {
-			this.broadcastService.broadcast(new PlayerInteractionMessage(player, type));
+			this.broadcastService.broadcast(new PlayerInteractionMessage(creator, player, type));
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

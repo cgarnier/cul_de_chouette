@@ -13,4 +13,9 @@ public class GameStatusMessage implements Serializable{
 	public void setStatus(GameStatus status) {
 		this.status = status;
 	}
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString()+"("+status.getPhase()+")";
+	}
 }

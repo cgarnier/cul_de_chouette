@@ -5,6 +5,7 @@ import game.gui.PlayerModel;
 import game.network.messages.NetPlayer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Observable;
 
 public class PlayerListModel extends Observable {
@@ -16,7 +17,10 @@ public class PlayerListModel extends Observable {
 		
 	}
 	public PlayerModel getFromNet(NetPlayer np){
-		return players.get(players.indexOf(np));
+		for (int i = 0; i < players.size(); i++) {
+			if(players.get(i).toNet().equals(np)) return players.get(i);
+		}
+		return null;
 	}
 	
 	public void reset() {
@@ -50,5 +54,11 @@ public class PlayerListModel extends Observable {
 
 	public synchronized void setPlayers(ArrayList<PlayerModel> players) {
 		this.players = players;
+	}
+	public void shuffle() {
+		Collections.shuffle(players);
+		setChanged();
+		notifyObservers();
+		
 	}
 }

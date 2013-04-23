@@ -1,5 +1,6 @@
 package game.gui;
 
+import game.gui.GameModel.GamePhase;
 import game.gui.available.AvailablePlayersPanel;
 import game.gui.createaccount.CreateAccountPanel;
 import game.gui.game.GamePanel;
@@ -19,8 +20,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.GridLayout;
+import java.util.Observable;
+import java.util.Observer;
 
-public class GuiTest extends JFrame {
+public class GuiTest extends JFrame implements Observer {
 
 	private JPanel contentPane;
 	private GameControler controler;
@@ -41,7 +44,7 @@ public class GuiTest extends JFrame {
 	public GuiTest(GameControler controler) {
 		this.controler = controler;
 		this.controler.setView(this);
-
+		this.controler.getModel().addObserver(this);
 		availablePlayersPanel = new AvailablePlayersPanel(controler);
 		loginPanel = new LoginPanel(controler);
 		menuPanel = new MenuPanel(controler);
@@ -132,6 +135,19 @@ public class GuiTest extends JFrame {
 	private void reDraw() {
 		this.rightPanel.revalidate();
 		this.repaint();
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		if(arg0 instanceof GameModel){
+			GameModel model = (GameModel) arg0;
+			if(model.getGamePhase() == GamePhase.TWODICES){
+				showGame();
+			}
+				
+			
+		}
+		
 	}
 
 }

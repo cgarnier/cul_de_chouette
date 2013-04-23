@@ -56,12 +56,12 @@ public class PlayerListPanel extends JPanel implements Observer{
 	}
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		System.out.println("Updated!!!");
+		
 		for (PlayerPanel2 p : players) {
 			p.setModel(null);
 		}
 		for (int i = 0; i < controler.getModel().getPlayersModel().size(); i++) {
-			System.out.println("!!!OK");
+			
 			players.get(i).setModel(controler.getModel().getPlayersModel().getPlayers().get(i));
 		}
 		this.revalidate();

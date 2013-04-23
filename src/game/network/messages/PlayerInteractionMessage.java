@@ -7,7 +7,9 @@ import game.gui.Interaction;
 public class PlayerInteractionMessage implements Serializable{
 	NetPlayer player;
 	Interaction.Type type;
-	public PlayerInteractionMessage(NetPlayer p, Interaction.Type t) {
+	NetPlayer creator;
+	public PlayerInteractionMessage(NetPlayer c, NetPlayer p, Interaction.Type t) {
+		creator = c;
 		player = p;
 		type = t;
 	}
@@ -22,6 +24,10 @@ public class PlayerInteractionMessage implements Serializable{
 	}
 	public synchronized void setType(Interaction.Type type) {
 		this.type = type;
+	}
+	public NetPlayer getCreator() {
+		// TODO Auto-generated method stub
+		return creator;
 	}
 	
 }

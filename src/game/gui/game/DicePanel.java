@@ -46,7 +46,7 @@ public class DicePanel extends JPanel implements Observer{
 	}
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		System.out.println("update");
+		
 		if(arg0 instanceof DiceModel){
 			this.setFace(((DiceModel)arg0).getFace());
 		}

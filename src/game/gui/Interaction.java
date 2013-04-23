@@ -22,7 +22,10 @@ public class Interaction {
 		expected = Type.CHOUETTEVELOUTE;
 	}
 	public PlayerModel getPlayer() {
-		return player;
+		if(expected == Type.SUITE)
+			return playersWhoHaveInteracted.get(playersWhoHaveInteracted.size()-1);
+		else return playersWhoHaveInteracted.get(0);
+		
 	}
 	public void setPlayer(PlayerModel player) {
 		this.player = player;
@@ -34,6 +37,7 @@ public class Interaction {
 		
 	}
 	public int interacCount() {
+		System.out.println(playersWhoHaveInteracted.size());
 		return playersWhoHaveInteracted.size();
 	}
 	public void reset() {

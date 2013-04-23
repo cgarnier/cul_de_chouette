@@ -17,6 +17,7 @@ import java.util.Observer;
 
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.engine.internal.TwoPhaseLoad;
 
 public class GameModel extends Observable implements Observer {
 
@@ -74,7 +75,8 @@ public class GameModel extends Observable implements Observer {
 		dice1 = new DiceModel();
 		dice2 = new DiceModel();
 		dice3 = new DiceModel();
-		gamePhase = GamePhase.TWODICES;
+		dices = new DicesCombo();
+		gamePhase = GamePhase.MENU;
 		//players = new ArrayList<PlayerModel>();
 		//lobbyPlayers = new ArrayList<PlayerModel>();
 		//session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
@@ -120,8 +122,11 @@ public class GameModel extends Observable implements Observer {
 	// public void setDice3(DiceModel dice3) {
 	// this.dice3 = dice3;
 	// }
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	public void setPhase(GamePhase phase) {
 		this.gamePhase = phase;
+		if(gamePhase.equals(GamePhase.TWODICES))
+			nextTurn();
 		this.setChanged();
 		this.notifyObservers();
 
@@ -248,7 +253,7 @@ public class GameModel extends Observable implements Observer {
 		this.dices.getD2().setFace(dices2.getD2().getFace());
 		this.dices.getD3().setFace(dices2.getD3().getFace());
 		
-		this.dices = dices2;
+		//this.dices = dices2;
 		
 		
 	}
@@ -269,6 +274,7 @@ public class GameModel extends Observable implements Observer {
 		turn = playersModel.getPlayers().get(
 				(playersModel.getPlayers().indexOf(turn) +1)
 				% playersModel.size());
+		System.err.println("new turn : " + turn.getPlayerLogin() + " i "+ playersModel.getPlayers().indexOf(turn));
 		
 	}
 

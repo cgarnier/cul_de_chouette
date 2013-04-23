@@ -1,6 +1,7 @@
 package game.gui;
 
 import game.gui.GameModel.GamePhase;
+import game.gui.Interaction.Type;
 import game.network.messages.NetPlayer;
 
 import java.awt.Color;
@@ -42,9 +43,12 @@ public class GameControler {
 	}
 
 	public void roll2Dice() {
-		model.getDice1().setFace(rand.nextInt(6)+1);
-		model.getDice2().setFace(rand.nextInt(6)+1);
-		System.out.println("roll");
+		model.getDices().getD1().setFace(rand.nextInt(6)+1);
+		model.getDices().getD2().setFace(rand.nextInt(6)+1);
+		model.setPhase(GamePhase.ONEDICE);
+		gh.service.sendGameStatus(model.getGameStatus());
+		
+		
 		
 		
 	}
@@ -53,33 +57,33 @@ public class GameControler {
 		return model;
 	}
 
-	public void nextPhase() {
-		switch (model.getGamePhase()) {
-		case START:
-			model.setPhase(GameModel.GamePhase.TWODICES);
-			break;
-		case TWODICES:
-			model.setPhase(GameModel.GamePhase.ONEDICE);
-			break;
-		case ONEDICE:
-			// GO TO SCORING OR INTERACTION
-			model.setPhase(GameModel.GamePhase.SCORING);
-			break;
-		case INTERACTION:
-			// GO TO SCORING
-			model.setPhase(GameModel.GamePhase.SCORING);
-			break;
-		case SCORING:
-			// Next player or FINISH if max score is reached.
-			
-			model.setPhase(GameModel.GamePhase.TWODICES);
-			break;
-
-		default:
-			break;
-		}
-		
-	}
+//	public void nextPhase() {
+//		switch (model.getGamePhase()) {
+//		case START:
+//			model.setPhase(GameModel.GamePhase.TWODICES);
+//			break;
+//		case TWODICES:
+//			model.setPhase(GameModel.GamePhase.ONEDICE);
+//			break;
+//		case ONEDICE:
+//			// GO TO SCORING OR INTERACTION
+//			model.setPhase(GameModel.GamePhase.SCORING);
+//			break;
+//		case INTERACTION:
+//			// GO TO SCORING
+//			model.setPhase(GameModel.GamePhase.SCORING);
+//			break;
+//		case SCORING:
+//			// Next player or FINISH if max score is reached.
+//			
+//			model.setPhase(GameModel.GamePhase.TWODICES);
+//			break;
+//
+//		default:
+//			break;
+//		}
+//		
+//	}
 	
 	public void connect(String login, String password) {
 		
@@ -175,8 +179,11 @@ public class GameControler {
 	}
 
 	public void roll1Dice() {
-		// TODO Auto-generated method stub
-		model.getDice3().setFace(rand.nextInt(6)+1);
+		System.err.println("ROLL 1 DICE!!!");
+		model.getDices().getD3().setFace(rand.nextInt(6)+1);
+		model.setPhase(GamePhase.CHECKDICE);
+		gh.service.sendGameStatus(model.getGameStatus());
+		gh.checkDices(model.getGameStatus());
 	}
 
 	public void create() {
@@ -212,7 +219,17 @@ public class GameControler {
 
 	public void launch() {
 		
+		gh.lauchGame();
 		
+	}
+	public void saySuite(){
+		gh.interact(model.getMe().toNet(), Type.SUITE);
+		gh.service.sendInteraction(model.getCreator().toNet(), model.getMe().toNet(), Type.SUITE);
+	}
+	public void sayChouetteVeloutte() {
+		gh.interact(model.getMe().toNet(), Type.CHOUETTEVELOUTE);
+
+		gh.service.sendInteraction(model.getCreator().toNet(), model.getMe().toNet(), Type.CHOUETTEVELOUTE);
 	}
 	
 }

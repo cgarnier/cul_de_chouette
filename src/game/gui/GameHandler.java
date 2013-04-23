@@ -2,6 +2,9 @@ package game.gui;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+
 import game.gui.GameModel.GamePhase;
 import game.gui.Interaction.Type;
 
@@ -27,36 +30,21 @@ public class GameHandler implements IGameClient {
 		this.service.setGameClient(this);
 	}
 
-	@Override
-	public void updatePlayerList(IGameService theGame) {
-		// TODO Auto-generated method stub
+	
 
-	}
 
-	@Override
-	public void updateGameList(IGameService theGame) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void updateGamePhase(IGameService theGame) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void handleInvit(NetPlayer creator, NetPlayer guest) {
-		System.out.println("Handle invite...");
+
 		if (model.isInGame())
 			return;
 		if (!model.getMe().equals(guest))
 			return;
-		System.out.println(guest);
-		System.out.println(model.getMe().toNet());
+
 		if (model.getGamePhase() != GamePhase.WAITING)
 			return;
-		System.out.println("game joined");
+		
 		model.setCreator(creator);
 		service.joinGame(creator, guest);
 	}
@@ -68,7 +56,6 @@ public class GameHandler implements IGameClient {
 		if (!model.getMe().equals(creator))
 			return;
 
-		System.out.println("!!! Join answer received !!!");
 		model.addPlayer(guest);
 		service.sendGameStatus(model.getGameStatus());
 
@@ -81,68 +68,88 @@ public class GameHandler implements IGameClient {
 
 		if (this.model != null) {
 
-			model.getPlayersModel().reset();
-			for (NetPlayer p : status.getPlayerList()) {
-				if (model.getMe().equals(p))
-					model.addPlayer(model.getMe());
-				else
-					model.addPlayer(p);
-
-			}
+			updatePlayerList(status.getPlayerList());
 
 			if (!model.getGamePhase().equals(status.getPhase())) {
+				model.setPhase(status.getPhase());
 				if (status.getPhase() == GamePhase.ONEDICE) {
 					model.setDices(status.getDices());
-					model.setPhase(GamePhase.ONEDICE);
+					// model.setPhase(GamePhase.ONEDICE);
+
 				}
 				if (status.getPhase() == GamePhase.CHECKDICE) {
-					model.setDices(status.getDices());
-					if (model.getDices().isSuite()) {
-						model.getInteraction().expectSuite();
-						model.setPhase(GamePhase.INTERACTION);
-						return;
-					}
-					if (model.getDices().isChouetteVeloute()) {
-						model.getInteraction().expectChouetteVeloute();
-						model.setPhase(GamePhase.INTERACTION);
-						return;
-					}
-					calculScores();
-					checkScores();
+					checkDices(status);
 
 				}
-
-				model.setPhase(status.getPhase());
 
 			}
 
+		}
+		System.err.println("+++ status received : " + status.getPhase());
+
+	}
+
+	private void updatePlayerList(ArrayList<NetPlayer> newlist) {
+		// TODO Modify for remove player
+		//model.getPlayersModel().reset();
+		ArrayList<PlayerModel> TheNewOrder = new ArrayList<PlayerModel>();
+		ArrayList<NetPlayer> toAdd = new ArrayList<NetPlayer>();
+		for (NetPlayer p : newlist) {
+			if (model.getPlayersModel().getPlayers().contains(p))
+				TheNewOrder.add(model.getPlayersModel().getFromNet(p));
+			else
+				toAdd.add(p);
+
+		}
+		model.getPlayersModel().setPlayers(TheNewOrder);
+		for (NetPlayer netPlayer : toAdd) {
+			model.addPlayer(netPlayer);
+		}
+		
+	}
+
+	public void checkDices(GameStatus status) {
+		System.err.println("checking dices ...");
+		model.setDices(status.getDices());
+		if (model.getDices().isSuite()) {
+			model.getInteraction().expectSuite();
+			model.setPhase(GamePhase.INTERACTION);
+			return;
+		} else if (model.getDices().isChouetteVelute()) {
+			model.getInteraction().expectChouetteVeloute();
+			model.setPhase(GamePhase.INTERACTION);
+			return;
+		} else {
+			calculScores();
+			checkScores();
 		}
 
 	}
 
 	private void checkScores() {
 		for (PlayerModel p : model.getPlayersModel().getPlayers()) {
-			if(p.getPlayerScore() >= 343){
+			if (p.getPlayerScore() >= 343) {
 				model.setWinner(p);
 				model.setPhase(GamePhase.FINISH);
 				return;
 			}
-				
+
 		}
-		model.nextTurn();
+		// model.nextTurn();
 		model.setPhase(GamePhase.TWODICES);
-		
-		
+
 	}
 
 	private void calculScores() {
+		System.err.println("calcul score");
 		model.setPhase(GamePhase.SCORING);
-		if (model.getDices().isChouetteVeloute()) {
+		if (model.getDices().isChouetteVelute()) {
 			model.getInteraction()
 					.getPlayer()
 					.setPlayerScore(
 							model.getInteraction().getPlayer().getPlayerScore()
 									+ model.getDices().getScore());
+			model.getInteraction().reset();
 			return;
 		}
 		if (model.getDices().isSuite()) {
@@ -151,12 +158,13 @@ public class GameHandler implements IGameClient {
 					.setPlayerScore(
 							model.getInteraction().getPlayer().getPlayerScore()
 									+ model.getDices().getScore());
+			model.getInteraction().reset();
 			return;
 		}
 		if (model.getDices().isCulDeChouette()) {
-			model.getTurn().setPlayerScore(
-					model.getTurn().getPlayerScore()
+			model.getTurn().setPlayerScore(model.getTurn().getPlayerScore()
 							+ model.getDices().getScore());
+			
 			return;
 		}
 		if (model.getDices().isChouette()) {
@@ -188,32 +196,54 @@ public class GameHandler implements IGameClient {
 		}
 
 	}
+
 	@Override
-	public void handleInteraction(NetPlayer player, Type type) {
-		if(!model.getGamePhase().equals(GamePhase.INTERACTION)) return;
-		if(!model.getPlayersModel().getPlayers().contains(player)) return;
-		if(type.equals(model.getInteraction().getExpected())){
-			model.getInteraction().addPlayer(model.getPlayersModel().getFromNet(player));
-			
-			if(model.getInteraction().interacCount() >= model.getPlayersModel().size()){
+	public void handleInteraction(NetPlayer creator, NetPlayer player, Type type) {
+		System.err.println("Handle interacte, phase=" + model.getGamePhase());
+		
+		System.err.println("Player is in my game ?");
+		System.err.println(model.getCreator().toNet() + " " + creator);
+		if (!model.getCreator().toNet().equals(creator))
+			return;
+		System.err.println("expected interact ? ?");
+		interact(player, type);
+
+	}
+
+	public void interact(NetPlayer player, Type type) {
+		if (!model.getGamePhase().equals(GamePhase.INTERACTION))
+			return;
+		if (type.equals(model.getInteraction().getExpected())) {
+			System.err.println("it s an expected interact ");
+			model.getInteraction().addPlayer(
+					model.getPlayersModel().getFromNet(player));
+
+			System.err.println(model.getInteraction().interacCount() + " >= " + model
+					.getPlayersModel().size());
+			if (model.getInteraction().interacCount() >= model
+					.getPlayersModel().size()) {
+				
 				calculScores();
 				checkScores();
 			}
-			
+
 		}
-		
 		
 	}
 
+
+
+
+
 	public void refresh() {
-		System.out.println("Sending refresh request...");
+
 		service.sendRefresh();
 
 	}
 
 	@Override
 	public void handleWaitingNotification(NetPlayer player) {
-		System.out.println("Handle waiting notif...");
+
 		if (model.getCreator() == null)
 			return;
 		if (model.getGamePhase() == GamePhase.WAITING
@@ -222,7 +252,7 @@ public class GameHandler implements IGameClient {
 			if (!model.getAvailableModel().getPlayers().contains(player)) {
 				PlayerModel pm = new PlayerModel(player, Color.black);
 				model.getAvailableModel().add(pm);
-				System.out.println("Player added...");
+
 			}
 		}
 
@@ -230,5 +260,14 @@ public class GameHandler implements IGameClient {
 
 	public IGameService getService() {
 		return service;
+	}
+
+	public void lauchGame() {
+		model.getPlayersModel().shuffle();
+
+		model.setPhase(GamePhase.TWODICES);
+
+		service.startGame(model.getGameStatus());
+
 	}
 }

@@ -41,6 +41,10 @@ public class NetPlayer implements Serializable{
 		if(obj instanceof NetPlayer)
 			return (((NetPlayer)obj).getNetId().equals(this.netId) &&
 					((NetPlayer)obj).getGlobalId() == this.globalId);
+		if(obj instanceof PlayerModel){
+			PlayerModel pm = (PlayerModel) obj;
+			return pm.toNet().equals(this);
+		}
 		
 		return super.equals(obj);
 	}
