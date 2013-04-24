@@ -2,9 +2,6 @@ package game.gui;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-
 import game.gui.GameModel.GamePhase;
 import game.gui.Interaction.Type;
 
@@ -59,6 +56,10 @@ public class GameHandler implements IGameClient {
 		if (!model.getMe().equals(creator))
 			return;
 
+		if(model.getPlayersModel().isLimitReached()){
+			service.sendKick(model.getMe().toNet(), guest);
+			return;
+		}
 		model.addPlayer(guest);
 		service.sendGameStatus(model.getGameStatus());
 
@@ -66,6 +67,7 @@ public class GameHandler implements IGameClient {
 
 	@Override
 	public void handleStatus(GameStatus status) {
+		if(model.getCreator() == null) return;
 		if (!model.getCreator().equals(status.getCreator()))
 			return;
 
@@ -281,5 +283,34 @@ public class GameHandler implements IGameClient {
 
 		service.startGame(model.getGameStatus());
 
+	}
+	@Override
+	public void handleKick(NetPlayer c, NetPlayer p) {
+		if(model.getCreator() == null) return;
+		if(model.getCreator().equals(c) && model.getMe().equals(p)){
+			model.unsetCreator();
+			model.getPlayersModel().reset();
+			model.setPhase(GamePhase.WAITING);
+		}
+		
+	}
+	@Override
+	public void handleCancelGame(NetPlayer c) {
+		if(model.getCreator() == null) return;
+		if(model.getCreator().equals(c)){
+			model.unsetCreator();
+			model.getPlayersModel().reset();
+			model.setPhase(GamePhase.WAITING);
+		}
+		
+	}
+	
+	@Override
+	public void handleLeaveGame(NetPlayer c, NetPlayer p) {
+		if(model.getCreator() == null) return;
+		if(model.getCreator().equals(c)){
+			model.getPlayersModel().remove(p);
+		}
+		
 	}
 }

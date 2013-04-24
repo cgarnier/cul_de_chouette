@@ -22,6 +22,9 @@ public interface IGameService {
 	public void sendGameStatus(GameStatus status);
 	public void sendInteraction(NetPlayer creator, NetPlayer player, Interaction.Type type);
 	public ProcessIdentifier getMyNetId();
+	public void sendKick(NetPlayer net, NetPlayer guest);
+	public void sendCancel(NetPlayer net);
+	public void sendLeave(NetPlayer net, NetPlayer net2);
 
 
 

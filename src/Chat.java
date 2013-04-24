@@ -1,4 +1,4 @@
-/* Coyright Eric Cariou, 2009 - 2011 */
+
 
 import communication.CommunicationException;
 import communication.FaultLevel;
@@ -98,8 +98,7 @@ public class Chat extends Thread {
         }
     }
 
-    public void Chat() {
-    }
+
 
     public static void main(String argv[]) {
         Chat chat = new Chat();

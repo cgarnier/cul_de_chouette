@@ -1,6 +1,7 @@
 package game.gui.playerlist;
 
 import game.gui.GameControler;
+import game.gui.ImagePanel;
 
 import javax.swing.JPanel;
 
@@ -21,36 +22,42 @@ public class PlayerListPanel extends JPanel implements Observer{
 		this.controler = controler;
 		controler.getModel().getPlayersModel().addObserver(this);
 		players = new ArrayList<PlayerPanel>();
-		setLayout(null);
 		this.setBackground(Color.green);
 		this.setOpaque(false);
+		setLayout(new GridLayout(0, 1, 0, 0));
+		
+		ImagePanel panel = new ImagePanel("Images/theme/panneaux_deroulants.png");
+		add(panel);
+		panel.setLayout(null);
 		PlayerPanel playerPanel2 = new PlayerPanel(controler);
-		playerPanel2.setBounds(0, 0, 197, 25);
-		add(playerPanel2);
-		PlayerPanel playerPanel2_1 = new PlayerPanel(controler);
-		playerPanel2_1.setBounds(0, 37, 197, 25);
-		add(playerPanel2_1);
-		PlayerPanel playerPanel2_2 = new PlayerPanel(controler);
-		playerPanel2_2.setBounds(0, 75, 197, 25);
-		add(playerPanel2_2);
-		PlayerPanel playerPanel2_3 = new PlayerPanel(controler);
-		playerPanel2_3.setBounds(0, 112, 197, 25);
-		add(playerPanel2_3);
-		PlayerPanel playerPanel2_4 = new PlayerPanel(controler);
-		playerPanel2_4.setBounds(0, 153, 197, 25);
-		add(playerPanel2_4);
-		PlayerPanel playerPanel2_5 = new PlayerPanel(controler);
-		playerPanel2_5.setBounds(0, 198, 197, 25);
-		add(playerPanel2_5);
+		playerPanel2.setBounds(24, 80, 196, 28);
+		panel.add(playerPanel2);
 		
 		players.add(playerPanel2);
+		PlayerPanel playerPanel2_1 = new PlayerPanel(controler);
+		playerPanel2_1.setBounds(24, 118, 196, 28);
+		panel.add(playerPanel2_1);
 		players.add(playerPanel2_1);
+		PlayerPanel playerPanel2_2 = new PlayerPanel(controler);
+		playerPanel2_2.setBounds(24, 156, 196, 28);
+		panel.add(playerPanel2_2);
 		players.add(playerPanel2_2);
+		PlayerPanel playerPanel2_3 = new PlayerPanel(controler);
+		playerPanel2_3.setBounds(24, 192, 196, 28);
+		panel.add(playerPanel2_3);
 		players.add(playerPanel2_3);
+		PlayerPanel playerPanel2_4 = new PlayerPanel(controler);
+		playerPanel2_4.setBounds(24, 238, 196, 28);
+		panel.add(playerPanel2_4);
 		players.add(playerPanel2_4);
+		PlayerPanel playerPanel2_5 = new PlayerPanel(controler);
+		playerPanel2_5.setBounds(24, 278, 196, 28);
+		panel.add(playerPanel2_5);
 		players.add(playerPanel2_5);
 		
-
+		for (PlayerPanel p : players) {
+			p.setModel(null);
+		}
 		
 		
 	}
@@ -68,5 +75,4 @@ public class PlayerListPanel extends JPanel implements Observer{
 		this.repaint();
 		
 	}
-
 }

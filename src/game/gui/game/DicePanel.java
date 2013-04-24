@@ -24,7 +24,7 @@ public class DicePanel extends JPanel implements Observer{
 		images = new ArrayList<BufferedImage>();
 		for (int i = 1; i < 7; i++) {
 			try {
-				images.add( ImageIO.read(new File("Dices/"+i+".png")) );
+				images.add( ImageIO.read(new File("Images/"+i+".png")) );
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				//e.printStackTrace();

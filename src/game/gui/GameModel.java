@@ -186,7 +186,7 @@ public class GameModel extends Observable implements Observer {
 
 		this.me = me;
 		//players.add(me);
-		playersModel.add(me);
+		//playersModel.add(me);
 		setChanged();
 		notifyObservers(Event.CONNECTED);
 	}

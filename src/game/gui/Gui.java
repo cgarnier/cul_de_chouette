@@ -56,8 +56,8 @@ public class Gui extends JFrame implements Observer {
 
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 545, 820);
-		contentPane = new ImagePanel("Dices/v1.jpg");
+		setBounds(100, 100, 700, 820);
+		contentPane = new ImagePanel("Images/theme/fond.jpg");
 		// contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -69,7 +69,7 @@ public class Gui extends JFrame implements Observer {
 		rightPanel.setLayout(new GridLayout(0, 1, 0, 0));
 
 		JPanel leftPanel = new JPanel();
-		leftPanel.setBounds(24, 84, 139, 467);
+		leftPanel.setBounds(24, 0, 185, 323);
 		leftPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		contentPane.add(leftPanel);
 
@@ -84,6 +84,7 @@ public class Gui extends JFrame implements Observer {
 		rightPanel.add(availablePlayersPanel);
 
 		showLogin();
+		
 
 	}
 
@@ -97,7 +98,7 @@ public class Gui extends JFrame implements Observer {
 
 	public void showMenu() {
 		rightPanel.removeAll();
-		rightPanel.setBounds(256, 95, 246, 320);
+		rightPanel.setBounds(256, 95, 279, 361);
 		rightPanel.add(menuPanel);
 		playerListPanel.setVisible(false);
 		reDraw();
@@ -106,7 +107,7 @@ public class Gui extends JFrame implements Observer {
 
 	public void showAvailable() {
 		rightPanel.removeAll();
-		rightPanel.setBounds(256, 95, 246, 320);
+		rightPanel.setBounds(256, 95, 279, 361);
 		rightPanel.add(availablePlayersPanel);
 		playerListPanel.setVisible(true);
 		reDraw();
@@ -125,7 +126,8 @@ public class Gui extends JFrame implements Observer {
 	public void showGame() {
 		
 		rightPanel.removeAll();
-		rightPanel.setBounds(256, 84, 246, 691);
+		rightPanel.setBounds(256, 84, 400, 691);
+		
 		rightPanel.add(gamePanel);
 		playerListPanel.setVisible(true);
 		reDraw();
@@ -134,8 +136,9 @@ public class Gui extends JFrame implements Observer {
 
 	public void showNewAccount() {
 		rightPanel.removeAll();
+		rightPanel.setBounds(256, 95, 279, 361);
 		rightPanel.add(createAccountPanel);
-		playerListPanel.setVisible(true);
+		playerListPanel.setVisible(false);
 		reDraw();
 
 	}

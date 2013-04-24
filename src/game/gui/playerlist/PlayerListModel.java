@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Observable;
 
 public class PlayerListModel extends Observable {
+	public static final int MAXPLAYER = 6;
 	private ArrayList<PlayerModel> players;
 	private PlayerModel winner;
 	
@@ -43,6 +44,12 @@ public class PlayerListModel extends Observable {
 		setChanged();
 		notifyObservers();
 	}
+	public void remove(NetPlayer aPlayer) {
+		if(!players.contains(aPlayer)) return;
+		players.remove(aPlayer);
+		setChanged();
+		notifyObservers();
+	}
 
 	public int size() {
 		// TODO Auto-generated method stub
@@ -55,6 +62,8 @@ public class PlayerListModel extends Observable {
 
 	public synchronized void setPlayers(ArrayList<PlayerModel> players) {
 		this.players = players;
+		setChanged();
+		notifyObservers();
 	}
 	public void shuffle() {
 		Collections.shuffle(players);
@@ -68,5 +77,9 @@ public class PlayerListModel extends Observable {
 	}
 	public void setWinner(PlayerModel winner) {
 		this.winner = winner;
+	}
+	public boolean isLimitReached() {
+		if(players.size() >= 6) return true;
+		return false;
 	}
 }

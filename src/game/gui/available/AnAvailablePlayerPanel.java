@@ -4,6 +4,8 @@ import game.gui.GameControler;
 import game.gui.PlayerModel;
 
 import javax.swing.JPanel;
+
+import java.awt.Color;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
@@ -24,6 +26,7 @@ public class AnAvailablePlayerPanel extends JPanel {
 	public AnAvailablePlayerPanel(GameControler c, PlayerModel p) {
 		player = p;
 		controler = c;
+		this.setOpaque(false);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0};
@@ -38,6 +41,7 @@ public class AnAvailablePlayerPanel extends JPanel {
 		gbc_lblUsername.gridx = 0;
 		gbc_lblUsername.gridy = 0;
 		add(lblUsername, gbc_lblUsername);
+		lblUsername.setForeground(Color.white);
 		
 		JButton btnInviter = new JButton("Inviter");
 		btnInviter.addActionListener(new ActionListener() {
