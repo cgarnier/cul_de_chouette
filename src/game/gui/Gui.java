@@ -9,7 +9,9 @@ import game.gui.menu.MenuPanel;
 import game.gui.playerlist.PlayerListPanel;
 import game.gui.waiting.WaitingPanel;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Rectangle;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -26,7 +28,7 @@ import java.util.Observer;
 
 public class Gui extends JFrame implements Observer {
 
-	private JPanel contentPane;
+	private ImagePanel contentPane;
 	private GameControler controler;
 
 	private AvailablePlayersPanel availablePlayersPanel;
@@ -38,6 +40,7 @@ public class Gui extends JFrame implements Observer {
 	private CreateAccountPanel createAccountPanel;
 
 	JPanel rightPanel;
+	JPanel leftPanel;
 
 	/**
 	 * Create the frame.
@@ -54,10 +57,12 @@ public class Gui extends JFrame implements Observer {
 		playerListPanel = new PlayerListPanel(controler);
 		createAccountPanel = new CreateAccountPanel(controler);
 
-		setResizable(false);
+		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 700, 820);
-		contentPane = new ImagePanel("Images/theme/fond.jpg");
+		setBounds(100, 100, 700, 720);
+		setMaximizedBounds(new Rectangle(700, 720));
+		// setPreferredSize(new Dimension(700, 800));
+		contentPane = new ImagePanel("Images/theme/fond2.png");
 		// contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -68,8 +73,8 @@ public class Gui extends JFrame implements Observer {
 		contentPane.add(rightPanel);
 		rightPanel.setLayout(new GridLayout(0, 1, 0, 0));
 
-		JPanel leftPanel = new JPanel();
-		leftPanel.setBounds(24, 0, 185, 323);
+		leftPanel = new JPanel();
+		leftPanel.setBounds(25, -200, 185, 323);
 		leftPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		contentPane.add(leftPanel);
 
@@ -83,14 +88,18 @@ public class Gui extends JFrame implements Observer {
 		rightPanel.add(gamePanel);
 		rightPanel.add(availablePlayersPanel);
 
+		ImagePanel panel = new ImagePanel("Images/theme/top.png");
+		contentPane.add(panel, new Integer(5000));
+		panel.setBounds(0, 0, 700, 77);
+
 		showLogin();
-		
+		//showGame();
 
 	}
 
 	public void showLogin() {
 		rightPanel.removeAll();
-		rightPanel.setBounds(256, 95, 246, 320);
+		rightPanel.setBounds(220, 150, 278, 228);
 		rightPanel.add(loginPanel);
 		playerListPanel.setVisible(false);
 		reDraw();
@@ -107,27 +116,87 @@ public class Gui extends JFrame implements Observer {
 
 	public void showAvailable() {
 		rightPanel.removeAll();
+
 		rightPanel.setBounds(256, 95, 279, 361);
 		rightPanel.add(availablePlayersPanel);
 		playerListPanel.setVisible(true);
-		reDraw();
 
+		slidePlayerList();
+
+	}
+
+	public void slidePlayerList() {
+		System.out.println("Slide");
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				for (int y = -200; y < 66; y = y + 2) {
+					// System.out.println("y "+y);
+					leftPanel.setBounds(25, y, 185, 323);
+					Gui.this.reDraw();
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				for (int y = 66; y > 45; y = y - 2) {
+					// System.out.println("y "+y);
+					leftPanel.setBounds(25, y, 185, 323);
+					Gui.this.reDraw();
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				for (int y = 45; y < 66; y = y + 1) {
+					// System.out.println("y "+y);
+					leftPanel.setBounds(25, y, 185, 323);
+					Gui.this.reDraw();
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				for (int y = 66; y > 50; y = y - 1) {
+					// System.out.println("y "+y);
+					leftPanel.setBounds(25, y, 185, 323);
+					Gui.this.reDraw();
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+			}
+		}).start();
+		
 	}
 
 	public void showWaiting() {
 		rightPanel.removeAll();
-		
+
 		rightPanel.add(waitingPanel);
 		playerListPanel.setVisible(true);
+		leftPanel.setOpaque(false);
 		reDraw();
+		//slidePlayerList();
 
 	}
 
 	public void showGame() {
-		
+
 		rightPanel.removeAll();
-		rightPanel.setBounds(256, 84, 400, 691);
-		
+		rightPanel.setBounds(300, 84, 400, 691);
+
 		rightPanel.add(gamePanel);
 		playerListPanel.setVisible(true);
 		reDraw();
@@ -159,12 +228,14 @@ public class Gui extends JFrame implements Observer {
 					+ controler.getModel().getMe().getPlayerLogin()
 					+ " vous avez gagné la partie avec un score de "
 					+ controler.getModel().getMe().getPlayerScore());
-			
-		}
-		else showError(""
-				+ controler.getModel().getPlayersModel().getWinner().getPlayerLogin()
-				+ " gagne la partie avec un score de "
-				+ controler.getModel().getPlayersModel().getWinner().getPlayerScore());
+
+		} else
+			showError(""
+					+ controler.getModel().getPlayersModel().getWinner()
+							.getPlayerLogin()
+					+ " gagne la partie avec un score de "
+					+ controler.getModel().getPlayersModel().getWinner()
+							.getPlayerScore());
 
 	}
 
@@ -187,5 +258,4 @@ public class Gui extends JFrame implements Observer {
 		}
 
 	}
-
 }

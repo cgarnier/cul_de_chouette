@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextPane;
 
 public class ErrorDialog extends JDialog {
 
@@ -30,12 +31,14 @@ public class ErrorDialog extends JDialog {
 	public ErrorDialog(String msg) {
 		setBounds(100, 100, 384, 164);
 		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setLayout(new FlowLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(null);
 		{
-			JLabel lblErreur = new JLabel(msg);
-			contentPanel.add(lblErreur);
+			JTextPane textPane = new JTextPane();
+			textPane.setText(msg);
+			textPane.setBounds(12, 10, 358, 74);
+			contentPanel.add(textPane);
 		}
 		{
 			JPanel buttonPane = new JPanel();

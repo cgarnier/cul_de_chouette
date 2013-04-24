@@ -21,11 +21,16 @@ public class GameHandler implements IGameClient {
 	protected GameModel model;
 	
 	protected IGameService service;
+	Gui view;
 
 	public GameHandler(GameModel model) {
 		this.model = model;
 		this.service = new GameService();
 		this.service.setGameClient(this);
+		
+	}
+	public void setView(Gui v) {
+		view = v;
 	}
 
 	
@@ -45,6 +50,8 @@ public class GameHandler implements IGameClient {
 		
 		model.setCreator(creator);
 		service.joinGame(creator, guest);
+		view.slidePlayerList();
+		
 	}
 
 	@Override
@@ -62,6 +69,7 @@ public class GameHandler implements IGameClient {
 		}
 		model.addPlayer(guest);
 		service.sendGameStatus(model.getGameStatus());
+		
 
 	}
 
