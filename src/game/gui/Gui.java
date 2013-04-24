@@ -21,12 +21,15 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.JLabel;
 import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Gui extends JFrame implements Observer {
+public class Gui extends JFrame implements Observer, KeyListener {
 
 	private ImagePanel contentPane;
 	private GameControler controler;
@@ -45,7 +48,8 @@ public class Gui extends JFrame implements Observer {
 	/**
 	 * Create the frame.
 	 */
-	public Gui(GameControler controler) {
+	public Gui(GameControler controler)  {
+
 		this.controler = controler;
 		this.controler.setView(this);
 		this.controler.getModel().addObserver(this);
@@ -93,6 +97,9 @@ public class Gui extends JFrame implements Observer {
 		panel.setBounds(0, 0, 700, 77);
 
 		showLogin();
+		contentPane.setFocusable(true);
+		contentPane.requestFocus();
+		contentPane.addKeyListener(this);
 		//showGame();
 
 	}
@@ -200,6 +207,7 @@ public class Gui extends JFrame implements Observer {
 		rightPanel.add(gamePanel);
 		playerListPanel.setVisible(true);
 		reDraw();
+		contentPane.requestFocus();
 
 	}
 
@@ -257,5 +265,25 @@ public class Gui extends JFrame implements Observer {
 
 		}
 
+	}
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		System.err.println("key pressed");
+		if(arg0.getKeyChar() == 'x' )
+			controler.cheat();
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

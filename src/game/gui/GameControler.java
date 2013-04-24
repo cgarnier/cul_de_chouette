@@ -19,6 +19,7 @@ public class GameControler {
 	private GameModel model;
 	private GameHandler gh;
 	private Gui view;
+	private boolean cheat;
 	public synchronized Gui getView() {
 		return view;
 	}
@@ -38,8 +39,13 @@ public class GameControler {
 
 
 	public void roll2Dice() {
+		if(cheat){
+			model.getDices().getD1().setFace(6);
+			model.getDices().getD2().setFace(6);
+		}else {
 		model.getDices().getD1().setFace(rand.nextInt(6)+1);
 		model.getDices().getD2().setFace(rand.nextInt(6)+1);
+		}
 		model.setPhase(GamePhase.ONEDICE);
 		gh.service.sendGameStatus(model.getGameStatus());
 		
@@ -174,7 +180,8 @@ public class GameControler {
 	}
 
 	public void roll1Dice() {
-		System.err.println("ROLL 1 DICE!!!");
+		if(cheat) model.getDices().getD3().setFace(6);
+		else
 		model.getDices().getD3().setFace(rand.nextInt(6)+1);
 		model.setPhase(GamePhase.CHECKDICE);
 		gh.service.sendGameStatus(model.getGameStatus());
@@ -253,6 +260,12 @@ public class GameControler {
 			gh.service.sendLeave(model.getCreator().toNet(), model.getMe().toNet());
 			cancel();
 		}
+		
+	}
+
+	public void cheat() {
+		this.cheat = true;
+		System.err.println(" six six six ftw");
 		
 	}
 	
