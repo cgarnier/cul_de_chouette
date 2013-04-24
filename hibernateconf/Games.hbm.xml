@@ -15,7 +15,7 @@
             <column name="date" not-null="true" />
         </property>
 
-        <property name="winner">
+        <property name="winnerID">
             <column name="winnerID" length="11" not-null="true" />
         </property>
 

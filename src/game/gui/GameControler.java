@@ -215,9 +215,10 @@ public class GameControler {
 	}
 
 	public void launch() {
-		
 		gh.lauchGame();
 		
+		model.setGame(new Games());
+		model.getGame().setPlayers(model.getPlayersModel().getPlayers());
 	}
 	public void saySuite(){
 		gh.interact(model.getMe().toNet(), Type.SUITE);

@@ -50,6 +50,8 @@ public class GameModel extends Observable implements Observer {
 
 	private AvailableModel availableModel;
 	private PlayerListModel playersModel;
+	
+	private Games game = null;
 
 	/*
 	 * GamePhase WAITING - Waiting for player or for game start START - The game
@@ -267,6 +269,10 @@ public class GameModel extends Observable implements Observer {
 		return turn;
 		
 	}
+	
+	public void setGame(Games game){
+		this.game = game;
+	}
 	public void setWinner(PlayerModel p) {
 		winner = p;
 		
@@ -289,6 +295,10 @@ public class GameModel extends Observable implements Observer {
 	}
 	public int getGain() {
 		return gain;
+	}
+	
+	public Games getGame(){
+		return this.game;
 	}
 
 }

@@ -7,6 +7,10 @@ public class History {
 	protected int playerID;
 	protected int playerScore;
 	
+	public History(){
+		
+	}
+	
 	public History(int ID, int gameID, int playerID, int playerScore){
 		this.ID = ID;
 		this.gameID = gameID;
