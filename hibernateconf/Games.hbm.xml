@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="game.gui.Games" table="Games">
+
+        <id name="ID" column="ID">
+            <generator class="native" />
+        </id>
+
+        <property name="Date">
+            <column name="date" not-null="true" />
+        </property>
+
+        <property name="winnerID">
+            <column name="winnerID" length="11" not-null="true" />
+        </property>
+
+    </class>
+</hibernate-mapping>

@@ -2,6 +2,10 @@ package game.gui;
 
 import java.awt.Color;
 import java.util.ArrayList;
+
+import org.hibernate.Session;
+import org.hibernate.cfg.Configuration;
+
 import game.gui.GameModel.GamePhase;
 import game.gui.Interaction.Type;
 
@@ -12,7 +16,7 @@ import game.network.messages.GameStatus;
 import game.network.messages.NetPlayer;
 
 /*
- * Filtre les données provenant du GameSerice et actualise le model.
+ * Filtre les données provenant du GameSerice et actualise le modele.
  * 
  * 
  */
@@ -144,6 +148,14 @@ public class GameHandler implements IGameClient {
 			if (p.getPlayerScore() >= 343) {
 				model.getPlayersModel().setWinner(p);
 				model.setPhase(GamePhase.FINISH);
+				
+				Session session = (new Configuration().configure().buildSessionFactory()).openSession();	
+				session.beginTransaction();
+				Games game = new Games(this.model.getPlayersModel());
+				session.persist(game);
+				session.getTransaction().commit();
+				session.close();
+
 				return;
 			}
 

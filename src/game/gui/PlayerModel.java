@@ -152,6 +152,7 @@ public class PlayerModel extends Observable {
 		session.beginTransaction();
 		Query query = session.createQuery("from PlayerModel where id ='"+creator.getGlobalId()+"'");                 
         PlayerModel player = (PlayerModel)query.uniqueResult();
+        session.getTransaction().commit();
         if(player == null) System.err.println("player null");
         this.setPlayerID(player.getPlayerID());
 		this.setPlayerLogin(player.getPlayerLogin());
