@@ -18,12 +18,12 @@ public class GameControler {
 	private Random rand;
 	private GameModel model;
 	private GameHandler gh;
-	private GuiTest view;
-	public synchronized GuiTest getView() {
+	private Gui view;
+	public synchronized Gui getView() {
 		return view;
 	}
 
-	public synchronized void setView(GuiTest view) {
+	public synchronized void setView(Gui view) {
 		this.view = view;
 	}
 
@@ -34,13 +34,7 @@ public class GameControler {
 		
 	}
 
-	public void playPhase1() {
-		int dice1 = rand.nextInt(6)+1;
-		int dice2 = rand.nextInt(6)+1;
-	}
-	public void playPhase2(){
-		
-	}
+
 
 	public void roll2Dice() {
 		model.getDices().getD1().setFace(rand.nextInt(6)+1);
@@ -137,7 +131,7 @@ public class GameControler {
         	if(view != null) view.showLogin();
         }
         // TODO Afficher l erreur
-        else System.out.println("login déjà utilisé.");
+        else view.showError("login déjà utilisé.");
         
         this.model.getSession().getTransaction().commit();
         
@@ -188,6 +182,8 @@ public class GameControler {
 
 	public void create() {
 		model.setPhase(GamePhase.WAITING);
+		model.getPlayersModel().reset();
+		model.getPlayersModel().add(model.getMe());
 		model.setCreator(model.getMe());
 		view.showAvailable();
 		refresh();
@@ -203,6 +199,7 @@ public class GameControler {
 	public void cancel() {
 		model.unsetCreator();
 		model.setPhase(GamePhase.MENU);
+		model.getPlayersModel().reset();
 		view.showMenu();
 	}
 
@@ -230,6 +227,31 @@ public class GameControler {
 		gh.interact(model.getMe().toNet(), Type.CHOUETTEVELOUTE);
 
 		gh.service.sendInteraction(model.getCreator().toNet(), model.getMe().toNet(), Type.CHOUETTEVELOUTE);
+	}
+
+	public void cancelNewAccount() {
+		model.unsetCreator();
+		model.setPhase(GamePhase.MENU);
+		view.showLogin();
+		
+	}
+
+	public void cancelGame() {
+		gh.service.sendCancel(model.getCreator().toNet());
+		model.getPlayersModel().reset();
+		model.unsetCreator();
+		cancel();
+		
+	}
+
+	public void cancelWaiting() {
+		if(model.getCreator() == null)
+			cancel();
+		else {
+			gh.service.sendLeave(model.getCreator().toNet(), model.getMe().toNet());
+			cancel();
+		}
+		
 	}
 	
 }

@@ -19,11 +19,12 @@ public class DicePanel extends JPanel implements Observer{
 	private ArrayList<BufferedImage> images;
 	private int diceFace;
 	public DicePanel(int face) {
+		this.setOpaque(false);
 		this.diceFace = face;
 		images = new ArrayList<BufferedImage>();
 		for (int i = 1; i < 7; i++) {
 			try {
-				images.add( ImageIO.read(new File("Dices/"+i+".png")) );
+				images.add( ImageIO.read(new File("Images/"+i+".png")) );
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				//e.printStackTrace();
@@ -37,7 +38,7 @@ public class DicePanel extends JPanel implements Observer{
 		// TODO Auto-generated method stub
 		super.paintComponent(g);
 		images.get(this.diceFace -1);
-		g.drawImage(images.get(this.diceFace -1), 0, 0,100,100, null);
+		g.drawImage(images.get(this.diceFace -1), 0, 0,70,70, null);
 		g.dispose();
 	}
 	public void setFace(int face) {

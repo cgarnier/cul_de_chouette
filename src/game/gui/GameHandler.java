@@ -2,9 +2,6 @@ package game.gui;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-
 import game.gui.GameModel.GamePhase;
 import game.gui.Interaction.Type;
 
@@ -19,9 +16,10 @@ import game.network.messages.NetPlayer;
  * 
  * 
  */
+
 public class GameHandler implements IGameClient {
 	protected GameModel model;
-
+	
 	protected IGameService service;
 
 	public GameHandler(GameModel model) {
@@ -36,7 +34,7 @@ public class GameHandler implements IGameClient {
 
 	@Override
 	public void handleInvit(NetPlayer creator, NetPlayer guest) {
-
+		if(model.getMe() == null) return;
 		if (model.isInGame())
 			return;
 		if (!model.getMe().equals(guest))
@@ -51,11 +49,17 @@ public class GameHandler implements IGameClient {
 
 	@Override
 	public void handleJoinAnswer(NetPlayer creator, NetPlayer guest) {
+		if(model.getCreator() == null)
+			return;
 		if (!model.getCreator().equals(creator))
 			return;
 		if (!model.getMe().equals(creator))
 			return;
 
+		if(model.getPlayersModel().isLimitReached()){
+			service.sendKick(model.getMe().toNet(), guest);
+			return;
+		}
 		model.addPlayer(guest);
 		service.sendGameStatus(model.getGameStatus());
 
@@ -63,6 +67,7 @@ public class GameHandler implements IGameClient {
 
 	@Override
 	public void handleStatus(GameStatus status) {
+		if(model.getCreator() == null) return;
 		if (!model.getCreator().equals(status.getCreator()))
 			return;
 
@@ -129,7 +134,7 @@ public class GameHandler implements IGameClient {
 	private void checkScores() {
 		for (PlayerModel p : model.getPlayersModel().getPlayers()) {
 			if (p.getPlayerScore() >= 343) {
-				model.setWinner(p);
+				model.getPlayersModel().setWinner(p);
 				model.setPhase(GamePhase.FINISH);
 				return;
 			}
@@ -141,6 +146,7 @@ public class GameHandler implements IGameClient {
 	}
 
 	private void calculScores() {
+		model.setOneGain(null, 0);
 		System.err.println("calcul score");
 		model.setPhase(GamePhase.SCORING);
 		if (model.getDices().isChouetteVelute()) {
@@ -149,7 +155,10 @@ public class GameHandler implements IGameClient {
 					.setPlayerScore(
 							model.getInteraction().getPlayer().getPlayerScore()
 									+ model.getDices().getScore());
+			model.setOneGain(model.getInteraction().getPlayer(),model.getDices().getScore());
 			model.getInteraction().reset();
+			
+			
 			return;
 		}
 		if (model.getDices().isSuite()) {
@@ -158,12 +167,15 @@ public class GameHandler implements IGameClient {
 					.setPlayerScore(
 							model.getInteraction().getPlayer().getPlayerScore()
 									+ model.getDices().getScore());
+			model.setOneGain(model.getInteraction().getPlayer(),model.getDices().getScore());
 			model.getInteraction().reset();
+			
 			return;
 		}
 		if (model.getDices().isCulDeChouette()) {
 			model.getTurn().setPlayerScore(model.getTurn().getPlayerScore()
 							+ model.getDices().getScore());
+			model.setOneGain(model.getTurn(),model.getDices().getScore());
 			
 			return;
 		}
@@ -171,12 +183,14 @@ public class GameHandler implements IGameClient {
 			model.getTurn().setPlayerScore(
 					model.getTurn().getPlayerScore()
 							+ model.getDices().getScore());
+			model.setOneGain(model.getTurn(),model.getDices().getScore());
 			return;
 		}
 		if (model.getDices().isVeloute()) {
 			model.getTurn().setPlayerScore(
 					model.getTurn().getPlayerScore()
 							+ model.getDices().getScore());
+			model.setOneGain(model.getTurn(),model.getDices().getScore());
 			return;
 		}
 
@@ -269,5 +283,34 @@ public class GameHandler implements IGameClient {
 
 		service.startGame(model.getGameStatus());
 
+	}
+	@Override
+	public void handleKick(NetPlayer c, NetPlayer p) {
+		if(model.getCreator() == null) return;
+		if(model.getCreator().equals(c) && model.getMe().equals(p)){
+			model.unsetCreator();
+			model.getPlayersModel().reset();
+			model.setPhase(GamePhase.WAITING);
+		}
+		
+	}
+	@Override
+	public void handleCancelGame(NetPlayer c) {
+		if(model.getCreator() == null) return;
+		if(model.getCreator().equals(c)){
+			model.unsetCreator();
+			model.getPlayersModel().reset();
+			model.setPhase(GamePhase.WAITING);
+		}
+		
+	}
+	
+	@Override
+	public void handleLeaveGame(NetPlayer c, NetPlayer p) {
+		if(model.getCreator() == null) return;
+		if(model.getCreator().equals(c)){
+			model.getPlayersModel().remove(p);
+		}
+		
 	}
 }

@@ -13,4 +13,7 @@ public interface IGameClient {
 	public void handleRefresh();
 	public void handleWaitingNotification(NetPlayer player);
 	public void handleInteraction(NetPlayer creator, NetPlayer player, Interaction.Type type);
+	public void handleKick(NetPlayer c, NetPlayer p);
+	public void handleCancelGame(NetPlayer c);
+	public void handleLeaveGame(NetPlayer c, NetPlayer p);
 }

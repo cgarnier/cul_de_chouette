@@ -1,6 +1,7 @@
 package game.gui.createaccount;
 
 import game.gui.GameControler;
+import game.gui.ImagePanel;
 
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
@@ -19,7 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
-public class CreateAccountPanel extends JPanel {
+public class CreateAccountPanel extends ImagePanel {
 
 	GameControler controler;
 	private JTextField txtLogin;
@@ -31,16 +32,23 @@ public class CreateAccountPanel extends JPanel {
 	JLabel lblMotDePasse;
 	JLabel lblAge;
 	JRadioButton rdbtnM;
+	private JPanel panel_1;
 	/**
 	 * Create the panel.
 	 */
 	public CreateAccountPanel(GameControler c) {
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		setLayout(gridBagLayout);
+		super("Images/theme/invitez_vos_amis.png");
+		setLayout(null);
+		panel_1 = new JPanel();
+		panel_1.setOpaque(false);
+		panel_1.setBounds(22, 38, 234, 199);
+		add(panel_1);
+		GridBagLayout gbl_panel_1 = new GridBagLayout();
+		gbl_panel_1.columnWidths = new int[]{0};
+		gbl_panel_1.rowHeights = new int[]{0};
+		gbl_panel_1.columnWeights = new double[]{Double.MIN_VALUE};
+		gbl_panel_1.rowWeights = new double[]{Double.MIN_VALUE};
+		panel_1.setLayout(gbl_panel_1);
 		
 		JLabel lblLogin = new JLabel("Login");
 		GridBagConstraints gbc_lblLogin = new GridBagConstraints();
@@ -48,16 +56,18 @@ public class CreateAccountPanel extends JPanel {
 		gbc_lblLogin.insets = new Insets(0, 0, 5, 5);
 		gbc_lblLogin.gridx = 0;
 		gbc_lblLogin.gridy = 0;
-		add(lblLogin, gbc_lblLogin);
+		panel_1 .add(lblLogin, gbc_lblLogin);
 		
 		txtLogin = new JTextField();
+		txtLogin.setOpaque(false);
+		txtLogin.setForeground(Color.white);
 		txtLogin.setText("login");
 		GridBagConstraints gbc_txtLogin = new GridBagConstraints();
 		gbc_txtLogin.insets = new Insets(0, 0, 5, 0);
 		gbc_txtLogin.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtLogin.gridx = 1;
 		gbc_txtLogin.gridy = 0;
-		add(txtLogin, gbc_txtLogin);
+		panel_1 .add(txtLogin, gbc_txtLogin);
 		txtLogin.setColumns(10);
 		
 		lblMotDePasse = new JLabel("Mot de passe");
@@ -66,7 +76,7 @@ public class CreateAccountPanel extends JPanel {
 		gbc_lblMotDePasse.insets = new Insets(0, 0, 5, 5);
 		gbc_lblMotDePasse.gridx = 0;
 		gbc_lblMotDePasse.gridy = 1;
-		add(lblMotDePasse, gbc_lblMotDePasse);
+		panel_1 .add(lblMotDePasse, gbc_lblMotDePasse);
 		
 		txtPass = new JTextField();
 		txtPass.setText("pass");
@@ -75,7 +85,7 @@ public class CreateAccountPanel extends JPanel {
 		gbc_txtPass.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtPass.gridx = 1;
 		gbc_txtPass.gridy = 1;
-		add(txtPass, gbc_txtPass);
+		panel_1 .add(txtPass, gbc_txtPass);
 		txtPass.setColumns(10);
 		
 		lblVrificationMotDe = new JLabel("Vérification");
@@ -84,7 +94,7 @@ public class CreateAccountPanel extends JPanel {
 		gbc_lblVrificationMotDe.insets = new Insets(0, 0, 5, 5);
 		gbc_lblVrificationMotDe.gridx = 0;
 		gbc_lblVrificationMotDe.gridy = 2;
-		add(lblVrificationMotDe, gbc_lblVrificationMotDe);
+		panel_1 .add(lblVrificationMotDe, gbc_lblVrificationMotDe);
 		
 		txtPass_1 = new JTextField();
 		txtPass_1.addFocusListener(new FocusAdapter() {
@@ -107,7 +117,7 @@ public class CreateAccountPanel extends JPanel {
 		gbc_txtPass_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtPass_1.gridx = 1;
 		gbc_txtPass_1.gridy = 2;
-		add(txtPass_1, gbc_txtPass_1);
+		panel_1 .add(txtPass_1, gbc_txtPass_1);
 		txtPass_1.setColumns(10);
 		
 		lblAge = new JLabel("Age");
@@ -116,7 +126,7 @@ public class CreateAccountPanel extends JPanel {
 		gbc_lblAge.insets = new Insets(0, 0, 5, 5);
 		gbc_lblAge.gridx = 0;
 		gbc_lblAge.gridy = 3;
-		add(lblAge, gbc_lblAge);
+		panel_1 .add(lblAge, gbc_lblAge);
 		
 		txtAge = new JTextField();
 		txtAge.setText("age");
@@ -125,7 +135,7 @@ public class CreateAccountPanel extends JPanel {
 		gbc_txtAge.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtAge.gridx = 1;
 		gbc_txtAge.gridy = 3;
-		add(txtAge, gbc_txtAge);
+		panel_1 .add(txtAge, gbc_txtAge);
 		txtAge.setColumns(10);
 		
 		JLabel lblSexe = new JLabel("Sexe");
@@ -134,7 +144,7 @@ public class CreateAccountPanel extends JPanel {
 		gbc_lblSexe.insets = new Insets(0, 0, 5, 5);
 		gbc_lblSexe.gridx = 0;
 		gbc_lblSexe.gridy = 4;
-		add(lblSexe, gbc_lblSexe);
+		panel_1 .add(lblSexe, gbc_lblSexe);
 		
 		JPanel panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
@@ -142,7 +152,7 @@ public class CreateAccountPanel extends JPanel {
 		gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 		gbc_panel.gridx = 1;
 		gbc_panel.gridy = 4;
-		add(panel, gbc_panel);
+		panel_1 .add(panel, gbc_panel);
 		
 		ButtonGroup btnGrp = new ButtonGroup();
 		rdbtnM = new JRadioButton("M");
@@ -161,7 +171,7 @@ public class CreateAccountPanel extends JPanel {
 		gbc_lblVille.insets = new Insets(0, 0, 5, 5);
 		gbc_lblVille.gridx = 0;
 		gbc_lblVille.gridy = 5;
-		add(lblVille, gbc_lblVille);
+		panel_1 .add(lblVille, gbc_lblVille);
 		
 		txtVille = new JTextField();
 		txtVille.setText("ville");
@@ -170,10 +180,10 @@ public class CreateAccountPanel extends JPanel {
 		gbc_txtVille.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtVille.gridx = 1;
 		gbc_txtVille.gridy = 5;
-		add(txtVille, gbc_txtVille);
+		panel_1 .add(txtVille, gbc_txtVille);
 		txtVille.setColumns(10);
 		
-		JButton btnCrerMonCompte = new JButton("Créer mon compte");
+		JButton btnCrerMonCompte = new JButton("Créer");
 		btnCrerMonCompte.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -199,11 +209,46 @@ public class CreateAccountPanel extends JPanel {
 				
 			}
 		});
+		
+		JButton btnAnnuler = new JButton("Annuler");
+		btnAnnuler.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				controler.cancelNewAccount();
+			}
+		});
+		GridBagConstraints gbc_btnAnnuler = new GridBagConstraints();
+		gbc_btnAnnuler.insets = new Insets(0, 0, 0, 5);
+		gbc_btnAnnuler.gridx = 0;
+		gbc_btnAnnuler.gridy = 6;
+		panel_1.add(btnAnnuler, gbc_btnAnnuler);
 		GridBagConstraints gbc_btnCrerMonCompte = new GridBagConstraints();
 		gbc_btnCrerMonCompte.gridx = 1;
 		gbc_btnCrerMonCompte.gridy = 6;
-		add(btnCrerMonCompte, gbc_btnCrerMonCompte);
+		panel_1 .add(btnCrerMonCompte, gbc_btnCrerMonCompte);
+		
+		
+		txtAge.setForeground(Color.white);
+		txtAge.setOpaque(false);
+		txtPass.setForeground(Color.white);
+		txtPass.setOpaque(false);
+		txtPass_1.setOpaque(false);
+		txtPass_1.setForeground(Color.white);
+		txtVille.setOpaque(false);
+		txtVille.setForeground(Color.white);
+		panel.setOpaque(false);
+		rdbtnF.setOpaque(false);
+		rdbtnF.setForeground(Color.white);
+		rdbtnM.setOpaque(false);
+		rdbtnM.setForeground(Color.white);
+		
+		lblLogin.setForeground(Color.white);;
+		lblSexe.setForeground(Color.white);
+		lblVille.setForeground(Color.white);
+		lblAge.setForeground(Color.white);
+		lblMotDePasse.setForeground(Color.white);
+		lblVrificationMotDe.setForeground(Color.white);
+		
+
 		controler = c;
 	}
-
 }

@@ -1,15 +1,5 @@
 import game.gui.GameControler;
 import game.gui.GameModel;
-import game.gui.PlayerModel;
-import game.gui.SessionFactoryUtil;
-import game.gui.PlayerModel.Sex;
-
-import java.util.List;
-
-import javax.swing.Spring;
-
-import org.hibernate.Query;
-import org.hibernate.Session;
 
 
 public class Test {

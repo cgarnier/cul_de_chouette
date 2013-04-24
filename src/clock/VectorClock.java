@@ -11,6 +11,10 @@ public class VectorClock implements Serializable, Comparable<VectorClock>{
 	
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected HashMap<ProcessIdentifier, Integer> vector;
 	
 	public VectorClock(IIdentification idService) {

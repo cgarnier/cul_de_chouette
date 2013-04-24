@@ -2,7 +2,8 @@ import java.awt.EventQueue;
 
 import game.gui.GameControler;
 import game.gui.GameModel;
-import game.gui.GuiTest;
+
+import game.gui.Gui;
 
 
 public class Main {
@@ -25,7 +26,7 @@ public class Main {
 			@Override
 			public void run() {
 				try {
-					GuiTest frame = new GuiTest(gc);
+					Gui frame = new Gui(gc);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

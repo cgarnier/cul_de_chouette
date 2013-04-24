@@ -66,7 +66,8 @@ public class GameModel extends Observable implements Observer {
 	private GamePhase gamePhase;
 	private PlayerModel turn;
 	private PlayerModel winner;
-
+	private PlayerModel oneGain = null;
+	private int gain;
 	public GameModel() {
 		interaction = new Interaction();
 		availableModel = new AvailableModel();
@@ -185,7 +186,7 @@ public class GameModel extends Observable implements Observer {
 
 		this.me = me;
 		//players.add(me);
-		playersModel.add(me);
+		//playersModel.add(me);
 		setChanged();
 		notifyObservers(Event.CONNECTED);
 	}
@@ -276,6 +277,18 @@ public class GameModel extends Observable implements Observer {
 				% playersModel.size());
 		System.err.println("new turn : " + turn.getPlayerLogin() + " i "+ playersModel.getPlayers().indexOf(turn));
 		
+	}
+	public PlayerModel getOneGain() {
+		return oneGain;
+	}
+	public void setOneGain(PlayerModel oneGain, int i) {
+		this.oneGain = oneGain;
+		this.gain = i;
+		setChanged();
+		notifyObservers();
+	}
+	public int getGain() {
+		return gain;
 	}
 
 }

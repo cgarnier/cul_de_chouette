@@ -2,10 +2,13 @@ package game.network;
 
 import game.gui.Interaction;
 import game.gui.Interaction.Type;
+import game.network.messages.CancelGameMessage;
 import game.network.messages.GameStatus;
 import game.network.messages.GameStatusMessage;
 import game.network.messages.InvitMessage;
 import game.network.messages.JoinAnswerMessage;
+import game.network.messages.KickPlayerMessage;
+import game.network.messages.LeaveGameMessage;
 import game.network.messages.NetPlayer;
 import game.network.messages.PlayerInteractionMessage;
 import game.network.messages.RefreshMessage;
@@ -193,6 +196,48 @@ public class GameService implements IGameService {
 			return;
 		}
 		
+		/*
+		 * Kick
+		 * 
+		 */
+		if (msg.getData() instanceof KickPlayerMessage) {
+			NetPlayer p = ((KickPlayerMessage) msg.getData()).getPlayer();
+			NetPlayer c = ((KickPlayerMessage) msg.getData()).getCreator();
+			
+			
+			this.client.handleKick(c,p);
+			return;
+		}
+		
+		/*
+		 * Cancel game
+		 * 
+		 */
+		if (msg.getData() instanceof CancelGameMessage) {
+			
+			NetPlayer c = ((CancelGameMessage) msg.getData()).getCreator();
+			
+			
+			this.client.handleCancelGame(c);
+			return;
+		}
+		
+		/*
+		 * Leave game
+		 * 
+		 */
+		if (msg.getData() instanceof LeaveGameMessage) {
+			
+			NetPlayer c = ((LeaveGameMessage) msg.getData()).getCreator();
+			NetPlayer p = ((LeaveGameMessage) msg.getData()).getPlayer();
+			
+			
+			this.client.handleLeaveGame(c,p);
+			return;
+		}
+		
+		
+		
 
 	}
 
@@ -281,6 +326,37 @@ public class GameService implements IGameService {
 		System.out.println("Sending interact ...");
 		try {
 			this.broadcastService.broadcast(new PlayerInteractionMessage(creator, player, type));
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+	}
+	
+	@Override
+	public void sendKick(NetPlayer net, NetPlayer guest) {
+		try {
+			this.broadcastService.broadcast(new KickPlayerMessage(net, guest));
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
+	
+	@Override
+	public void sendCancel(NetPlayer net) {
+		
+		try {
+			this.broadcastService.broadcast(new CancelGameMessage(net));
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	
+	}
+	@Override
+	public void sendLeave(NetPlayer net, NetPlayer net2) {
+		// TODO Auto-generated method stub
+		try {
+			this.broadcastService.broadcast(new LeaveGameMessage(net, net2));
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

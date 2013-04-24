@@ -2,7 +2,9 @@ package game.gui.game;
 
 import game.gui.GameControler;
 import game.gui.GameModel.GamePhase;
+import game.gui.ImagePanel;
 
+import javax.management.modelmbean.ModelMBean;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
@@ -30,7 +32,7 @@ public class GamePanel extends JPanel implements Observer {
 		setLayout(null);
 		this.setOpaque(false);
 		JPanel dicesPanel = new JPanel();
-		dicesPanel.setBounds(0, 408, 233, 79);
+		dicesPanel.setBounds(52, 395, 213, 79);
 		dicesPanel.setOpaque(false);
 
 		d1 = new DicePanel(5);
@@ -41,10 +43,10 @@ public class GamePanel extends JPanel implements Observer {
 		d3 = new DicePanel(5);
 		controler.getModel().getDices().getD3().addObserver(d3);
 
-		dicesPanel.add(d1);
-		dicesPanel.add(d2);
-		dicesPanel.add(d3);
-
+		 dicesPanel.add(d1);
+		 dicesPanel.add(d2);
+		 dicesPanel.add(d3);
+		 
 		// dicesPanel.add(new DicePanel(5));
 		// dicesPanel.add(new DicePanel(5));
 
@@ -55,7 +57,38 @@ public class GamePanel extends JPanel implements Observer {
 		lblCestJoueur.setBounds(29, 247, 385, 15);
 		add(lblCestJoueur);
 
+		lblJoueurGagnepts = new JLabel(
+				"Joueur gagne 100pts avec une chouette veloute!");
+		lblJoueurGagnepts.setBounds(29, 189, 385, 25);
+		add(lblJoueurGagnepts);
+
+		ImagePanel panel = new ImagePanel("Images/theme/avous_de_jouer.png");
+		panel.setBounds(0, 486, 319, 226);
+		add(panel);
+		panel.setLayout(null);
+		panel.setOpaque(true);
+
 		btnLancerLesDs = new JButton("Lancer les dés");
+		btnLancerLesDs.setBounds(48, 39, 184, 25);
+		panel.add(btnLancerLesDs);
+
+		JButton btnPasMouLe = new JButton("Pas mou le cailloux");
+		btnPasMouLe.setBounds(48, 84, 184, 25);
+		panel.add(btnPasMouLe);
+
+		JButton btnGrellotteaPiquotte = new JButton("Grellotte ça piquotte");
+		btnGrellotteaPiquotte.setBounds(48, 133, 184, 25);
+		panel.add(btnGrellotteaPiquotte);
+		btnGrellotteaPiquotte.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GamePanel.this.controler.saySuite();
+			}
+		});
+		btnPasMouLe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GamePanel.this.controler.sayChouetteVeloutte();
+			}
+		});
 		btnLancerLesDs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (GamePanel.this.controler.getModel().getGamePhase() == GamePhase.TWODICES) {
@@ -63,38 +96,13 @@ public class GamePanel extends JPanel implements Observer {
 					return;
 
 				}
-				if (GamePanel.this.controler.getModel().getGamePhase() == GamePhase.ONEDICE){
+				if (GamePanel.this.controler.getModel().getGamePhase() == GamePhase.ONEDICE) {
 					GamePanel.this.controler.roll1Dice();
 					return;
 				}
 
 			}
 		});
-		btnLancerLesDs.setBounds(29, 557, 184, 25);
-		add(btnLancerLesDs);
-
-		JButton btnPasMouLe = new JButton("Pas mou le cailloux");
-		btnPasMouLe.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GamePanel.this.controler.sayChouetteVeloutte();
-			}
-		});
-		btnPasMouLe.setBounds(29, 604, 184, 25);
-		add(btnPasMouLe);
-
-		JButton btnGrellotteaPiquotte = new JButton("Grellotte ça piquotte");
-		btnGrellotteaPiquotte.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GamePanel.this.controler.saySuite();
-			}
-		});
-		btnGrellotteaPiquotte.setBounds(29, 649, 184, 25);
-		add(btnGrellotteaPiquotte);
-
-		lblJoueurGagnepts = new JLabel(
-				"Joueur gagne 100pts avec une chouette veloute!");
-		lblJoueurGagnepts.setBounds(29, 189, 385, 25);
-		add(lblJoueurGagnepts);
 
 	}
 
@@ -115,6 +123,25 @@ public class GamePanel extends JPanel implements Observer {
 			d3.setVisible(true);
 		}
 
+		if (controler.getModel().getGamePhase() == GamePhase.SCORING) {
+			String msg = "";
+			if (controler.getModel().getOneGain() != null) {
+				if (controler.getModel().getOneGain()
+						.equals(controler.getModel().getMe())) {
+					msg += "Vous avez ";
+
+				} else
+					msg += controler.getModel().getOneGain().getPlayerLogin()
+							+ " a ";
+				if (controler.getModel().getGain() >= 0)
+					msg += "gagné ";
+				else
+					msg += "perdu ";
+				msg += controler.getModel().getGain() + " points!";
+
+			}
+			lblJoueurGagnepts.setText(msg);
+		}
 		if (controler.getModel().getGamePhase() == GamePhase.TWODICES
 				|| controler.getModel().getGamePhase() == GamePhase.ONEDICE) {
 			System.err.println("two or one");

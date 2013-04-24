@@ -3,11 +3,15 @@ package game.network.messages;
 import java.io.Serializable;
 
 public class CancelGameMessage implements Serializable{
-	int ownerId;
-	public CancelGameMessage(int ownerId) {
-		this.ownerId = ownerId;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	NetPlayer creator;
+	public CancelGameMessage(NetPlayer ownerId) {
+		this.creator = ownerId;
 	}
-	public int getOwnerId() {
-		return ownerId;
+	public NetPlayer getCreator() {
+		return creator;
 	}
 }
