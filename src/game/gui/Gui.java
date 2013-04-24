@@ -258,6 +258,7 @@ public class Gui extends JFrame implements Observer, KeyListener {
 			GameModel model = (GameModel) arg0;
 			if (model.getGamePhase() == GamePhase.TWODICES) {
 				showGame();
+				contentPane.requestFocus();
 			}
 			if (model.getGamePhase() == GamePhase.FINISH) {
 				showFinish();

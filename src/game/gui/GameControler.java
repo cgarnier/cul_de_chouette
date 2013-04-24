@@ -180,7 +180,9 @@ public class GameControler {
 	}
 
 	public void roll1Dice() {
-		if(cheat) model.getDices().getD3().setFace(6);
+		if(cheat) {model.getDices().getD3().setFace(6);
+		cheat = false;
+		}
 		else
 		model.getDices().getD3().setFace(rand.nextInt(6)+1);
 		model.setPhase(GamePhase.CHECKDICE);

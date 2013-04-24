@@ -12,6 +12,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
@@ -59,6 +60,12 @@ public class CreateAccountPanel extends ImagePanel {
 		panel_1 .add(lblLogin, gbc_lblLogin);
 		
 		txtLogin = new JTextField();
+		txtLogin.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtLogin.selectAll();
+			}
+		});
 		txtLogin.setOpaque(false);
 		txtLogin.setForeground(Color.white);
 		txtLogin.setText("login");
@@ -78,7 +85,13 @@ public class CreateAccountPanel extends ImagePanel {
 		gbc_lblMotDePasse.gridy = 1;
 		panel_1 .add(lblMotDePasse, gbc_lblMotDePasse);
 		
-		txtPass = new JTextField();
+		txtPass = new JPasswordField();
+		txtPass.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtPass.selectAll();
+			}
+		});
 		txtPass.setText("pass");
 		GridBagConstraints gbc_txtPass = new GridBagConstraints();
 		gbc_txtPass.insets = new Insets(0, 0, 5, 0);
@@ -96,7 +109,7 @@ public class CreateAccountPanel extends ImagePanel {
 		gbc_lblVrificationMotDe.gridy = 2;
 		panel_1 .add(lblVrificationMotDe, gbc_lblVrificationMotDe);
 		
-		txtPass_1 = new JTextField();
+		txtPass_1 = new JPasswordField();
 		txtPass_1.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -109,6 +122,10 @@ public class CreateAccountPanel extends ImagePanel {
 					lblMotDePasse.setForeground(Color.green);
 					lblVrificationMotDe.setForeground(Color.green);
 				}
+			}
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtPass_1.selectAll();
 			}
 		});
 		txtPass_1.setText("pass2");
@@ -129,6 +146,12 @@ public class CreateAccountPanel extends ImagePanel {
 		panel_1 .add(lblAge, gbc_lblAge);
 		
 		txtAge = new JTextField();
+		txtAge.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtAge.selectAll();
+			}
+		});
 		txtAge.setText("age");
 		GridBagConstraints gbc_txtAge = new GridBagConstraints();
 		gbc_txtAge.insets = new Insets(0, 0, 5, 0);
@@ -174,6 +197,12 @@ public class CreateAccountPanel extends ImagePanel {
 		panel_1 .add(lblVille, gbc_lblVille);
 		
 		txtVille = new JTextField();
+		txtVille.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtVille.selectAll();
+			}
+		});
 		txtVille.setText("ville");
 		GridBagConstraints gbc_txtVille = new GridBagConstraints();
 		gbc_txtVille.insets = new Insets(0, 0, 5, 0);

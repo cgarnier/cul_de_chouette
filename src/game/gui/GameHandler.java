@@ -149,7 +149,7 @@ public class GameHandler implements IGameClient {
 				model.getPlayersModel().setWinner(p);
 				model.setPhase(GamePhase.FINISH);
 				
-				if(this.model.getMe() == this.model.getPlayersModel().getWinner()) {
+				if(this.model.getMe().equals(this.model.getPlayersModel().getWinner())) {
 					Session session = (new Configuration().configure().buildSessionFactory()).openSession();	
 					session.beginTransaction();
 					Games game = new Games(this.model.getPlayersModel());
