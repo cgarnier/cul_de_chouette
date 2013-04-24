@@ -157,12 +157,17 @@ public class GameHandler implements IGameClient {
 					session.persist(game);
 					session.getTransaction().commit();
 					for (PlayerModel player : game.getGamePlayersInfos().getPlayers()) {
+						System.out.println("player : "+player.getPlayerLogin());
 						session.beginTransaction();
 						History history = new History(game.getID(), player.getPlayerID(), player.getPlayerScore());
 						session.persist(history);
 						session.getTransaction().commit();
 					}
-					session.close();
+//					session.beginTransaction();
+//					History history = new History(game.getID(), game.getWinnerID(), game.getWinnerID());
+//					session.persist(history);
+//					session.getTransaction().commit();
+//					session.close();
 				}
 				return;
 			}
