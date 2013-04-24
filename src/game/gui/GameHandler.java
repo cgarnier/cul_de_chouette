@@ -149,13 +149,20 @@ public class GameHandler implements IGameClient {
 				model.getPlayersModel().setWinner(p);
 				model.setPhase(GamePhase.FINISH);
 				
-				Session session = (new Configuration().configure().buildSessionFactory()).openSession();	
-				session.beginTransaction();
-				Games game = new Games(this.model.getPlayersModel());
-				session.persist(game);
-				session.getTransaction().commit();
-				session.close();
-
+				if(this.model.getMe() == this.model.getPlayersModel().getWinner()) {
+					Session session = (new Configuration().configure().buildSessionFactory()).openSession();	
+					session.beginTransaction();
+					Games game = new Games(this.model.getPlayersModel());
+					session.persist(game);
+					session.getTransaction().commit();
+					for (PlayerModel player : game.getGamePlayersInfos().getPlayers()) {
+						session.beginTransaction();
+						History history = new History(game.getID(), player.getPlayerID(), player.getPlayerScore());
+						session.persist(history);
+						session.getTransaction().commit();
+					}
+					session.close();
+				}
 				return;
 			}
 
