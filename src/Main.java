@@ -2,7 +2,6 @@ import java.awt.EventQueue;
 
 import game.gui.GameControler;
 import game.gui.GameModel;
-import game.gui.GameView;
 import game.gui.GuiTest;
 
 
