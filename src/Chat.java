@@ -30,7 +30,7 @@ public class Chat extends Thread {
         setting.setTransmissionDelayUpperBound(FaultLevel.MEDIUM);
         setting.setPacketLostLevel(FaultLevel.NONE);
         setting.setCrashLevel(FaultLevel.NONE);
-        setting.setReliable(true);
+        setting.setReliable(false);
         setting.setDebugFault(true);
 
         // connection to the system
@@ -43,7 +43,7 @@ public class Chat extends Thread {
         // get the service access points
         commService = services.getCommunicationService();
         idService = services.getIdentificationService();
-        broadcastService = services.getReliableBroadcastService();
+        broadcastService = services.getBasicBroadcastService();
 
         // as we are not directly informed when the process id has been received, wait a short time
         // to be almost sure to have received it when printing the identifier
