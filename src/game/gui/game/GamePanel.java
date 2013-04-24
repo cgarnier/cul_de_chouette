@@ -6,6 +6,8 @@ import game.gui.ImagePanel;
 
 import javax.management.modelmbean.ModelMBean;
 import javax.swing.JPanel;
+
+import java.awt.Color;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -13,15 +15,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 
 public class GamePanel extends JPanel implements Observer {
 	private GameControler controler;
 	JButton btnLancerLesDs;
 	JLabel lblCestJoueur;
-	JLabel lblJoueurGagnepts;
 	DicePanel d1;
 	DicePanel d2;
 	DicePanel d3;
+	JTextPane txtpnGagne;
 
 	/**
 	 * Create the panel.
@@ -32,7 +36,7 @@ public class GamePanel extends JPanel implements Observer {
 		setLayout(null);
 		this.setOpaque(false);
 		JPanel dicesPanel = new JPanel();
-		dicesPanel.setBounds(52, 395, 213, 79);
+		dicesPanel.setBounds(48, 300, 213, 79);
 		dicesPanel.setOpaque(false);
 
 		d1 = new DicePanel(5);
@@ -53,20 +57,11 @@ public class GamePanel extends JPanel implements Observer {
 		add(dicesPanel);
 		dicesPanel.setLayout(new GridLayout(0, 3, 0, 0));
 
-		lblCestJoueur = new JLabel("C'est à joueur de jouer!");
-		lblCestJoueur.setBounds(29, 247, 385, 15);
-		add(lblCestJoueur);
-
-		lblJoueurGagnepts = new JLabel(
-				"Joueur gagne 100pts avec une chouette veloute!");
-		lblJoueurGagnepts.setBounds(29, 189, 385, 25);
-		add(lblJoueurGagnepts);
-
 		ImagePanel panel = new ImagePanel("Images/theme/avous_de_jouer.png");
-		panel.setBounds(0, 486, 319, 226);
+		panel.setBounds(0, 391, 319, 226);
 		add(panel);
 		panel.setLayout(null);
-		panel.setOpaque(true);
+		panel.setOpaque(false);
 
 		btnLancerLesDs = new JButton("Lancer les dés");
 		btnLancerLesDs.setBounds(48, 39, 184, 25);
@@ -79,6 +74,26 @@ public class GamePanel extends JPanel implements Observer {
 		JButton btnGrellotteaPiquotte = new JButton("Grellotte ça piquotte");
 		btnGrellotteaPiquotte.setBounds(48, 133, 184, 25);
 		panel.add(btnGrellotteaPiquotte);
+		
+		ImagePanel panel_1 = new ImagePanel("Images/theme/cadre_small.png");
+		panel_1.setBounds(0, 30, 280, 189);
+		add(panel_1);
+				panel_1.setLayout(null);
+				
+				txtpnGagne = new JTextPane();
+				txtpnGagne.setForeground(Color.white);
+				txtpnGagne.setFocusable(false);
+				
+				//txtpnGagne.setFont(lblCestJoueur.getFont());
+				txtpnGagne.setOpaque(false);
+				txtpnGagne.setText("");
+				txtpnGagne.setBounds(30, 43, 235, 92);
+				panel_1.add(txtpnGagne);
+				
+						lblCestJoueur = new JLabel("C'est à joueur de jouer!");
+						lblCestJoueur.setBounds(58, 120, 385, 15);
+						lblCestJoueur.setForeground(Color.white);
+						panel_1.add(lblCestJoueur);
 		btnGrellotteaPiquotte.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GamePanel.this.controler.saySuite();
@@ -140,7 +155,7 @@ public class GamePanel extends JPanel implements Observer {
 				msg += controler.getModel().getGain() + " points!";
 
 			}
-			lblJoueurGagnepts.setText(msg);
+			txtpnGagne.setText(msg);
 		}
 		if (controler.getModel().getGamePhase() == GamePhase.TWODICES
 				|| controler.getModel().getGamePhase() == GamePhase.ONEDICE) {

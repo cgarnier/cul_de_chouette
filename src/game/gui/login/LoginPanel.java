@@ -1,6 +1,7 @@
 package game.gui.login;
 
 import game.gui.GameControler;
+import game.gui.ImagePanel;
 
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
@@ -13,8 +14,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.Color;
 
-public class LoginPanel extends JPanel {
+public class LoginPanel extends ImagePanel {
 	private JTextField txtUser;
 	private JTextField txtPassword;
 	private GameControler controler;
@@ -22,24 +24,19 @@ public class LoginPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public LoginPanel(GameControler c) {
+		super("Images/theme/cadre_medium.png");
 		this.controler = c;
 		this.setOpaque(false);
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		setLayout(gridBagLayout);
+		setLayout(null);
 		
 		JLabel lblPseudo = new JLabel("Pseudo");
-		GridBagConstraints gbc_lblPseudo = new GridBagConstraints();
-		gbc_lblPseudo.anchor = GridBagConstraints.EAST;
-		gbc_lblPseudo.insets = new Insets(0, 0, 5, 5);
-		gbc_lblPseudo.gridx = 0;
-		gbc_lblPseudo.gridy = 0;
-		add(lblPseudo, gbc_lblPseudo);
+		lblPseudo.setForeground(Color.WHITE);
+		lblPseudo.setBounds(70, 71, 53, 15);
+		add(lblPseudo);
 		
 		txtUser = new JTextField();
+		txtUser.setForeground(Color.WHITE);
+		txtUser.setBounds(141, 69, 105, 19);
 		txtUser.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
@@ -47,23 +44,17 @@ public class LoginPanel extends JPanel {
 			}
 		});
 		txtUser.setText("clement");
-		GridBagConstraints gbc_txtUser = new GridBagConstraints();
-		gbc_txtUser.insets = new Insets(0, 0, 5, 0);
-		gbc_txtUser.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtUser.gridx = 1;
-		gbc_txtUser.gridy = 0;
-		add(txtUser, gbc_txtUser);
+		add(txtUser);
 		txtUser.setColumns(10);
 		
 		JLabel lblMotDePass = new JLabel("Mot de passe");
-		GridBagConstraints gbc_lblMotDePass = new GridBagConstraints();
-		gbc_lblMotDePass.anchor = GridBagConstraints.EAST;
-		gbc_lblMotDePass.insets = new Insets(0, 0, 5, 5);
-		gbc_lblMotDePass.gridx = 0;
-		gbc_lblMotDePass.gridy = 1;
-		add(lblMotDePass, gbc_lblMotDePass);
+		lblMotDePass.setForeground(Color.WHITE);
+		lblMotDePass.setBounds(27, 98, 96, 15);
+		add(lblMotDePass);
 		
 		txtPassword = new JTextField();
+		txtPassword.setForeground(Color.WHITE);
+		txtPassword.setBounds(141, 96, 105, 19);
 		txtPassword.setText("toto");
 		txtPassword.addFocusListener(new FocusAdapter() {
 			@Override
@@ -71,38 +62,32 @@ public class LoginPanel extends JPanel {
 				txtPassword.selectAll();
 			}
 		});
-		GridBagConstraints gbc_txtPassword = new GridBagConstraints();
-		gbc_txtPassword.insets = new Insets(0, 0, 5, 0);
-		gbc_txtPassword.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtPassword.gridx = 1;
-		gbc_txtPassword.gridy = 1;
-		add(txtPassword, gbc_txtPassword);
+		add(txtPassword);
 		txtPassword.setColumns(10);
 		
 		JButton btnSeConnecter = new JButton("Se connecter");
+		btnSeConnecter.setBounds(84, 125, 127, 25);
 		btnSeConnecter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				LoginPanel.this.controler.connect(txtUser.getText(), txtPassword.getText());
 				
 			}
 		});
-		GridBagConstraints gbc_btnSeConnecter = new GridBagConstraints();
-		gbc_btnSeConnecter.insets = new Insets(0, 0, 5, 0);
-		gbc_btnSeConnecter.gridx = 1;
-		gbc_btnSeConnecter.gridy = 2;
-		add(btnSeConnecter, gbc_btnSeConnecter);
+		add(btnSeConnecter);
 		
-		JButton btnCrerUnCompte = new JButton("Créer un compte");
+		JButton btnCrerUnCompte = new JButton("Créer");
+		btnCrerUnCompte.setBounds(84, 162, 127, 25);
 		btnCrerUnCompte.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controler.getView().showNewAccount();
 			}
 		});
-		GridBagConstraints gbc_btnCrerUnCompte = new GridBagConstraints();
-		gbc_btnCrerUnCompte.gridx = 1;
-		gbc_btnCrerUnCompte.gridy = 3;
-		add(btnCrerUnCompte, gbc_btnCrerUnCompte);
+		add(btnCrerUnCompte);
+		
+		JLabel lblConnection = new JLabel("Connexion");
+		lblConnection.setForeground(Color.WHITE);
+		lblConnection.setBounds(129, 12, 105, 15);
+		add(lblConnection);
 
 	}
-
 }

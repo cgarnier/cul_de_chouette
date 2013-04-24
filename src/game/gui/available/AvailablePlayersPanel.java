@@ -37,7 +37,7 @@ public class AvailablePlayersPanel extends ImagePanel implements Observer {
 		setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(22, 30, 238, 247);
+		scrollPane.setBounds(12, 30, 248, 287);
 		add(scrollPane);
 
 		panel = new JPanel();
@@ -53,37 +53,23 @@ public class AvailablePlayersPanel extends ImagePanel implements Observer {
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setOpaque(false);
-		panel_1.setBounds(22, 278, 238, 64);
+		panel_1.setBounds(12, 316, 248, 57);
 		add(panel_1);
-		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[]{87, 82, 102, 82, 0};
-		gbl_panel_1.rowHeights = new int[]{25, 0, 0};
-		gbl_panel_1.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		panel_1.setLayout(gbl_panel_1);
 				
-						JButton btnLancer = new JButton("Lancer");
+						JButton btnLancer = new JButton("Go");
+						btnLancer.setBounds(0, 0, 53, 25);
 						btnLancer.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								if (controler.getModel().getPlayersModel().size() > 1)
 									controler.launch();
 							}
 						});
-						// btnLancer.setEnabled(false);
-						GridBagConstraints gbc_btnLancer = new GridBagConstraints();
-						gbc_btnLancer.anchor = GridBagConstraints.NORTHWEST;
-						gbc_btnLancer.insets = new Insets(0, 0, 5, 5);
-						gbc_btnLancer.gridx = 1;
-						gbc_btnLancer.gridy = 0;
-						panel_1.add(btnLancer, gbc_btnLancer);
+						panel_1.setLayout(null);
+						panel_1.add(btnLancer);
 		
 				JButton button = new JButton("Rafraichir");
-				GridBagConstraints gbc_button = new GridBagConstraints();
-				gbc_button.anchor = GridBagConstraints.NORTHWEST;
-				gbc_button.insets = new Insets(0, 0, 5, 5);
-				gbc_button.gridx = 2;
-				gbc_button.gridy = 0;
-				panel_1.add(button, gbc_button);
+				button.setBounds(135, 0, 113, 25);
+				panel_1.add(button);
 				button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 
@@ -92,18 +78,14 @@ public class AvailablePlayersPanel extends ImagePanel implements Observer {
 				});
 				
 						JButton btnCancel = new JButton("Retour");
+						btnCancel.setBounds(53, 0, 82, 25);
 						btnCancel.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 
 								controler.cancelGame();
 							}
 						});
-						GridBagConstraints gbc_btnCancel = new GridBagConstraints();
-						gbc_btnCancel.insets = new Insets(0, 0, 0, 5);
-						gbc_btnCancel.anchor = GridBagConstraints.NORTHWEST;
-						gbc_btnCancel.gridx = 2;
-						gbc_btnCancel.gridy = 1;
-						panel_1.add(btnCancel, gbc_btnCancel);
+						panel_1.add(btnCancel);
 
 	}
 

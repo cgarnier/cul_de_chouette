@@ -11,7 +11,9 @@
 
 
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+
         <property name="hibernate.connection.url">jdbc:mysql://192.168.1.61/Cul_de_chouette</property>
+
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">toto</property>
         <property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>

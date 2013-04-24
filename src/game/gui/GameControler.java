@@ -25,6 +25,7 @@ public class GameControler {
 
 	public synchronized void setView(Gui view) {
 		this.view = view;
+		gh.setView(view);
 	}
 
 	public GameControler(GameModel gm) {
