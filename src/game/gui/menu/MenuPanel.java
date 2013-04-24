@@ -23,6 +23,7 @@ public class MenuPanel extends JPanel {
 	public MenuPanel(GameControler c) {
 		controler = c;
 		setLayout(new GridLayout(0, 1, 0, 0));
+		this.setOpaque(false);
 		//this.setPreferredSize(new Dimension(279, 361));
 		ImagePanel panel = new ImagePanel("Images/theme/invitez_vos_amis.png");
 		panel.setLayout(null);
@@ -31,6 +32,7 @@ public class MenuPanel extends JPanel {
 		JButton btnCrerUnePartie = new JButton("Créer");
 		btnCrerUnePartie.setBounds(25, 49, 73, 25);
 		panel.add(btnCrerUnePartie);
+		panel.setOpaque(false);
 		
 		JButton btnAttendreUneInvitation = new JButton("Se faire inviter");
 		btnAttendreUneInvitation.setBounds(105, 49, 138, 25);

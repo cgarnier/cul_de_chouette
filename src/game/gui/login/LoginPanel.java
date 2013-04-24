@@ -8,6 +8,8 @@ import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -44,6 +46,7 @@ public class LoginPanel extends ImagePanel {
 			}
 		});
 		txtUser.setText("clement");
+		txtUser.setOpaque(false);
 		add(txtUser);
 		txtUser.setColumns(10);
 		
@@ -52,10 +55,12 @@ public class LoginPanel extends ImagePanel {
 		lblMotDePass.setBounds(27, 98, 96, 15);
 		add(lblMotDePass);
 		
-		txtPassword = new JTextField();
+		txtPassword = new JPasswordField();
 		txtPassword.setForeground(Color.WHITE);
 		txtPassword.setBounds(141, 96, 105, 19);
 		txtPassword.setText("toto");
+		
+		txtPassword.setOpaque(false);
 		txtPassword.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {

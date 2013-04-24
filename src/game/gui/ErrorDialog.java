@@ -37,6 +37,7 @@ public class ErrorDialog extends JDialog {
 		{
 			JTextPane textPane = new JTextPane();
 			textPane.setText(msg);
+			textPane.setFocusable(false);
 			textPane.setBounds(12, 10, 358, 74);
 			contentPanel.add(textPane);
 		}
