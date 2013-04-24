@@ -78,7 +78,7 @@ public class Gui extends JFrame implements Observer, KeyListener {
 		rightPanel.setLayout(new GridLayout(0, 1, 0, 0));
 
 		leftPanel = new JPanel();
-		leftPanel.setBounds(25, -200, 185, 323);
+		leftPanel.setBounds(25, -220, 185, 323);
 		leftPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		contentPane.add(leftPanel);
 
@@ -230,12 +230,13 @@ public class Gui extends JFrame implements Observer, KeyListener {
 
 	public void showFinish() {
 		showMenu();
+		leftPanel.setBounds(25, -220, 185, 323);
 		if (controler.getModel().getPlayersModel().getWinner()
 				.equals(controler.getModel().getMe())) {
 			showError("Félicitation "
-					+ controler.getModel().getMe().getPlayerLogin()
+					+ controler.getModel().getPlayersModel().getWinner().getPlayerLogin()
 					+ " vous avez gagné la partie avec un score de "
-					+ controler.getModel().getMe().getPlayerScore());
+					+ controler.getModel().getPlayersModel().getWinner().getPlayerScore());
 
 		} else
 			showError(""
