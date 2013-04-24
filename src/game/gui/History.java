@@ -11,8 +11,7 @@ public class History {
 		
 	}
 	
-	public History(int ID, int gameID, int playerID, int playerScore){
-		this.ID = ID;
+	public History(int gameID, int playerID, int playerScore){
 		this.gameID = gameID;
 		this.playerID = playerID;
 		this.playerScore = playerScore;
