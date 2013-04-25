@@ -148,8 +148,7 @@ public class GameHandler implements IGameClient {
 			if (p.getPlayerScore() >= 343) {
 				model.getPlayersModel().setWinner(p);
 				model.setPhase(GamePhase.FINISH);
-				model.getPlayersModel().reset();
-				model.unsetCreator();
+
 				
 				if(this.model.getMe().equals(this.model.getPlayersModel().getWinner())) {
 					Session session = (new Configuration().configure().buildSessionFactory()).openSession();	
@@ -170,6 +169,11 @@ public class GameHandler implements IGameClient {
 //					session.getTransaction().commit();
 //					session.close();
 				}
+				
+				model.getPlayersModel().reset();
+				model.unsetCreator();
+				model.getMe().setPlayerScore(0);
+				System.err.println("SCORE: " + model.getMe().getPlayerScore());
 				return;
 			}
 

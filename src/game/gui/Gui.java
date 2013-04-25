@@ -63,8 +63,8 @@ public class Gui extends JFrame implements Observer, KeyListener {
 
 		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 700, 720);
-		setMaximizedBounds(new Rectangle(700, 720));
+		setBounds(100, 100, 700, 750);
+		setMaximizedBounds(new Rectangle(700, 695));
 		// setPreferredSize(new Dimension(700, 800));
 		contentPane = new ImagePanel("Images/theme/fond2.png");
 		// contentPane = new JPanel();
