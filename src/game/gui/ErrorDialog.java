@@ -7,10 +7,15 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
+
+/**
+ * ErrorDialog Show a custom error dialog
+ * @author clement
+ *
+ */
 
 public class ErrorDialog extends JDialog {
 
@@ -20,14 +25,10 @@ public class ErrorDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 
-	/**
-	 * Launch the application.
-	 */
 
 
-	/**
-	 * Create the dialog.
-	 */
+
+
 	public ErrorDialog(String msg) {
 		setBounds(100, 100, 384, 164);
 		getContentPane().setLayout(new BorderLayout());

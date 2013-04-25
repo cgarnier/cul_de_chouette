@@ -2,6 +2,13 @@ package communication;
 
 import java.io.Serializable;
 
+/**
+ * Reliable message contains an unique reliable message identifier and data.
+ * Usage: Encapsulate it into Message.
+ * 
+ * @author clement
+ *
+ */
 public class ReliableMessage implements Serializable {
 
 	/**

@@ -3,18 +3,24 @@ package game.gui.waiting;
 import game.gui.GameControler;
 import game.gui.ImagePanel;
 
-import javax.swing.JPanel;
 import javax.swing.JLabel;
 
 import java.awt.Color;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
 import javax.swing.JButton;
-import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+
+/**
+ * The waiting for a game panel
+ * @author clement
+ *
+ */
 public class WaitingPanel extends ImagePanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private GameControler controler;
 	/**
 	 * Create the panel.

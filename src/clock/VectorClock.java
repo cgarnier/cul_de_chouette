@@ -7,6 +7,11 @@ import service.IIdentification;
 
 import communication.ProcessIdentifier;
 
+/**
+ * VectorClock Horloge vectoriel de Matern
+ * @author clement
+ *
+ */
 public class VectorClock implements Serializable, Comparable<VectorClock>{
 	
 	

@@ -1,11 +1,10 @@
 package game.gui;
 
 import game.gui.available.AvailableModel;
-import game.gui.game.DiceModel;
 import game.gui.playerlist.PlayerListModel;
 import game.network.DicesCombo;
-import game.network.messages.GameStatus;
-import game.network.messages.NetPlayer;
+import game.network.GameStatus;
+import game.network.NetPlayer;
 
 import java.awt.Color;
 
@@ -17,18 +16,26 @@ import java.util.Observer;
 
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.engine.internal.TwoPhaseLoad;
 
+/**
+ * Main game model
+ * @author clement
+ *
+ */
 public class GameModel extends Observable implements Observer {
 
 	private Session session;
-	private DiceModel dice1, dice2, dice3;
+
 	private DicesCombo dices;
-	//private ArrayList<PlayerModel> players;
+	
 	private PlayerModel me;
 	private PlayerModel creator;
-	//private ArrayList<PlayerModel> lobbyPlayers;
+
 	private Interaction interaction;
+	
+	/*
+	 * Static Color map
+	 */
 	public static final List<Color> ColorMap;
 	static{
 		List<Color> aMap = new ArrayList<Color>();
@@ -41,7 +48,7 @@ public class GameModel extends Observable implements Observer {
 		ColorMap =  Collections.unmodifiableList(aMap);
 		
 	}
-	public static enum Event {CANCEL, CONNECTED, NEWPLAYER, CREATED, JOINED, STARTED, NEWAVAILABLE};
+	
 	
 	/*
 	 * Modeles specifique
@@ -53,79 +60,82 @@ public class GameModel extends Observable implements Observer {
 	
 	private Games game = null;
 
-	/*
-	 * GamePhase WAITING - Waiting for player or for game start START - The game
-	 * init and start TWODICE - Turn's player will roll 2 dices ONEDICE - Turn's
-	 * player have roll 2 dices and will roll the last one CHECKDICE - Turn's
-	 * player have roll all dices, it's time to check for special result
-	 * INTERACTION - Special result has occur, players interaction phase SCORING
-	 * - Compute new scores (next: TWODICE or FINISH) FINISH - Game is finish
-	 */
+
+
 	public static enum GamePhase {
 		WAITING, START, TWODICES, ONEDICE, CHECKDICE, INTERACTION, SCORING, FINISH, MENU
 	};
 
 	private GamePhase gamePhase;
 	private PlayerModel turn;
-	private PlayerModel winner;
 	private PlayerModel oneGain = null;
 	private int gain;
+	
+	@SuppressWarnings("deprecation")
 	public GameModel() {
 		interaction = new Interaction();
 		availableModel = new AvailableModel();
 		playersModel = new PlayerListModel();
 		creator = null;
-		dice1 = new DiceModel();
-		dice2 = new DiceModel();
-		dice3 = new DiceModel();
+
 		dices = new DicesCombo();
 		gamePhase = GamePhase.MENU;
-		//players = new ArrayList<PlayerModel>();
-		//lobbyPlayers = new ArrayList<PlayerModel>();
-		//session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+
 		session = (new Configuration().configure().buildSessionFactory()).openSession();
 
 	}
+	
+	
+	/**
+	 * @return Interaction object
+	 */
 	public Interaction getInteraction() {
 		return interaction;
 	}
 
+	/**
+	 * @return Return waiting for game players
+	 */
 	public synchronized AvailableModel getAvailableModel() {
 		return availableModel;
 	}
 
 
 
-//	public ArrayList<PlayerModel> getPlayerList() {
-//		return players;
-//	}
-
+	/**
+	 * Get the game Phase
+	 * Could be:
+	 * WAITING 		- Player is waiting for a game invite or have create a game
+	 * START 		- The game has start
+	 * TWODICES 	- Turn player must roll the 'Chouette'
+	 * ONEDICE		- Turn player must roll the 'cul'
+	 * CHECKDICE	- Turn has end, time to check the dices for interactions
+	 * INTERACTION	- A dice special combination has occur, all player must say the good thing
+	 * SCORING		- Time to calculate the new scores and update them on views
+	 * FINISH		- A player have reach the max score
+	 * MENU			- Player is in menu
+	 * @return the game phase
+	 */
 	public GamePhase getGamePhase() {
 		return gamePhase;
 	}
 
-	public DiceModel getDice1() {
-		return dice1;
-	}
 
-	// public void setDice1(DiceModel dice1) {
-	// this.dice1 = dice1;
-	// }
-	public DiceModel getDice2() {
-		return dice2;
-	}
-
-	// public void setDice2(DiceModel dice2) {
-	// this.dice2 = dice2;
-	// }
-	public DiceModel getDice3() {
-		return dice3;
-	}
-
-	// public void setDice3(DiceModel dice3) {
-	// this.dice3 = dice3;
-	// }
-	///////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	 * Set the game Phase
+	 * Could be:
+	 * WAITING 		- Player is waiting for a game invite or have create a game
+	 * START 		- The game has start
+	 * TWODICES 	- Turn player must roll the 'Chouette'
+	 * ONEDICE		- Turn player must roll the 'cul'
+	 * CHECKDICE	- Turn has end, time to check the dices for interactions
+	 * INTERACTION	- A dice special combination has occur, all player must say the good thing
+	 * SCORING		- Time to calculate the new scores and update them on views
+	 * FINISH		- A player have reach the max score
+	 * MENU			- Player is in menu
+	 * 
+	 * Update the turn player when reach a TWODICES game phase.
+	 */
 	public void setPhase(GamePhase phase) {
 		this.gamePhase = phase;
 		if(gamePhase.equals(GamePhase.TWODICES))
@@ -135,76 +145,90 @@ public class GameModel extends Observable implements Observer {
 
 	}
 
-//	public void addPlayer(Color color, String string) {
-//		players.add(new PlayerModel(string, color));
-//		this.setChanged();
-//		this.notifyObservers(Event.NEWPLAYER);
-//
-//	}
 
-//	public void addPlayer(PlayerModel player) {
-//		players.add(player);
-//		this.setChanged();
-//		this.notifyObservers(Event.NEWPLAYER);
-//
-//	}
 
+	/* (non-Javadoc)
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Does the player is in game?
+	 * @return
+	 */
 	public boolean isInGame() {
 		if (creator == null)
 			return false;
 		return true;
 	}
 
+	
+	/**
+	 * 
+	 * @return the logged in player
+	 */
 	public PlayerModel getMe() {
 		// TODO Auto-generated method stub
 		return me;
 	}
 
+	
+	/**
+	 * Set the game creator
+	 * @param creator
+	 */
 	public void setCreator(NetPlayer creator) {
 		this.creator = new PlayerModel(creator, Color.black);
 		
 		
 	}
+	
+	
+	/**
+	 * @return a ready to send over network game status
+	 */
 	public GameStatus getGameStatus() {
 		GameStatus gs = new GameStatus(this.creator.toNet(), gamePhase, dices);
 		gs.fromPlayerModels(playersModel);
 		return gs;
 	}
+	
+	
+	/**
+	 * @return the game creator, null if not in game
+	 */
 	public synchronized PlayerModel getCreator() {
 		return creator;
 	}
 
+	/**
+	 * Set the game creator
+	 * @param creator
+	 */
 	public  void setCreator(PlayerModel creator) {
 		this.creator = creator;
 	}
 
+	/**
+	 * Set the logged in player
+	 * @param me
+	 */
 	public void setMe(PlayerModel me) {
-
 		this.me = me;
-		//players.add(me);
-		//playersModel.add(me);
 		setChanged();
-		notifyObservers(Event.CONNECTED);
+		notifyObservers();
 	}
 
-//	public ArrayList<PlayerModel> getPlayers() {
-//		return players;
-//	}
-//	public void setPlayers(ArrayList<PlayerModel> players) {
-//		this.players = players;
-//	}
-//	public ArrayList<PlayerModel> getLobbyPlayers() {
-//		return lobbyPlayers;
-//	}
-//	public void setLobbyPlayers(ArrayList<PlayerModel> lobbyPlayers) {
-//		this.lobbyPlayers = lobbyPlayers;
-//	}
+
+	/**
+	 * Add a new player the player list model
+	 * (With NetPlayer)
+	 * @param np
+	 */
 	public void addPlayer(NetPlayer np) {
 		Color c = ColorMap.get(playersModel.getPlayers().size());
 		PlayerModel p = new PlayerModel(np,c);
@@ -214,34 +238,50 @@ public class GameModel extends Observable implements Observer {
 		
 	}
 
-//	public void addLobbyPlayer(NetPlayer player) {
-//		lobbyPlayers.add(new PlayerModel(player, Color.black));
-//		setChanged();
-//		notifyObservers(Event.NEWAVAILABLE);
-//		
-//	}
 
+	/**
+	 * Set the creator to null
+	 */
 	public void unsetCreator() {
 		this.creator = null;
 		
 	}
 	
+	/**
+	 * Set hibernate session
+	 * @param session
+	 */
 	public void setSession(Session session){
 		this.session = session;
 	}
 	
+	/**
+	 * @return hibernate session
+	 */
 	public Session getSession(){
 		return this.session;
 	}
 
+	/**
+	 * @return Player list model
+	 */
 	public synchronized PlayerListModel getPlayersModel() {
 		return playersModel;
 	}
 
+	/**
+	 * Set player list model
+	 * @param playersModel
+	 */
 	public synchronized void setPlayersModel(PlayerListModel playersModel) {
 		this.playersModel = playersModel;
 	}
 
+	/**
+	 * Add a new player the player list model
+	 * (With player model)
+	 * @param me2
+	 */
 	public void addPlayer(PlayerModel me2) {
 		Color c = ColorMap.get(playersModel.getPlayers().size());
 		me2.setPlayerColor(c);
@@ -251,53 +291,83 @@ public class GameModel extends Observable implements Observer {
 		
 	}
 
+	
+	/**
+	 * Update dices models
+	 * @param dices2
+	 */
 	public void setDices(DicesCombo dices2) {
 		this.dices.getD1().setFace(dices2.getD1().getFace());
 		this.dices.getD2().setFace(dices2.getD2().getFace());
 		this.dices.getD3().setFace(dices2.getD3().getFace());
 		
-		//this.dices = dices2;
-		
-		
 	}
 
+	
+	/**
+	 * @return dice combination object
+	 */
 	public DicesCombo getDices() {
-		// TODO Auto-generated method stub
 		return dices;
 	}
+	
+	/**
+	 * @return Turn player
+	 */
 	public PlayerModel getTurn() {
 		return turn;
 		
 	}
 	
+	/**
+	 * Set hibernate game mapped model
+	 * @param game
+	 */
 	public void setGame(Games game){
+		// TODO Wtf it s doing there :o
 		this.game = game;
 	}
-	public void setWinner(PlayerModel p) {
-		winner = p;
-		
-	}
+
+	/**
+	 * Select the next player
+	 */
 	public void nextTurn() {
 		turn = playersModel.getPlayers().get(
 				(playersModel.getPlayers().indexOf(turn) +1)
 				% playersModel.size());
-		System.err.println("new turn : " + turn.getPlayerLogin() + " i "+ playersModel.getPlayers().indexOf(turn));
+		
 		
 	}
+	
+	/**
+	 * @return the winner game model
+	 */
 	public PlayerModel getOneGain() {
 		return oneGain;
 	}
+	
+	/**
+	 * Set the winner game model with his gains
+	 * @param oneGain the winner
+	 * @param i his gains
+	 */
 	public void setOneGain(PlayerModel oneGain, int i) {
 		this.oneGain = oneGain;
 		this.gain = i;
 		setChanged();
 		notifyObservers();
 	}
+	
+	/**
+	 * @return gains of the winner
+	 */
 	public int getGain() {
 		return gain;
 	}
 	
+	
 	public Games getGame(){
+		// TODO Remove it
 		return this.game;
 	}
 

@@ -8,12 +8,21 @@ import game.gui.GameControler;
 import game.gui.ImagePanel;
 
 import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
 
+
+/**
+ * Looser view
+ * @author clement
+ *
+ */
 public class LosePanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Create the panel.
 	 */

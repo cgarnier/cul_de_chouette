@@ -4,7 +4,6 @@ import game.gui.GameControler;
 import game.gui.GameModel.GamePhase;
 import game.gui.ImagePanel;
 
-import javax.management.modelmbean.ModelMBean;
 import javax.swing.JPanel;
 
 import java.awt.Color;
@@ -15,10 +14,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 
+
+/**
+ * The game view
+ * @author clement
+ *
+ */
 public class GamePanel extends JPanel implements Observer {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private GameControler controler;
 	JButton btnLancerLesDs;
 	JLabel lblCestJoueur;
@@ -51,8 +59,7 @@ public class GamePanel extends JPanel implements Observer {
 		 dicesPanel.add(d2);
 		 dicesPanel.add(d3);
 		 
-		// dicesPanel.add(new DicePanel(5));
-		// dicesPanel.add(new DicePanel(5));
+
 
 		add(dicesPanel);
 		dicesPanel.setLayout(new GridLayout(0, 3, 0, 0));
@@ -84,7 +91,7 @@ public class GamePanel extends JPanel implements Observer {
 				txtpnGagne.setForeground(Color.white);
 				txtpnGagne.setFocusable(false);
 				
-				//txtpnGagne.setFont(lblCestJoueur.getFont());
+				
 				txtpnGagne.setOpaque(false);
 				txtpnGagne.setText("");
 				txtpnGagne.setBounds(30, 43, 235, 92);
@@ -126,8 +133,7 @@ public class GamePanel extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		System.out.println("--- Update game panel - phase "
-				+ controler.getModel().getGamePhase());
+		
 		btnLancerLesDs.setEnabled(false);
 		if (controler.getModel().getGamePhase() == GamePhase.ONEDICE) {
 			d1.setVisible(true);
@@ -162,7 +168,7 @@ public class GamePanel extends JPanel implements Observer {
 		}
 		if (controler.getModel().getGamePhase() == GamePhase.TWODICES
 				|| controler.getModel().getGamePhase() == GamePhase.ONEDICE) {
-			System.err.println("two or one");
+			
 			if (controler.getModel().getTurn()
 					.equals(controler.getModel().getMe())) {
 				System.err.println("my turn");

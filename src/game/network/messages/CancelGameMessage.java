@@ -1,7 +1,14 @@
 package game.network.messages;
 
+import game.network.NetPlayer;
+
 import java.io.Serializable;
 
+/**
+ * Cancel Message
+ * @author clement
+ *
+ */
 public class CancelGameMessage implements Serializable{
 	/**
 	 * 

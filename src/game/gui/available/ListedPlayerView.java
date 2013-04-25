@@ -10,7 +10,16 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * A list of available players
+ * @author clement
+ *
+ */
 public class ListedPlayerView extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JButton btInvite;
 	JLabel lName;
 	ActionListener actionListener;

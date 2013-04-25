@@ -21,8 +21,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
+
+/**
+ * Create new account view
+ * @author clement
+ *
+ */
 public class CreateAccountPanel extends ImagePanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	GameControler controler;
 	private JTextField txtLogin;
 	private JTextField txtPass;

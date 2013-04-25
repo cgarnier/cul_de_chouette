@@ -3,8 +3,18 @@ package game.network.messages;
 import java.io.Serializable;
 
 import game.gui.Interaction;
+import game.network.NetPlayer;
 
+/**
+ * Player interaction message
+ * @author clement
+ *
+ */
 public class PlayerInteractionMessage implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	NetPlayer player;
 	Interaction.Type type;
 	NetPlayer creator;

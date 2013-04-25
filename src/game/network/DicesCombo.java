@@ -6,53 +6,56 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * The dices combination calculator.
+ * Allow to detect combinations and calculate their values.
+ * @author clement
+ *
+ */
 public class DicesCombo implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DiceModel d1, d2, d3;
-	private int score;
-
 	public DicesCombo() {
 		d1 = new DiceModel();
 		d2 = new DiceModel();
 		d3 = new DiceModel();
 		
 	}
-	@Deprecated
-	public void setTwoDices(DiceModel d1, DiceModel d2) {
-		this.d1 = d1;
-		this.d2 = d2;
 
-	}
 
-	@Deprecated
-	public void setOneDice(DiceModel d3) {
-		this.d3 = d3;
-
-	}
-
+	/**
+	 * @return first dice
+	 */
 	public synchronized DiceModel getD1() {
 		return d1;
 	}
 
-//	public synchronized void setD1(DiceModel d1) {
-//		this.d1 = d1;
-//	}
 
+	/**
+	 * @return second dice
+	 */
 	public synchronized DiceModel getD2() {
 		return d2;
 	}
 
-//	public synchronized void setD2(DiceModel d2) {
-//		this.d2 = d2;
-//	}
 
+
+	/**
+	 * @return third dice
+	 */
 	public synchronized DiceModel getD3() {
 		return d3;
 	}
 
-//	public synchronized void setD3(DiceModel d3) {
-//		this.d3 = d3;
-//	}
 
+
+	
+	/**
+	 * @return true if combination is veloute
+	 */
 	public boolean isVeloute() {
 		if (d1.getFace() + d2.getFace() == d3.getFace()) {
 			
@@ -61,6 +64,9 @@ public class DicesCombo implements Serializable{
 		return false;
 	}
 
+	/**
+	 * @return true if combination is chouette
+	 */
 	public boolean isChouette() {
 		if (d1.getFace() == d2.getFace()) {
 			
@@ -70,6 +76,9 @@ public class DicesCombo implements Serializable{
 
 	}
 
+	/**
+	 * @returntrue if combination is cul de chouette
+	 */
 	public boolean isCulDeChouette() {
 		if (d1.getFace() == d2.getFace() && d2.getFace() == d3.getFace()) {
 			
@@ -79,6 +88,9 @@ public class DicesCombo implements Serializable{
 
 	}
 
+	/**
+	 * @return true if combination is suite
+	 */
 	public boolean isSuite() {
 		ArrayList<Integer> suite = new ArrayList<Integer>();
 		suite.add(d1.getFace());
@@ -95,12 +107,19 @@ public class DicesCombo implements Serializable{
 
 	}
 
+	/**
+	 * @return true if combination is chouette veloute
+	 */
 	public boolean isChouetteVelute() {
 		if (isChouette())
 			return isVeloute();
 		return false;
 	}
 
+	
+	/**
+	 * @return score of the combination
+	 */
 	public int getScore() {
 		// Chouette veloute
 		if (isChouette() && isVeloute())
@@ -130,8 +149,5 @@ public class DicesCombo implements Serializable{
 		
 	}
 
-	public void setScore(int score) {
-		this.score = score;
-	}
 
 }

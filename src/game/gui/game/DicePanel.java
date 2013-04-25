@@ -13,9 +13,18 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 
+/**
+ * A dice view
+ * @author clement
+ *
+ */
 public class DicePanel extends JPanel implements Observer{
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ArrayList<BufferedImage> images;
 	private int diceFace;
 	public DicePanel(int face) {
@@ -27,7 +36,7 @@ public class DicePanel extends JPanel implements Observer{
 				images.add( ImageIO.read(new File("Images/"+i+".png")) );
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				//e.printStackTrace();
+				e.printStackTrace();
 			}
 		}
 		

@@ -5,7 +5,6 @@ import game.gui.PlayerModel;
 
 import javax.swing.JPanel;
 
-import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Color;
@@ -14,8 +13,16 @@ import java.awt.Insets;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * One player view
+ * @author clement
+ *
+ */
 public class PlayerPanel extends JPanel implements Observer {
-	private GameControler controler;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private PlayerModel model;
 	JPanel panel;
 	JLabel lblUsername;
@@ -24,7 +31,6 @@ public class PlayerPanel extends JPanel implements Observer {
 	 * Create the panel.
 	 */
 	public PlayerPanel(GameControler controler) {
-		this.controler = controler;
 		this.setOpaque(false);
 		setBackground(Color.WHITE);
 		setForeground(Color.WHITE);

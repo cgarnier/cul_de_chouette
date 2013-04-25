@@ -1,0 +1,14 @@
+package testesUnitaires;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+public class azerty {
+
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+}

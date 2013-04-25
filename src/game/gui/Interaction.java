@@ -2,10 +2,16 @@ package game.gui;
 
 import java.util.ArrayList;
 
+/**
+ * Game interaction class.
+ * Allow to initialize a new interaction phase.
+ * Handle players interactions order.
+ * @author clement
+ *
+ */
 public class Interaction {
 	public static enum Type {NONE, SUITE,CHOUETTEVELOUTE};
 	private Type expected;
-	private PlayerModel player;
 	private ArrayList<PlayerModel> playersWhoHaveInteracted;
 	public Interaction() {
 		playersWhoHaveInteracted = new ArrayList<PlayerModel>();
@@ -28,7 +34,6 @@ public class Interaction {
 		
 	}
 	public void setPlayer(PlayerModel player) {
-		this.player = player;
 	}
 
 	public void addPlayer(PlayerModel p) {
@@ -42,7 +47,6 @@ public class Interaction {
 	}
 	public void reset() {
 		playersWhoHaveInteracted.clear();
-		player = null;
 		expected = Type.NONE;
 	}
 }

@@ -11,28 +11,30 @@ import game.gui.menu.MenuPanel;
 import game.gui.playerlist.PlayerListPanel;
 import game.gui.waiting.WaitingPanel;
 
-import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Rectangle;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.JLabel;
 import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * Game graphical interface
+ * @author clement, geoffrey
+ *
+ */
 public class Gui extends JFrame implements Observer, KeyListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ImagePanel contentPane;
 	private GameControler controler;
 
@@ -69,9 +71,9 @@ public class Gui extends JFrame implements Observer, KeyListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 750);
 		setMaximizedBounds(new Rectangle(700, 695));
-		// setPreferredSize(new Dimension(700, 800));
+		
 		contentPane = new ImagePanel("Images/theme/fond2.png");
-		// contentPane = new JPanel();
+		
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -105,14 +107,17 @@ public class Gui extends JFrame implements Observer, KeyListener {
 		losePanel = new LosePanel(controler);
 		showLogin();
 		
-		//showWin();
+		
 		contentPane.setFocusable(true);
 		contentPane.requestFocus();
 		contentPane.addKeyListener(this);
-		//showGame();
+		
 
 	}
 
+	/**
+	 * Show login form
+	 */
 	public void showLogin() {
 		rightPanel.removeAll();
 		rightPanel.setBounds(220, 150, 278, 228);
@@ -121,6 +126,10 @@ public class Gui extends JFrame implements Observer, KeyListener {
 		reDraw();
 	}
 
+	
+	/**
+	 * Show the game menu
+	 */
 	public void showMenu() {
 		if(leftPanel.getBounds().getY() > -100)
 			slidePlayerListUp();
@@ -135,6 +144,10 @@ public class Gui extends JFrame implements Observer, KeyListener {
 
 	}
 
+	
+	/**
+	 * Initialization slide. Slide a little down the player list.
+	 */
 	private void slidePlayerListInit() {
 		new Thread(new Runnable() {
 
@@ -158,6 +171,9 @@ public class Gui extends JFrame implements Observer, KeyListener {
 		
 	}
 
+	/**
+	 * Show the 'waiting for a game' player list.
+	 */
 	public void showAvailable() {
 		rightPanel.removeAll();
 
@@ -169,10 +185,14 @@ public class Gui extends JFrame implements Observer, KeyListener {
 
 	}
 
+	/**
+	 * Slide down the player list.
+	 */
 	public void slidePlayerList() {
 		System.out.println("Slide");
 		new Thread(new Runnable() {
 
+			// TODO Replace with math function arcsin or something
 			@Override
 			public void run() {
 				for (int y = -200; y < 66; y = y + 2) {
@@ -224,6 +244,9 @@ public class Gui extends JFrame implements Observer, KeyListener {
 		}).start();
 		
 	}
+	/**
+	 * Slide up the player list.
+	 */
 	public void slidePlayerListUp() {
 		System.out.println("Slide");
 		new Thread(new Runnable() {
@@ -248,6 +271,9 @@ public class Gui extends JFrame implements Observer, KeyListener {
 		
 	}
 
+	/**
+	 * Show the 'waiting for invitation' view.
+	 */
 	public void showWaiting() {
 		rightPanel.removeAll();
 
@@ -259,6 +285,9 @@ public class Gui extends JFrame implements Observer, KeyListener {
 
 	}
 
+	/**
+	 * Show the game view
+	 */
 	public void showGame() {
 
 		rightPanel.removeAll();
@@ -271,6 +300,10 @@ public class Gui extends JFrame implements Observer, KeyListener {
 
 	}
 
+	
+	/**
+	 * Show the new account view
+	 */
 	public void showNewAccount() {
 		rightPanel.removeAll();
 		rightPanel.setBounds(256, 95, 279, 361);
@@ -280,6 +313,10 @@ public class Gui extends JFrame implements Observer, KeyListener {
 
 	}
 
+	/**
+	 * Show an error dialog
+	 * @param error the error
+	 */
 	public void showError(String error) {
 		ErrorDialog dialog = new ErrorDialog(error);
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -288,6 +325,10 @@ public class Gui extends JFrame implements Observer, KeyListener {
 
 	}
 
+	
+	/**
+	 * Prepare the end game view
+	 */
 	public void showFinish() {
 		//showMenu();
 		//leftPanel.setBounds(25, -220, 185, 323);
@@ -308,12 +349,22 @@ public class Gui extends JFrame implements Observer, KeyListener {
 							.getPlayerScore());
 
 	}
+	
+	/**
+	 * Show the winner view
+	 * @param t bravo text
+	 */
 	public void showWin(String t) {
 		rightPanel.removeAll();
 		winPanel.setText(t);
 		winPanel.setVisible(true);
 		rightPanel.add(winPanel);
 	}
+	
+	/**
+	 * Show the looser view
+	 * @param t Fail text
+	 */
 	public void showLose(String t) {
 		rightPanel.removeAll();
 		losePanel.setText(t);
@@ -321,6 +372,10 @@ public class Gui extends JFrame implements Observer, KeyListener {
 		rightPanel.add(losePanel);
 	}
 
+	
+	/**
+	 * Re draw the right content pane
+	 */
 	private void reDraw() {
 		this.rightPanel.revalidate();
 		this.repaint();

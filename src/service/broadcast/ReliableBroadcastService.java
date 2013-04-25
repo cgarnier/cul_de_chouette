@@ -1,4 +1,4 @@
-/* Coyright Eric Cariou, 2009 - 2011 */
+
 
 package service.broadcast;
 
@@ -20,6 +20,11 @@ import service.MessageType;
 import service.Service;
 import service.TypedMessage;
 
+/**
+ * Reliable service broadcast
+ * @author clement
+ *
+ */
 public class ReliableBroadcastService extends Service implements IBroadcast {
 
 	protected IIdentification idService;
@@ -33,6 +38,9 @@ public class ReliableBroadcastService extends Service implements IBroadcast {
 		
 		
 	}
+	/* (non-Javadoc)
+	 * @see service.Service#initialize(service.MessageDispatcher, service.ICommunication, service.MessageType)
+	 */
 	@Override
 	public void initialize(MessageDispatcher dispatcher,
 			ICommunication commElt, MessageType myType) {
@@ -43,6 +51,7 @@ public class ReliableBroadcastService extends Service implements IBroadcast {
 		messageFilter.start();
 	}
 
+
 	public void setIdentificationService(IIdentification idService) {
 		this.idService = idService;
 	}
@@ -51,7 +60,7 @@ public class ReliableBroadcastService extends Service implements IBroadcast {
 	public void broadcast(Object data) throws CommunicationException {
 		
 		ProcessIdentifier id;
-		Iterator it;
+		Iterator<ProcessIdentifier> it;
 		CompoundException exceptions = null;
 		CommunicationException firstException = null;
 		it = idService.getAllIdentifiers().iterator();
@@ -87,10 +96,15 @@ public class ReliableBroadcastService extends Service implements IBroadcast {
 			throw firstException;
 	}	
 	
+	/**
+	 * Re broadcast a reliable message
+	 * @param rm
+	 * @throws CommunicationException
+	 */
 	private void _rebroadcast(ReliableMessage rm) throws CommunicationException {
 		
 		ProcessIdentifier id;
-		Iterator it;
+		Iterator<ProcessIdentifier> it;
 		CompoundException exceptions = null;
 		CommunicationException firstException = null;
 		it = idService.getAllIdentifiers().iterator();
@@ -151,6 +165,12 @@ public class ReliableBroadcastService extends Service implements IBroadcast {
 		return buffer.available() > 0;
 	}
 	
+	
+	/**
+	 * Filter the reliable message with their unique Reliable Message Identifier
+	 * @author clement
+	 *
+	 */
 	public class MessageFilter extends Thread {
 		
 		protected LinkedList<ReliableMessageIdentifier> filter;
@@ -168,10 +188,9 @@ public class ReliableBroadcastService extends Service implements IBroadcast {
 		@Override
 		public void run() {
 			while (true) {
-				Message filteredMsg;
 				Message msgToFilter = this.bufferToFilter.removeElement(true);
 				
-				System.out.println("Recut: " + msgToFilter);
+				
 				if(this._passfilter(msgToFilter)){
 					
 					filteredBuffer.addElement(msgToFilter);

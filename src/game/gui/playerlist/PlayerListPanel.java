@@ -7,12 +7,21 @@ import javax.swing.JPanel;
 
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+
+/**
+ * The player list view
+ * @author clement
+ *
+ */
 public class PlayerListPanel extends JPanel implements Observer{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private GameControler controler;
 	ArrayList<PlayerPanel> players;
 	/**

@@ -6,22 +6,25 @@ import game.gui.PlayerModel;
 
 import javax.swing.JPanel;
 
-import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.BorderLayout;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
-import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Observable;
 import java.util.Observer;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 
+/**
+ * 'Waiting for game' player list view
+ * @author clement
+ *
+ */
 public class AvailablePlayersPanel extends ImagePanel implements Observer {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Create the panel.
 	 */
@@ -42,9 +45,7 @@ public class AvailablePlayersPanel extends ImagePanel implements Observer {
 
 		panel = new JPanel();
 		panel.setOpaque(false);
-		// panel.add(new AnAvailablePlayerPanel());
-		// panel.add(new AnAvailablePlayerPanel());
-		// panel.add(new AnAvailablePlayerPanel());
+
 
 		scrollPane.setViewportView(panel);
 		panel.setLayout(new GridLayout(0, 1, 0, 0));

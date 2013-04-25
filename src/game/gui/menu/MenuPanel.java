@@ -3,18 +3,23 @@ package game.gui.menu;
 import game.gui.GameControler;
 import game.gui.ImagePanel;
 import javax.swing.JPanel;
-import java.awt.GridBagLayout;
 import javax.swing.JButton;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
+
+/**
+ * Menu view
+ * @author clement
+ *
+ */
 public class MenuPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	GameControler controler;
 	
 	/**
@@ -24,7 +29,7 @@ public class MenuPanel extends JPanel {
 		controler = c;
 		setLayout(new GridLayout(0, 1, 0, 0));
 		this.setOpaque(false);
-		//this.setPreferredSize(new Dimension(279, 361));
+		
 		ImagePanel panel = new ImagePanel("Images/theme/invitez_vos_amis.png");
 		panel.setLayout(null);
 		add(panel);

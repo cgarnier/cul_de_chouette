@@ -1,7 +1,14 @@
 package game.network.messages;
 
+import game.network.NetPlayer;
+
 import java.io.Serializable;
 
+/**
+ * Leave game message
+ * @author clement
+ *
+ */
 public class LeaveGameMessage implements Serializable {
 
 	/**

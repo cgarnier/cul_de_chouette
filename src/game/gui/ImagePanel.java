@@ -6,10 +6,18 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
 
+/**
+ * Simple panel with background image. Allow layered adds to superpose components
+ * @author clement
+ *
+ */
 public class ImagePanel extends JLayeredPane {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Image img;
 
 	public ImagePanel(String imgStr) {

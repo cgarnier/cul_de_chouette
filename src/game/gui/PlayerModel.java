@@ -1,6 +1,6 @@
 package game.gui;
 
-import game.network.messages.NetPlayer;
+import game.network.NetPlayer;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -11,9 +11,13 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 
-import communication.ProcessIdentifier;
 
-
+/**
+ * A player model class.
+ * Use hibernate.
+ * @author clement
+ *
+ */
 public class PlayerModel extends Observable {
 
 	public enum Sex {
@@ -148,6 +152,7 @@ public class PlayerModel extends Observable {
 		this.netId = creator;
 		this.setPlayerColor(black);
 		
+		@SuppressWarnings("deprecation")
 		Session session = (new Configuration().configure().buildSessionFactory()).openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("from PlayerModel where id ='"+creator.getGlobalId()+"'");                 

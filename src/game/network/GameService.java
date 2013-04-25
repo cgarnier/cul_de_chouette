@@ -3,17 +3,15 @@ package game.network;
 import game.gui.Interaction;
 import game.gui.Interaction.Type;
 import game.network.messages.CancelGameMessage;
-import game.network.messages.GameStatus;
 import game.network.messages.GameStatusMessage;
-import game.network.messages.InvitMessage;
+import game.network.messages.InviteMessage;
 import game.network.messages.JoinAnswerMessage;
 import game.network.messages.KickPlayerMessage;
 import game.network.messages.LeaveGameMessage;
-import game.network.messages.NetPlayer;
 import game.network.messages.PlayerInteractionMessage;
 import game.network.messages.RefreshMessage;
 import game.network.messages.StartMessage;
-import game.network.messages.WaitingPlayerMessage;
+import game.network.messages.WaitingMessage;
 import service.DistributedServicesMiddleware;
 import service.IBroadcast;
 import service.ICommunication;
@@ -26,6 +24,17 @@ import communication.Message;
 import communication.ProcessIdentifier;
 import communication.ReliabilitySetting;
 
+/**
+ * Game service class
+ * 
+ * Process messages from the network and forward their information to a game client.
+ * Allow the game client to interact with other process on the network.
+ * 
+ * Use the diffusion API.
+ * 
+ * @author clement
+ *
+ */
 public class GameService implements IGameService {
 	IDistributedServices services;
 	ICommunication commService;
@@ -35,8 +44,10 @@ public class GameService implements IGameService {
 	Thread netListener;
 
 	IGameClient client;
-	private ProcessIdentifier gameId;
-
+	/**
+	 * Initializes the game service.
+	 * Auth on the id service and setup the reliabilities settings.
+	 */
 	public void init() {
 
 		// setting of the simulated system
@@ -89,14 +100,14 @@ public class GameService implements IGameService {
 
 	@Override
 	public void createGame() {
-		this.gameId = this.idService.getMyIdentifier();
+		this.idService.getMyIdentifier();
 
 	}
 
 	@Override
 	public void invitPlayer(NetPlayer creator, NetPlayer guest) {
 		try {
-			this.broadcastService.broadcast(new InvitMessage(creator, guest));
+			this.broadcastService.broadcast(new InviteMessage(creator, guest));
 		} catch (CommunicationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -104,36 +115,19 @@ public class GameService implements IGameService {
 
 	}
 
-	@Override
-	public void refreshGameList() {
-		// TODO Auto-generated method stub
 
-	}
 
-	@Override
-	public void saySuite() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void sayChouetteVeloute() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * 
-	 * 
-	 * HandleMessage
+	/**
+	 * Handle and process the different type of message incoming from the network liestener thread.
+	 * @param msg Network message
 	 */
 	private void handleMessage(Message msg) {
 
 		/*
 		 * Invit
 		 */
-		if (msg.getData() instanceof InvitMessage) {
-			InvitMessage invit = (InvitMessage) msg.getData();
+		if (msg.getData() instanceof InviteMessage) {
+			InviteMessage invit = (InviteMessage) msg.getData();
 			this.client.handleInvit(invit.getCreator(), invit.getGuest());
 			return;
 		}
@@ -175,8 +169,8 @@ public class GameService implements IGameService {
 		/*
 		 * Waiting notif
 		 */
-		if (msg.getData() instanceof WaitingPlayerMessage) {
-			NetPlayer p = ((WaitingPlayerMessage) msg.getData()).getPlayer();
+		if (msg.getData() instanceof WaitingMessage) {
+			NetPlayer p = ((WaitingMessage) msg.getData()).getPlayer();
 
 			this.client.handleWaitingNotification(p);
 			return;
@@ -241,6 +235,9 @@ public class GameService implements IGameService {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see game.network.IGameService#sendGameStatus(game.network.messages.GameStatus)
+	 */
 	public void sendGameStatus(GameStatus status) {
 		try {
 			GameStatusMessage msg = new GameStatusMessage(status);
@@ -253,10 +250,9 @@ public class GameService implements IGameService {
 
 	}
 
-	private boolean imCreator() {
-		return gameId.equals(this.idService.getMyIdentifier());
-	}
-
+	/* (non-Javadoc)
+	 * @see game.network.IGameService#joinGame(game.network.messages.NetPlayer, game.network.messages.NetPlayer)
+	 */
 	@Override
 	public void joinGame(NetPlayer creator, NetPlayer me) {
 
@@ -269,6 +265,9 @@ public class GameService implements IGameService {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see game.network.IGameService#setGameClient(game.network.IGameClient)
+	 */
 	@Override
 	public void setGameClient(IGameClient client) {
 
@@ -276,11 +275,18 @@ public class GameService implements IGameService {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see game.network.IGameService#disconnect()
+	 */
+	@Override
 	public void disconnect() {
 		services.disconnect();
 
 	}
 
+	/* (non-Javadoc)
+	 * @see game.network.IGameService#startGame(game.network.messages.GameStatus)
+	 */
 	@Override
 	public void startGame(GameStatus status) {
 
@@ -294,6 +300,9 @@ public class GameService implements IGameService {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see game.network.IGameService#sendRefresh()
+	 */
 	@Override
 	public void sendRefresh() {
 		try {
@@ -304,23 +313,32 @@ public class GameService implements IGameService {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see game.network.IGameService#sendWaiting(game.network.messages.NetPlayer)
+	 */
 	@Override
 	public void sendWaiting(NetPlayer player) {
 		System.out.println("Sending waiting ...");
 		try {
-			this.broadcastService.broadcast(new WaitingPlayerMessage(player));
+			this.broadcastService.broadcast(new WaitingMessage(player));
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 
 	}
 
+	/* (non-Javadoc)
+	 * @see game.network.IGameService#getMyNetId()
+	 */
 	@Override
 	public ProcessIdentifier getMyNetId() {
 		// TODO Auto-generated method stub
 		return idService.getMyIdentifier();
 	}
 
+	/* (non-Javadoc)
+	 * @see game.network.IGameService#sendInteraction(game.network.messages.NetPlayer, game.network.messages.NetPlayer, game.gui.Interaction.Type)
+	 */
 	@Override
 	public void sendInteraction(NetPlayer creator, NetPlayer player, Type type) {
 		System.out.println("Sending interact ...");
@@ -332,6 +350,9 @@ public class GameService implements IGameService {
 
 	}
 	
+	/* (non-Javadoc)
+	 * @see game.network.IGameService#sendKick(game.network.messages.NetPlayer, game.network.messages.NetPlayer)
+	 */
 	@Override
 	public void sendKick(NetPlayer net, NetPlayer guest) {
 		try {
@@ -342,6 +363,9 @@ public class GameService implements IGameService {
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see game.network.IGameService#sendCancel(game.network.messages.NetPlayer)
+	 */
 	@Override
 	public void sendCancel(NetPlayer net) {
 		
@@ -352,6 +376,9 @@ public class GameService implements IGameService {
 		}
 	
 	}
+	/* (non-Javadoc)
+	 * @see game.network.IGameService#sendLeave(game.network.messages.NetPlayer, game.network.messages.NetPlayer)
+	 */
 	@Override
 	public void sendLeave(NetPlayer net, NetPlayer net2) {
 		// TODO Auto-generated method stub
@@ -362,5 +389,7 @@ public class GameService implements IGameService {
 		}
 
 	}
+
+
 
 }

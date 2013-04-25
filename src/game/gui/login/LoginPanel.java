@@ -3,12 +3,7 @@ package game.gui.login;
 import game.gui.GameControler;
 import game.gui.ImagePanel;
 
-import javax.swing.JPanel;
-import java.awt.GridBagLayout;
 import javax.swing.JLabel;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -18,7 +13,16 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.Color;
 
+/**
+ * Login view
+ * @author clement
+ *
+ */
 public class LoginPanel extends ImagePanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtUser;
 	private JTextField txtPassword;
 	private GameControler controler;

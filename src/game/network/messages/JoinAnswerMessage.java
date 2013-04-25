@@ -1,8 +1,19 @@
 package game.network.messages;
 
+import game.network.NetPlayer;
+
 import java.io.Serializable;
 
+/**
+ * Join answer message
+ * @author clement
+ *
+ */
 public class JoinAnswerMessage implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private NetPlayer creator;
 	private NetPlayer player;
 

@@ -5,26 +5,19 @@ import game.network.NetPlayer;
 import java.io.Serializable;
 
 /**
- * Kick player message
+ * Waiting for game invite message
  * @author clement
  *
  */
-public class KickPlayerMessage implements Serializable {
+public class WaitingMessage implements Serializable {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	NetPlayer creator;
 	NetPlayer player;
-	public KickPlayerMessage(NetPlayer c, NetPlayer p) {
-		this.creator = c;
-		this.player = p;
-	}
-	public NetPlayer getCreator() {
-		return creator;
-	}
-	public void setCreator(NetPlayer creator) {
-		this.creator = creator;
+	public WaitingMessage(NetPlayer player) {
+		this.player = player;
 	}
 	public NetPlayer getPlayer() {
 		return player;

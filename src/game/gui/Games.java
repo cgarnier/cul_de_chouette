@@ -2,10 +2,14 @@ package game.gui;
 
 import game.gui.playerlist.PlayerListModel;
 
-import java.awt.List;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Hibernate POJO for game logging and history
+ * @author clement, geoffrey
+ *
+ */
 public class Games {
 	
 	protected int ID;

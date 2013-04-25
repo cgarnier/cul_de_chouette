@@ -14,8 +14,17 @@ import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * One player view for the 'waiting for game' player list.
+ * @author clement
+ *
+ */
 public class AnAvailablePlayerPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	PlayerModel player;
 	GameControler controler;
 	/**

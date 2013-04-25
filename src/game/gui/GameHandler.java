@@ -11,10 +11,10 @@ import game.gui.GameModel.GamePhase;
 import game.gui.Interaction.Type;
 
 import game.network.GameService;
+import game.network.GameStatus;
 import game.network.IGameClient;
 import game.network.IGameService;
-import game.network.messages.GameStatus;
-import game.network.messages.NetPlayer;
+import game.network.NetPlayer;
 
 /*
  * Filtre les données provenant du GameSerice et actualise le modele.
@@ -22,6 +22,11 @@ import game.network.messages.NetPlayer;
  * 
  */
 
+/**
+ * Filter incoming events from the game service and update the game model.
+ * @author clement
+ *
+ */
 public class GameHandler implements IGameClient {
 	protected GameModel model;
 	
@@ -34,7 +39,15 @@ public class GameHandler implements IGameClient {
 		this.service.setGameClient(this);
 		
 	}
+	
+	
+	
+	/**
+	 * Set the view
+	 * @param v
+	 */
 	public void setView(Gui v) {
+		// TODO Create a view interface to allow multi view
 		view = v;
 	}
 
@@ -42,6 +55,9 @@ public class GameHandler implements IGameClient {
 
 
 
+	/* (non-Javadoc)
+	 * @see game.network.IGameClient#handleInvit(game.network.messages.NetPlayer, game.network.messages.NetPlayer)
+	 */
 	@Override
 	public void handleInvit(NetPlayer creator, NetPlayer guest) {
 		if(model.getMe() == null) return;
@@ -59,6 +75,9 @@ public class GameHandler implements IGameClient {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see game.network.IGameClient#handleJoinAnswer(game.network.messages.NetPlayer, game.network.messages.NetPlayer)
+	 */
 	@Override
 	public void handleJoinAnswer(NetPlayer creator, NetPlayer guest) {
 		if(model.getCreator() == null)
@@ -78,6 +97,9 @@ public class GameHandler implements IGameClient {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see game.network.IGameClient#handleStatus(game.network.messages.GameStatus)
+	 */
 	@Override
 	public void handleStatus(GameStatus status) {
 		if(model.getCreator() == null) return;
@@ -107,6 +129,10 @@ public class GameHandler implements IGameClient {
 
 	}
 
+	/**
+	 * Update the player list from the new list delivered by game service
+	 * @param newlist
+	 */
 	private void updatePlayerList(ArrayList<NetPlayer> newlist) {
 		// TODO Modify for remove player
 		//model.getPlayersModel().reset();
@@ -126,6 +152,10 @@ public class GameHandler implements IGameClient {
 		
 	}
 
+	/**
+	 * Check the dices combination. Detect and process new player interaction and calculate the turn score.
+	 * @param status
+	 */
 	public void checkDices(GameStatus status) {
 		System.err.println("checking dices ...");
 		model.setDices(status.getDices());
@@ -144,6 +174,9 @@ public class GameHandler implements IGameClient {
 
 	}
 
+	/**
+	 * 
+	 */
 	private void checkScores() {
 		for (PlayerModel p : model.getPlayersModel().getPlayers()) {
 			if (p.getPlayerScore() >= 343) {
@@ -152,47 +185,41 @@ public class GameHandler implements IGameClient {
 
 				
 				if(this.model.getMe().equals(this.model.getPlayersModel().getWinner())) {
+					@SuppressWarnings("deprecation")
 					Session session = (new Configuration().configure().buildSessionFactory()).openSession();	
 					session.beginTransaction();
 					Games game = new Games(this.model.getPlayersModel());
 					session.persist(game);
 					session.getTransaction().commit();
-					System.out.println("debug1");
-//					for (PlayerModel player : game.getGamePlayersInfos().getPlayers()) {
-//					for (PlayerModel player : model.getPlayersModel().getPlayers()) {
+
 					List <PlayerModel>list = game.gamePlayersInfos.getPlayers();
 					java.util.Iterator<PlayerModel> iter = list.iterator();
 					History history;
 				    while (iter.hasNext()) {
 				        PlayerModel player = iter.next();
-						System.out.println("debug2");
-						System.out.println("player : "+player.getPlayerLogin());
-						System.out.println("debug3");
 						session.beginTransaction();
-						System.out.println("debug4");
 						history = new History(game.getID(), player.getPlayerID(), player.getPlayerScore());
-//						History history = new History(game.getID(), game.getWinnerID(), game.getWinnerID());
-						System.out.println("debug5");
-						session.persist(history);
-						System.out.println("debug6");
+						session.persist(history);;
 						session.getTransaction().commit();
-						System.out.println("debug7");
 					}
 				}
 				
 				model.getPlayersModel().reset();
 				model.unsetCreator();
 				model.getMe().setPlayerScore(0);
-				//System.err.println("SCORE: " + model.getMe().getPlayerScore());
+
 				return;
 			}
 
 		}
-		// model.nextTurn();
 		model.setPhase(GamePhase.TWODICES);
 
 	}
 
+	
+	/**
+	 * Calculate the dices combination score
+	 */
 	private void calculScores() {
 		model.setOneGain(null, 0);
 		System.err.println("calcul score");
@@ -244,12 +271,18 @@ public class GameHandler implements IGameClient {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see game.network.IGameClient#handleStart(game.network.messages.GameStatus)
+	 */
 	@Override
 	public void handleStart(GameStatus status) {
 		handleStatus(status);
 
 	}
 
+	/* (non-Javadoc)
+	 * @see game.network.IGameClient#handleRefresh()
+	 */
 	@Override
 	public void handleRefresh() {
 		if (model.getGamePhase() == GamePhase.WAITING
@@ -259,6 +292,9 @@ public class GameHandler implements IGameClient {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see game.network.IGameClient#handleInteraction(game.network.messages.NetPlayer, game.network.messages.NetPlayer, game.gui.Interaction.Type)
+	 */
 	@Override
 	public void handleInteraction(NetPlayer creator, NetPlayer player, Type type) {
 		System.err.println("Handle interacte, phase=" + model.getGamePhase());
@@ -272,16 +308,18 @@ public class GameHandler implements IGameClient {
 
 	}
 
+	/**
+	 * Verify the interaction received and end it if all players have said the expected sentence.
+	 * @param player
+	 * @param type
+	 */
 	public void interact(NetPlayer player, Type type) {
 		if (!model.getGamePhase().equals(GamePhase.INTERACTION))
 			return;
 		if (type.equals(model.getInteraction().getExpected())) {
-			System.err.println("it s an expected interact ");
 			model.getInteraction().addPlayer(
 					model.getPlayersModel().getFromNet(player));
 
-			System.err.println(model.getInteraction().interacCount() + " >= " + model
-					.getPlayersModel().size());
 			if (model.getInteraction().interacCount() >= model
 					.getPlayersModel().size()) {
 				
@@ -297,12 +335,18 @@ public class GameHandler implements IGameClient {
 
 
 
+	/**
+	 * Send a refresh request to the service
+	 */
 	public void refresh() {
 
 		service.sendRefresh();
 
 	}
 
+	/* (non-Javadoc)
+	 * @see game.network.IGameClient#handleWaitingNotification(game.network.messages.NetPlayer)
+	 */
 	@Override
 	public void handleWaitingNotification(NetPlayer player) {
 
@@ -320,10 +364,16 @@ public class GameHandler implements IGameClient {
 
 	}
 
+	/**
+	 * @return the game service
+	 */
 	public IGameService getService() {
 		return service;
 	}
 
+	/**
+	 * Shuffle the player list and send the start game request to the service
+	 */
 	public void lauchGame() {
 		model.getPlayersModel().shuffle();
 
@@ -332,6 +382,9 @@ public class GameHandler implements IGameClient {
 		service.startGame(model.getGameStatus());
 
 	}
+	/* (non-Javadoc)
+	 * @see game.network.IGameClient#handleKick(game.network.messages.NetPlayer, game.network.messages.NetPlayer)
+	 */
 	@Override
 	public void handleKick(NetPlayer c, NetPlayer p) {
 		if(model.getCreator() == null) return;
@@ -342,6 +395,9 @@ public class GameHandler implements IGameClient {
 		}
 		
 	}
+	/* (non-Javadoc)
+	 * @see game.network.IGameClient#handleCancelGame(game.network.messages.NetPlayer)
+	 */
 	@Override
 	public void handleCancelGame(NetPlayer c) {
 		if(model.getCreator() == null) return;
@@ -353,6 +409,9 @@ public class GameHandler implements IGameClient {
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see game.network.IGameClient#handleLeaveGame(game.network.messages.NetPlayer, game.network.messages.NetPlayer)
+	 */
 	@Override
 	public void handleLeaveGame(NetPlayer c, NetPlayer p) {
 		if(model.getCreator() == null) return;

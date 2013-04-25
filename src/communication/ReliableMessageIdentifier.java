@@ -1,7 +1,11 @@
 package communication;
 
 import java.io.Serializable;
-
+/**
+ * Allow to identify a reliable bmessage
+ * @author clement
+ *
+ */
 public class ReliableMessageIdentifier implements Serializable{
 	/**
 	 * 
