@@ -4,6 +4,8 @@ import game.gui.GameModel.GamePhase;
 import game.gui.available.AvailablePlayersPanel;
 import game.gui.createaccount.CreateAccountPanel;
 import game.gui.game.GamePanel;
+import game.gui.game.LosePanel;
+import game.gui.game.WinPanel;
 import game.gui.login.LoginPanel;
 import game.gui.menu.MenuPanel;
 import game.gui.playerlist.PlayerListPanel;
@@ -41,6 +43,8 @@ public class Gui extends JFrame implements Observer, KeyListener {
 	private GamePanel gamePanel;
 	private PlayerListPanel playerListPanel;
 	private CreateAccountPanel createAccountPanel;
+	private WinPanel winPanel;
+	private LosePanel losePanel;
 
 	JPanel rightPanel;
 	JPanel leftPanel;
@@ -49,7 +53,7 @@ public class Gui extends JFrame implements Observer, KeyListener {
 	 * Create the frame.
 	 */
 	public Gui(GameControler controler)  {
-
+		super("Cul de chouette");
 		this.controler = controler;
 		this.controler.setView(this);
 		this.controler.getModel().addObserver(this);
@@ -73,12 +77,12 @@ public class Gui extends JFrame implements Observer, KeyListener {
 		contentPane.setLayout(null);
 
 		rightPanel = new JPanel();
-		rightPanel.setBounds(256, 95, 246, 691);
+		rightPanel.setBounds(256, 95, 500, 691);
 		contentPane.add(rightPanel);
 		rightPanel.setLayout(new GridLayout(0, 1, 0, 0));
 
 		leftPanel = new JPanel();
-		leftPanel.setBounds(25, -220, 185, 323);
+		leftPanel.setBounds(25, -250, 185, 323);
 		leftPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		contentPane.add(leftPanel);
 
@@ -96,7 +100,12 @@ public class Gui extends JFrame implements Observer, KeyListener {
 		contentPane.add(panel, new Integer(5000));
 		panel.setBounds(0, 0, 700, 77);
 
+		
+		winPanel = new WinPanel(controler);
+		losePanel = new LosePanel(controler);
 		showLogin();
+		
+		//showWin();
 		contentPane.setFocusable(true);
 		contentPane.requestFocus();
 		contentPane.addKeyListener(this);
@@ -113,12 +122,40 @@ public class Gui extends JFrame implements Observer, KeyListener {
 	}
 
 	public void showMenu() {
+		if(leftPanel.getBounds().getY() > -100)
+			slidePlayerListUp();
+		if(leftPanel.getBounds().getY() < -220)
+			slidePlayerListInit();
+		
 		rightPanel.removeAll();
 		rightPanel.setBounds(256, 95, 279, 361);
 		rightPanel.add(menuPanel);
-		playerListPanel.setVisible(false);
+		playerListPanel.setVisible(true);
 		reDraw();
 
+	}
+
+	private void slidePlayerListInit() {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				for (int y = -250; y < -220; y = y + 2) {
+					// System.out.println("y "+y);
+					leftPanel.setBounds(25, y, 185, 323);
+					Gui.this.reDraw();
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+
+			}
+		}).start();
+		
 	}
 
 	public void showAvailable() {
@@ -187,6 +224,29 @@ public class Gui extends JFrame implements Observer, KeyListener {
 		}).start();
 		
 	}
+	public void slidePlayerListUp() {
+		System.out.println("Slide");
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				for (int y = 50; y > -220; y = y - 2) {
+					// System.out.println("y "+y);
+					leftPanel.setBounds(25, y, 185, 323);
+					Gui.this.reDraw();
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+
+			}
+		}).start();
+		
+	}
 
 	public void showWaiting() {
 		rightPanel.removeAll();
@@ -229,23 +289,36 @@ public class Gui extends JFrame implements Observer, KeyListener {
 	}
 
 	public void showFinish() {
-		showMenu();
-		leftPanel.setBounds(25, -220, 185, 323);
+		//showMenu();
+		//leftPanel.setBounds(25, -220, 185, 323);
+		slidePlayerListUp();
 		if (controler.getModel().getPlayersModel().getWinner()
 				.equals(controler.getModel().getMe())) {
-			showError("Félicitation "
+			showWin("Félicitation "
 					+ controler.getModel().getPlayersModel().getWinner().getPlayerLogin()
 					+ " vous avez gagné la partie avec un score de "
 					+ controler.getModel().getPlayersModel().getWinner().getPlayerScore());
 
 		} else
-			showError(""
+			showLose(""
 					+ controler.getModel().getPlayersModel().getWinner()
 							.getPlayerLogin()
 					+ " gagne la partie avec un score de "
 					+ controler.getModel().getPlayersModel().getWinner()
 							.getPlayerScore());
 
+	}
+	public void showWin(String t) {
+		rightPanel.removeAll();
+		winPanel.setText(t);
+		winPanel.setVisible(true);
+		rightPanel.add(winPanel);
+	}
+	public void showLose(String t) {
+		rightPanel.removeAll();
+		losePanel.setText(t);
+		losePanel.setVisible(true);
+		rightPanel.add(losePanel);
 	}
 
 	private void reDraw() {
@@ -264,6 +337,12 @@ public class Gui extends JFrame implements Observer, KeyListener {
 			if (model.getGamePhase() == GamePhase.FINISH) {
 				showFinish();
 			}
+			if (model.getGamePhase() == GamePhase.WAITING && model.getCreator() == null) {
+				if(leftPanel.getBounds().getY() > -100)
+					slidePlayerListUp();
+				
+			}
+			
 
 		}
 

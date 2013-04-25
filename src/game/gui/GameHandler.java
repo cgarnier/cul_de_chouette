@@ -173,7 +173,7 @@ public class GameHandler implements IGameClient {
 				model.getPlayersModel().reset();
 				model.unsetCreator();
 				model.getMe().setPlayerScore(0);
-				System.err.println("SCORE: " + model.getMe().getPlayerScore());
+				//System.err.println("SCORE: " + model.getMe().getPlayerScore());
 				return;
 			}
 

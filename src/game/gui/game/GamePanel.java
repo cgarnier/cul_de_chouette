@@ -63,15 +63,15 @@ public class GamePanel extends JPanel implements Observer {
 		panel.setLayout(null);
 		panel.setOpaque(false);
 
-		btnLancerLesDs = new JButton("Lancer les dés");
+		btnLancerLesDs = new JButton("Lancer la chouette!");
 		btnLancerLesDs.setBounds(48, 39, 184, 25);
 		panel.add(btnLancerLesDs);
 
-		JButton btnPasMouLe = new JButton("Pas mou le cailloux");
+		JButton btnPasMouLe = new JButton("Pas mou le caillou !");
 		btnPasMouLe.setBounds(48, 84, 184, 25);
 		panel.add(btnPasMouLe);
 
-		JButton btnGrellotteaPiquotte = new JButton("Grellotte ça piquotte");
+		JButton btnGrellotteaPiquotte = new JButton("Grelotte ça picote !");
 		btnGrellotteaPiquotte.setBounds(48, 133, 184, 25);
 		panel.add(btnGrellotteaPiquotte);
 		
@@ -107,12 +107,15 @@ public class GamePanel extends JPanel implements Observer {
 		btnLancerLesDs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (GamePanel.this.controler.getModel().getGamePhase() == GamePhase.TWODICES) {
+					
 					GamePanel.this.controler.roll2Dice();
+					btnLancerLesDs.setText("Lancer le cul!");
 					return;
 
 				}
 				if (GamePanel.this.controler.getModel().getGamePhase() == GamePhase.ONEDICE) {
 					GamePanel.this.controler.roll1Dice();
+					btnLancerLesDs.setText("Lancer la chouette!");
 					return;
 				}
 
