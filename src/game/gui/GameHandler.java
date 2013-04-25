@@ -2,6 +2,7 @@ package game.gui;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
@@ -157,18 +158,27 @@ public class GameHandler implements IGameClient {
 					Games game = new Games(this.model.getPlayersModel());
 					session.persist(game);
 					session.getTransaction().commit();
-					for (PlayerModel player : game.getGamePlayersInfos().getPlayers()) {
+					System.out.println("debug1");
+//					for (PlayerModel player : game.getGamePlayersInfos().getPlayers()) {
+//					for (PlayerModel player : model.getPlayersModel().getPlayers()) {
+					List <PlayerModel>list = game.gamePlayersInfos.getPlayers();
+					java.util.Iterator<PlayerModel> iter = list.iterator();
+					History history;
+				    while (iter.hasNext()) {
+				        PlayerModel player = iter.next();
+						System.out.println("debug2");
 						System.out.println("player : "+player.getPlayerLogin());
+						System.out.println("debug3");
 						session.beginTransaction();
-						History history = new History(game.getID(), player.getPlayerID(), player.getPlayerScore());
+						System.out.println("debug4");
+						history = new History(game.getID(), player.getPlayerID(), player.getPlayerScore());
+//						History history = new History(game.getID(), game.getWinnerID(), game.getWinnerID());
+						System.out.println("debug5");
 						session.persist(history);
+						System.out.println("debug6");
 						session.getTransaction().commit();
+						System.out.println("debug7");
 					}
-//					session.beginTransaction();
-//					History history = new History(game.getID(), game.getWinnerID(), game.getWinnerID());
-//					session.persist(history);
-//					session.getTransaction().commit();
-//					session.close();
 				}
 				return;
 			}
